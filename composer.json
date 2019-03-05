@@ -1,0 +1,19 @@
+{
+  "name": "zls/manage",
+  "description": "",
+  "type": "library",
+  "license": "MIT",
+  "minimum-stability": "dev",
+  "authors": [
+    {
+      "name": "影浅",
+      "email": "seekwe@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Zls\\Manage\\": "src/"
+    }
+  },
+  "require": {}
+}
