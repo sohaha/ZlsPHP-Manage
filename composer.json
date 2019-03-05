@@ -15,5 +15,7 @@
       "Zls\\Manage\\": "src/"
     }
   },
-  "require": {}
+  "require": {
+    "zls/migration": "*",
+  }
 }
