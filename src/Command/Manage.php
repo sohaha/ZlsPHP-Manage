@@ -4,7 +4,7 @@ namespace Zls\Manage\Command;
 
 use Z;
 
-class Admin extends \Zls\Command\Command
+class Manage extends \Zls\Command\Command
 {
     private $force;
 
