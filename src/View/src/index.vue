@@ -24,7 +24,6 @@
     </el-dialog>
   </el-container>
 </template>
-<script src='script/index.js'></script>
 <script>
   var that;
   Spa.define(
@@ -47,12 +46,6 @@
           deep: true,
           immediate: true
         }
-      },
-      created: function () {
-      },
-      mounted: function () {
-      },
-      beforeDestroy: function () {
       },
       computed: {
         view: function () {

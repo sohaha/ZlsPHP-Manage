@@ -68,7 +68,9 @@
     </el-menu>
   </el-scrollbar>
 </template>
+<!--suppress VueDuplicateTag, HtmlUnknownTarget -->
 <script src='./script/nav.js'></script>
+<!--suppress VueDuplicateTag -->
 <script>
   var that, navLoadDefault;
   Spa.define({
@@ -76,24 +78,14 @@
       navLoadDefault = false;
     },
     data: function () {
-      var nav = navs[this.$store.state.user.type] || [];
-      var type = this.$store.state.user.type, userTypes;
-      for (var k in userTypesData) {
-        if (userTypesData[k].value === type) {
-          userTypes = userTypesData[k].title + '后台';
-          break;
-        }
-      }
-      if (userTypes && userTypes !== Spa.title) {
-        Spa.title = userTypes;
-        this.$SpaSetTitle();
-      }
-
-      if (debug && !navLoadDefault) {
+      var nav = [].concat(navs['global'], navs['customize'][this.$store.getters.groupID] || []);
+      // Spa.title = userTypes;
+      // this.$SpaSetTitle();
+      if (Spa.debug && !navLoadDefault) {
         navLoadDefault = true;
         nav.push({
-          title: '示例',
-          index: 'demo',
+          title: '页面示例',
+          index: '',
           icon: 'icon-folder',
           child: [
             { title: '默认示例', icon: '', index: 'demo/demo' },

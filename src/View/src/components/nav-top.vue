@@ -108,7 +108,7 @@
               <i class="icon-person-outline"></i> <span>账号信息</span>
             </el-dropdown-item>
             <el-dropdown-item command="logs">
-              <i class="icon-award-outline"></i> <span>查看日志</span>
+              <i class="icon-award-outline"></i> <span>查看消息</span>
             </el-dropdown-item>
             <el-dropdown-item command="editPassword" divided>
               <i class="icon-unlock-outline"></i> <span>修改密码</span>

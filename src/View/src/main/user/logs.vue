@@ -40,7 +40,7 @@
     </el-tabs>
     <div class="panel">
       <div v-loading="ml_listsLoading">
-        <el-table @selection-change="handleSelectionChange" :data="ml_data" style="width: 100%" size="mini">
+        <el-table empty-text='暂无对应消息' @selection-change="handleSelectionChange" :data="ml_data" style="width: 100%" size="mini">
           <el-table-column :selectable="isUnreadMessageTab" type="selection" width="55"></el-table-column>
           <el-table-column prop="create_time" label="日期" width="150">
           </el-table-column>
@@ -51,9 +51,9 @@
               </div>
             </template>
           </el-table-column>
-          <el-table-column label="类型" width="100">
+          <el-table-column label="类型" width="220">
             <template slot-scope="scope">
-              <el-tag v-bind="getTagAttrs(scope.row.type)" v-text='getTagAttrs(scope.row.type).title'>
+              <el-tag size='mini' v-bind="getTagAttrs(scope.row.type)" v-text='getTagAttrs(scope.row.type).title'>
               </el-tag>
             </template>
           </el-table-column>
@@ -75,11 +75,10 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 <script>
-  var that, title = '日志列表';
+  var that, title = '消息列表';
   Spa.define({
     mixins: [mixinLists],
     data: function () {
