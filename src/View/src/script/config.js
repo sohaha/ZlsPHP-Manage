@@ -1,12 +1,13 @@
 /**
  * Created by 影浅-seekwe@gmail.com on 2018-11-19
  */
-var debug = true;
+var debug = false;
 var apiUrl = '';
 var title = '管理后台';
 var apis = {
   login: ['post', '/ZlsManage/UserApi/GetToken.go'],
   logout: ['post', '/ZlsManage/UserApi/ClearToken.go'],
+  sysUseriInfo: ['get', '/ZlsManage/UserApi/UseriInfo.go'],
   sysEditPassword: ['put', '/ZlsManage/UserApi/EditPassword.go'],
   sysUserLists: ['get', '/ZlsManage/UserApi/UserLists.go'],
   sysUploadAvatar: '/ZlsManage/UserApi/UploadAvatar.go',

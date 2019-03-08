@@ -123,21 +123,8 @@
           }
         }
         return {};
-        // <el-tag type="success" size="mini" v-if="scope.row.type===1">
-        //     正常
-        //     </el-tag>
-        //     <el-tag type="warning" size="mini" v-if="scope.row.type===2">
-        //     警告
-        //     </el-tag>
-        //     <el-tag type="danger" size="mini" v-if="scope.row.type===3">
-        //     错误
-        //     </el-tag>
-        //     <el-tag type="danger" size="mini" v-if="scope.row.type===4">
-        //     通知
-        //     </el-tag>
       },
       readSelection: function (e) {
-        console.log(e, that.selectIds);
         var data = { ids: [] };
         if (!e) {
           data.ids = that.selectIds;
