@@ -1,7 +1,6 @@
 /**
  * Created by 影浅-seekwe@gmail.com on 2018-11-19
  */
-var debug = false;
 var apiUrl = '';
 var title = '管理后台';
 var apis = {

@@ -109,7 +109,7 @@ var request = function (type, url, data, opt) {
 
 var pathname = location.pathname.split('/')[1];
 Spa.run({
-  debug: debug,
+  debug: window['debug'],
   cache: typeof cache === 'undefined' ? true : cache,
   title: title,
   baseUrl: (pathname ? '/' + pathname : '') + '/src/',
