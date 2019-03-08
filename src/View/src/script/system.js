@@ -124,7 +124,7 @@ Spa.run({
     methods: {
       getInfo: function () {
         var _t = this;
-        this.$get(apis.sysUseriInfo)
+        this.$api(apis.sysUseriInfo)
             .then(function (e) {
               if (!_t.childView) _t.childView = 'main_main';
               _t.$store.commit('setUser', e.data);
