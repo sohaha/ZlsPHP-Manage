@@ -60,7 +60,9 @@ class Manage extends \Zls\Command\Command
     {
         $dest   = Z::realPathMkdir('./ZlsManage', true, false, true);
         $source = Z::realPath(__DIR__ . '/../View', true, false);
-        $this->batchCopy($source, $dest, $this->force);
+        $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
+            return $this->destPathProcess($dest, $file);
+        });
         $this->success('View success');
     }
 
@@ -68,7 +70,9 @@ class Manage extends \Zls\Command\Command
     {
         $dest   = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBusinessDirName(), true);
         $source = Z::realPath(__DIR__ . '/../Business', true, false);
-        $this->batchCopy($source, $dest, $this->force);
+        $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
+            return $this->destPathProcess($dest, $file);
+        });
         $this->success('Business success');
     }
 
@@ -76,7 +80,9 @@ class Manage extends \Zls\Command\Command
     {
         $dest   = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getControllerDirName(), true);
         $source = Z::realPath(__DIR__ . '/../Controller', true, false);
-        $this->batchCopy($source, $dest, $this->force);
+        $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
+            return $this->destPathProcess($dest, $file);
+        });
         $this->success('Controller success');
     }
 
@@ -84,7 +90,9 @@ class Manage extends \Zls\Command\Command
     {
         $dest   = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getDaoDirName(), true);
         $source = Z::realPath(__DIR__ . '/../Dao', true, false);
-        $this->batchCopy($source, $dest, $this->force);
+        $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
+            return $this->destPathProcess($dest, $file);
+        });
         $this->success('Dao success');
     }
 
@@ -92,7 +100,9 @@ class Manage extends \Zls\Command\Command
     {
         $dest   = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBeanDirName(), true);
         $source = Z::realPath(__DIR__ . '/../Bean', true, false);
-        $this->batchCopy($source, $dest, $this->force);
+        $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
+            return $this->destPathProcess($dest, $file);
+        });
         $this->success('Bean success');
     }
 
@@ -100,7 +110,9 @@ class Manage extends \Zls\Command\Command
     {
         $dest   = Z::realPathMkdir('./database', true, false, false);
         $source = Z::realPath(__DIR__ . '/../Database', true, false);
-        $this->batchCopy($source, $dest, $this->force);
+        $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
+            return $this->destPathProcess($dest, $file);
+        });
         $this->success('Database success');
     }
 
@@ -130,5 +142,12 @@ class Manage extends \Zls\Command\Command
             },
             null
         );
+    }
+
+    private function destPathProcess($dest, $file)
+    {
+        $dest = str_replace('php.manage', 'php', $dest);
+
+        return $dest;
     }
 }
