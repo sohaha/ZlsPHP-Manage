@@ -16,10 +16,6 @@
     margin-left: 10px;
   }
 
-  .nav-left .el-menu .el-menu--inline .el-menu-item {
-
-  }
-
   .nav-left .el-menu {
     background: #f6f8f9;
   }
@@ -55,13 +51,13 @@
   <el-scrollbar wrap-class="nav_scrollbar" wrap-style="" view-style="" view-class="view-box" :native="false">
     <el-menu :collapse="isCollapse" :default-active="active" @open="handleOpen" @close="handleClose" @select="handleSelect" text-color="#222" active-text-color="#2c6eb1" unique-opened>
       <template v-for="(v,k) in data">
-        <el-submenu v-if="v.child" :index="v.index">
+        <el-submenu v-if="v.child" :index="v.index" v-bind:key="k">
           <template slot="title">
             <i v-if="typeof v.icon!=='undefined'" :class="v.icon||'icon-flag'"></i> <span class="menu_title">{{ v.title }}</span>
           </template>
           <el-menu-item v-for="(vv,kk) in v.child" :key="kk" :index="vv.index"><i v-if="typeof vv.icon!=='undefined'" :class="vv.icon||'icon-flag'"></i>{{ vv.title }}</el-menu-item>
         </el-submenu>
-        <el-menu-item v-else="v.child" :index="v.index">
+        <el-menu-item v-else :index="v.index" v-bind:key="k">
           <i v-if="v.icon" :class="v.icon"></i> <span slot="title" class="menu_title">{{ v.title }}</span>
         </el-menu-item>
       </template>
@@ -85,7 +81,7 @@
         navLoadDefault = true;
         nav.push({
           title: '页面示例',
-          index: '',
+          index: 'demo',
           icon: 'icon-folder',
           child: [
             { title: '默认示例', icon: '', index: 'demo/demo' },
