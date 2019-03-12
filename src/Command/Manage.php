@@ -147,7 +147,7 @@ class Manage extends \Zls\Command\Command
     private function destPathProcess($dest, $file)
     {
         $dest = str_replace('php.manage', 'php', $dest);
-
+        
         return $dest;
     }
 }

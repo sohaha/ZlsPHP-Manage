@@ -165,7 +165,8 @@ class UserBusiness extends \Zls_Business
                  * @var \Business\ZlsManage\AssistBusiness $AssistBusiness
                  */
                 $AssistBusiness    = z::business('ZlsManage\AssistBusiness');
-                $retData['avatar'] = $AssistBusiness->mvAvatar($retData['avatar']);
+                $avatarFilename    = 'user_' . md5($id).'.png';
+                $retData['avatar'] = $AssistBusiness->mvAvatar($retData['avatar'], $avatarFilename);
             }
 
             return $dao->update($retData, $id);

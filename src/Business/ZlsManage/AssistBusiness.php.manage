@@ -31,14 +31,18 @@ class AssistBusiness extends \Zls_Business
     /**
      * 移动头像图片
      * @desc 把头像图片从临时目录移动至最终目录并且返回路径
-     * @param $path
+     * @param string $path     头像路径
+     * @param null   $filename 文件名,不包含后缀
      * @return string
      */
-    public function mvAvatar($path)
+    public function mvAvatar($path, $filename = null)
     {
         $tmp = Z::urlPath(self::AVATAR_TMP_PATH);
         if (Z::strBeginsWith($path, $tmp)) {
             $newPath = str_replace($tmp, Z::urlPath(self::AVATAR_PATH), $path);
+            if ($filename && ($oldFilename = pathinfo($newPath, PATHINFO_BASENAME))) {
+                $newPath = str_replace($oldFilename, $filename, $newPath);
+            }
             if (rename(Z::realPath(ltrim($path, '/')), Z::realPath(ltrim($newPath, '/')))) {
                 $path = $newPath;
             }
