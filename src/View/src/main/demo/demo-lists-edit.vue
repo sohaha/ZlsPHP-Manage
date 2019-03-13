@@ -59,6 +59,7 @@
                     <el-button type="danger" size="mini" @click="deleteRow(scope)" plain>确 定</el-button>
                   </div>
                   <el-button
+                    v-if="!scope.row._isEdit"
                     slot="reference"
                     size="mini"
                     type="danger"
