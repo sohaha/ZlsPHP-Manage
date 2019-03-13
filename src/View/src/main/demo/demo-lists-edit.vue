@@ -162,6 +162,7 @@ Spa.define(
           .$api(undefined, e.row)
           .then(function() {
             that.ml_data.splice(e.$index, 1);
+            that.ml_pagetotal--;
             that.$nextTick(function() {
               if (that.ml_data.length <= 0) that.getLists();
             });
