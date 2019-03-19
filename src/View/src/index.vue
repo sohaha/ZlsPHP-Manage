@@ -12,7 +12,7 @@
       <el-container class="content-container">
         <el-main class="content-box">
           <!--包含list关键字的页面进行缓存-->
-          <keep-alive :include="/list/">
+          <keep-alive :max="3" :include="/lists/">
             <component v-bind:is="childView"></component>
           </keep-alive>
         </el-main>

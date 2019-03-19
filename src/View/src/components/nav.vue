@@ -1,19 +1,23 @@
 <style>
-  .el-menu {
+ .el-menu {
     border: 0;
   }
 
   .nav-left {
     background-color: #f5f7f9;
     overflow: hidden;
-    -webkit-transition: width 0.35s cubic-bezier(0.37, 1.46, 0.61, 1.41);
-    transition: width 0.35s cubic-bezier(0.37, 1.46, 0.61, 1.41);
+    -webkit-transition: width .35s cubic-bezier(.37, 1.46, .61, 1.41);
+    transition: width .35s cubic-bezier(.37, 1.46, .61, 1.41);
     margin-right: 5px;
   }
 
   .nav-left .menu_title {
     font-size: 16px;
     margin-left: 10px;
+  }
+
+  .nav-left .el-scrollbar__wrap {
+    overflow-x: hidden;
   }
 
   .nav-left .el-menu {
@@ -24,8 +28,7 @@
     margin-bottom: 5px;
   }
 
-  .el-menu--collapse .el-submenu__title i,
-  .el-menu-item > .el-tooltip > i {
+  .el-menu--collapse .el-submenu__title i, .el-menu-item > .el-tooltip > i {
     font-size: 35px;
     width: 34px;
   }
@@ -34,8 +37,7 @@
     background: none;
   }
 
-  .el-menu--collapse .el-submenu__title,
-  .el-menu-item > .el-tooltip {
+  .el-menu--collapse .el-submenu__title, .el-menu-item > .el-tooltip {
     padding: 0 15px !important;
   }
 
