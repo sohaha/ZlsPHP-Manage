@@ -3,6 +3,10 @@ html, body, #app {
   padding : 0;
 }
 
+body{
+  font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", Arial, sans-serif;
+}
+
 svg[hidden] {
   display : none;
 }
@@ -233,6 +237,10 @@ img {
 
 .el-menu--vertical .el-menu--popup.el-menu--popup-right-start {
   min-width : 100px;
+}
+
+.el-button{
+  font-weight: normal;
 }
 
 .el-button.min {
