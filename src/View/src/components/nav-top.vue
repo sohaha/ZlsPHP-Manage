@@ -170,7 +170,7 @@
               that.$store.commit('setUnreadMessageCount', e.data.count);
             })
             .finally(function () {
-              if (that.$store.getters.token) MessageCountTime = setTimeout(that.getUnreadMessageCount, 5000);
+              if (that.$store.getters.token) MessageCountTime = setTimeout(that.getUnreadMessageCount, 6000);
             });
       },
       handleNav: function () {

@@ -16,7 +16,8 @@
   margin-left: 10px;
 }
 
-.nav-left .el-menu .el-menu--inline .el-menu-item {
+.nav-left .el-scrollbar__wrap {
+  overflow-x: hidden;
 }
 
 .nav-left .el-menu {
@@ -69,7 +70,7 @@
       unique-opened
     >
       <template v-for="(v,k) in data">
-        <el-submenu v-if="v.child" :index="v.index" :key="k">
+        <el-submenu v-if="v.child" :index="v.index" v-bind:key="k">
           <template slot="title">
             <i v-if="typeof v.icon!=='undefined'" :class="v.icon||'icon-flag'"></i>
             <span class="menu_title">{{ v.title }}</span>
@@ -79,7 +80,7 @@
             {{ vv.title }}
           </el-menu-item>
         </el-submenu>
-        <el-menu-item v-else :index="v.index" :key="k">
+        <el-menu-item v-else :index="v.index" v-bind:key="k">
           <i v-if="v.icon" :class="v.icon"></i>
           <span slot="title" class="menu_title">{{ v.title }}</span>
         </el-menu-item>
@@ -107,7 +108,7 @@ Spa.define({
       navLoadDefault = true;
       nav.push({
         title: "页面示例",
-        index: "",
+        index: "demo",
         icon: "icon-folder",
         child: [
           { title: "默认示例", icon: "", index: "demo/demo" },

@@ -1,6 +1,6 @@
 {
   "name": "zls/manage",
-  "description": "",
+  "description": "ZlsPHP通用后台",
   "type": "library",
   "license": "MIT",
   "minimum-stability": "dev",

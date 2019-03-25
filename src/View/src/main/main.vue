@@ -65,6 +65,9 @@
       mounted: function () {
       },
       methods: {
+        DetectionSystems: function () {
+           
+        },
         gologs: function () {
           that.$go('user/logs');
         }

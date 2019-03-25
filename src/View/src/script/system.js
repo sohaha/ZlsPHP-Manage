@@ -29,7 +29,7 @@ try {
 }
 catch ( e ) {
 }
-var config = new Vuex.Store({
+var vstore = new Vuex.Store({
   state: {
     token: sessionStorage.getItem('token'),
     user: userData || {},
@@ -89,35 +89,27 @@ var _then = function (data) {
       throw msg;
     }
   }
-  console.log('_then', page, data);
+  if(Spa.debug) console.log('_then', page, data);
   return data;
 };
 var get = function (url, data, opt) {
   var arg = Spa.urlEncode(data);
   url += apiUrl + url.indexOf('?') > -1 ? '&' : '?';
-  return Spa.get.apply(Spa, [url + arg, __assign({ timeout: 0, headers: __assign({}, headers, { token: config.getters.token }) }, opt)])
+  return Spa.get.apply(Spa, [url + arg, __assign({ timeout: 0, headers: __assign({}, headers, { token: vstore.getters.token }) }, opt)])
             .then(_then);
 };
 var post = function (url, data, opt) {
-  return Spa.post.apply(Spa, [apiUrl + url, data, __assign({ headers: __assign({}, headers, { token: config.getters.token }) }, opt)])
+  return Spa.post.apply(Spa, [apiUrl + url, data, __assign({ headers: __assign({}, headers, { token: vstore.getters.token }) }, opt)])
             .then(_then);
 };
 var request = function (type, url, data, opt) {
-  return Spa.request.apply(Spa, [type, apiUrl + url, data, __assign({ headers: __assign({}, headers, { token: config.getters.token }) }, opt)])
+  return Spa.request.apply(Spa, [type, apiUrl + url, data, __assign({ headers: __assign({}, headers, { token: vstore.getters.token }) }, opt)])
             .then(_then);
 };
 
 var pathname = location.pathname.split('/')[1];
 Spa.run({
-  debug: debug,
-  watch: {
-    time: 2000,
-    url: [
-      './src/script/store.js',
-      './src/script/nav.js',
-      './src/script/tools.js'
-    ]
-  },
+  debug: window['debug'],
   cache: typeof cache === 'undefined' ? true : cache,
   title: title,
   baseUrl: (pathname ? '/' + pathname : '') + '/src/',
@@ -132,7 +124,7 @@ Spa.run({
     methods: {
       getInfo: function () {
         var _t = this;
-        this.$get('/ZlsManage/UserApi/UseriInfo.go')
+        this.$api(apis.sysUseriInfo)
             .then(function (e) {
               if (!_t.childView) _t.childView = 'main_main';
               _t.$store.commit('setUser', e.data);
@@ -164,7 +156,7 @@ Spa.run({
   },
   routerBeforeEach: function (to, from, next) {
     console.log(from + '->' + to + '');
-    if (to !== 'login' && !config.getters.nickname) {
+    if (to !== 'login' && !vstore.getters.nickname) {
       return 'login';
     } else {
       window['NProgress'] && NProgress.start();
@@ -183,7 +175,7 @@ Spa.run({
      Spa.loadRemoteJs('//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js', true);
      Spa.loadRemoteCss('//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css');
      Vue.use(Vuex);
-     Vue.prototype.$store = config;
+     Vue.prototype.$store = vstore;
      Vue.prototype.$api = function (name, data) {
        return window['api'](name, data);
      };

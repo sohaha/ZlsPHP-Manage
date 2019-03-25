@@ -9,6 +9,10 @@
   .list-avatar-tooltip {
     width: 120px;
   }
+  
+  .list-avatar-tooltip img{
+    width: 120px;
+  }
 </style>
 <template>
   <div>
