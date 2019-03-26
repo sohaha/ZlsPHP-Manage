@@ -7,6 +7,10 @@ body{
   font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", Arial, sans-serif;
 }
 
+:focus {
+  outline: 0;/* Not friendly */
+}
+
 svg[hidden] {
   display : none;
 }
