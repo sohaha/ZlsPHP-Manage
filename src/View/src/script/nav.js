@@ -7,6 +7,11 @@ var navs = {
       title: '后台中心',
       index: 'main',
       icon: 'icon-home',
+    },
+    {
+      title: '日志查看', 
+      icon: 'icon-alert-circle', 
+      index: 'system/logs'
     }
   ],
   customize: {},

@@ -3,6 +3,7 @@
 namespace Controller\ZlsManage;
 
 use Business\ZlsManage\AssistBusiness;
+use Business\ZlsManage\SysLogBusiness;
 use Controller\ZlsManage;
 use Dao\ZlsManage\LogsDao;
 use Dao\ZlsManage\UserDao;
@@ -214,5 +215,29 @@ class UserApi extends ZlsManage
         $result = $this->UserBusiness->clearToken($token);
 
         return z::json(200, '清除用户Token', $result);
+    }
+
+    /**
+     * 查看系统日志文件（高危接口）
+     */
+    public function GETzSystemLogs()
+    {
+        $name = z::getPost('name');
+        $type = z::getPost('type');
+        $data = (new SysLogBusiness)->exportData($type, $name);
+
+        return z::json(200, '域名检测日志', $data);
+    }
+
+    /**
+     * 删除系统日志文件（高危接口）
+     */
+    public function DELETEzSystemLogs()
+    {
+        $name = z::postText('name');
+        $type = z::postText('type');
+        $data = $name && $type ? (new SysLogBusiness)->delete($type, $name) : false;
+
+        return z::json(200, '删除系统日志文件', $data);
     }
 }

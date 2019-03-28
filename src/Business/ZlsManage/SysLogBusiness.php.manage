@@ -1,0 +1,126 @@
+<?php
+
+namespace Business\ZlsManage;
+
+use Z;
+
+/**
+ * 读取系统日志
+ * Class SysLogBusiness
+ * @package Business
+ */
+class SysLogBusiness extends \Zls_Business
+{
+    public function domains($file = null)
+    {
+        return $this->exportData('DomainCheck', $file);
+    }
+
+    /**
+     * 统一输入格式
+     * @param $name
+     * @param $file
+     * @return array
+     */
+    public function exportData($name, $file)
+    {
+        $data    = [];
+        $dirs    = [];
+        $content = '';
+        $this->listDir($name, $dirs);
+        if ($file && z::arrayKeyExists($file, $dirs, false)) {
+            $content = file_get_contents($dirs[$file]['file']);
+            $logfile = z::safePath($dirs[$file]['file']);
+            if ($content === false) {
+                $content = "读取日志文件: {$logfile} 失败";
+            }
+            // } elseif (!$file) {
+            // $file    = end($dirs);
+            // $content = @file_get_contents($file['file']);
+            // $file    = key($dirs);
+        }
+        $data['lists']   = $this->listsReverse($dirs);
+        $data['content'] = $content ?: "";
+        $data['current'] = $file;
+        $data['types']   = $this->getTypes();
+
+        return $data;
+    }
+
+    /**
+     * 日志排序
+     * @param $dirs
+     * @return array
+     */
+    private function listsReverse($dirs)
+    {
+        return array_reverse(z::arrayMap($dirs, function ($v, $k) {
+            return $k;
+        }, false));
+    }
+
+    /**
+     * 读取日志文件
+     * @param        $dir
+     * @param        $arr
+     * @param string $Subfix
+     * @param string $lastDir
+     */
+    private function listDir($dir, &$arr, $Subfix = '.log', $lastDir = null)
+    {
+        if (is_null($lastDir)) {
+            $lastDir = $dir = z::realPath(z::config()->getStorageDirPath() . $dir, true);
+        }
+        if (is_dir($dir) && ($dh = opendir($dir))) {
+            while (false !== ($file = readdir($dh))) {
+                if ('.' === $file || '..' === $file) {
+                    continue;
+                }
+                $filePath = Z::realPath($dir . '/' . $file);
+                if ((is_dir($filePath))) {
+                    $this->listDir($dir . '/' . $file, $arr, $Subfix, $lastDir);
+                } else {
+                    if (z::strEndsWith($file, $Subfix)) {
+                        $filemtime                                 = filemtime($filePath);
+                        $arr[str_replace($lastDir, '', $filePath)] = [
+                            'file' => $filePath,
+                            'time' => $filemtime ? date('Y-m-d H:i:s', $filemtime) : '',
+                        ];
+                    }
+                }
+            }
+            closedir($dh);
+        }
+    }
+
+    /**
+     * 获取类型列表
+     */
+    public function getTypes()
+    {
+        $dir       = z::config()->getStorageDirPath();
+        $ignoreDir = ['cache', 'taskSingle'];
+        $types     = [];
+        if (is_dir($dir) && ($dh = opendir($dir))) {
+            while (false !== ($file = readdir($dh))) {
+                if ('.' === $file || '..' === $file || in_array($file, $ignoreDir, true) || is_file($dir . $file)) {
+                    continue;
+                }
+                $types[] = $file;
+            }
+            closedir($dh);
+        }
+
+        return $types;
+    }
+
+    public function delete($name, $file)
+    {
+        $this->listDir($name, $dirs);
+        if ($file && z::arrayKeyExists($file, $dirs, false)) {
+            return @unlink($dirs[$file]['file']);
+        }
+
+        return false;
+    }
+}

@@ -5,7 +5,9 @@ var apiUrl = '';
 var title = '管理后台';
 var apis = {
   login: ['post', '/ZlsManage/UserApi/GetToken.go'],
-  logout: ['post', '/ZlsManage/UserApi/ClearToken.go'],
+  logout: ['post', '/ZlsManage/UserApi/ClearToken.go'], 
+  systemLogs: ['get', '/ZlsManage/UserApi/SystemLogs.go'],
+  systemLogsDelete: ['delete', '/ZlsManage/UserApi/SystemLogs.go'],
   sysUseriInfo: ['get', '/ZlsManage/UserApi/UseriInfo.go'],
   sysEditPassword: ['put', '/ZlsManage/UserApi/EditPassword.go'],
   sysUserLists: ['get', '/ZlsManage/UserApi/UserLists.go'],
