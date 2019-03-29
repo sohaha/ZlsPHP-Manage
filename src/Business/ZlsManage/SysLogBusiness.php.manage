@@ -18,31 +18,43 @@ class SysLogBusiness extends \Zls_Business
 
     /**
      * 统一输入格式
-     * @param $name
-     * @param $file
+     * @param     $name
+     * @param     $file
+     * @param int $line
      * @return array
      */
-    public function exportData($name, $file)
+    public function exportData($name, $file, $line = 0)
     {
-        $data    = [];
-        $dirs    = [];
-        $content = '';
+        $data        = [];
+        $dirs        = [];
+        $content     = '';
+        $size        = 0;
+        $currentLine = 0;
         $this->listDir($name, $dirs);
         if ($file && z::arrayKeyExists($file, $dirs, false)) {
-            $content = file_get_contents($dirs[$file]['file']);
-            $logfile = z::safePath($dirs[$file]['file']);
-            if ($content === false) {
+            $size = filesize($dirs[$file]['file']);
+            if ($line) {
+                $tail = $this->tail($dirs[$file]['file'], $line, true);
+            } elseif ($size > (1024 * 500)) {
+                $content = "日志文件过大（{$size}kb），不支持在线查看全部内容。\n\n";
+                $tail    = $this->tail($dirs[$file]['file'], false, 10);
+            } else {
+                $tail = $this->tail($dirs[$file]['file'], true, true);
+            }
+            if ($tail) {
+                $content     .= $tail['0'];
+                $currentLine = $tail['2'];
+            } else {
+                $logfile = z::safePath($dirs[$file]['file']);
                 $content = "读取日志文件: {$logfile} 失败";
             }
-            // } elseif (!$file) {
-            // $file    = end($dirs);
-            // $content = @file_get_contents($file['file']);
-            // $file    = key($dirs);
         }
-        $data['lists']   = $this->listsReverse($dirs);
-        $data['content'] = $content ?: "";
-        $data['current'] = $file;
-        $data['types']   = $this->getTypes();
+        $data['lists']       = $this->listsReverse($dirs);
+        $data['content']     = $content ?: "";
+        $data['current']     = $file;
+        $data['currentLine'] = $currentLine;
+        $data['size']        = $size;
+        $data['types']       = $this->getTypes();
 
         return $data;
     }
@@ -57,6 +69,42 @@ class SysLogBusiness extends \Zls_Business
         return array_reverse(z::arrayMap($dirs, function ($v, $k) {
             return $k;
         }, false));
+    }
+
+    /**
+     * @param          $file
+     * @param int|bool $start 开始读取行数，true表示从头开始,false表示从底部开始
+     * @param int|bool $sum   读取行数，true表示读取整个文件
+     * @return array|bool
+     */
+    public function tail($file, $start = null, $sum = 10)
+    {
+        if (!$fp = fopen($file, 'r')) {
+            return false;
+        }
+        $lines       = "";
+        $total       = 0;
+        while (fgets($fp)) {
+            $total++;
+        }
+        fseek($fp, 0, SEEK_SET);
+        if ($start === false) {
+            $start = $total - $sum;
+        }
+        if ($sum === true) {
+            $sum = $total;
+        }
+        $current = 0;
+        while ($sum > 0 && ($data = fgets($fp))) {
+            ++$current;
+            if ($current > $start) {
+                $lines .= $data;
+                $sum--;
+            }
+        }
+        fclose($fp);
+
+        return [$lines, $total, $current];
     }
 
     /**

@@ -1,16 +1,16 @@
 <style>
-.logs-view .panel {
-  padding-top: 10px;
-}
+  .logs-view .panel {
+    padding-top: 10px;
+  }
 
-.logs-view .el-switch {
-  margin-bottom: 10px;
-  float: right;
-}
+  .logs-view .switch {
+    margin-bottom: 10px;
+    float: right;
+  }
 
-.logs-view .el-textarea__inner {
-  padding: 10px;
-}
+  .logs-view .el-textarea__inner {
+    padding: 10px;
+  }
 </style>
 <template>
   <div class="logs-view">
@@ -32,8 +32,7 @@
             <el-button type="info" size="small" @click="reloadDate" icon="el-icon-refresh">刷新</el-button>
             <el-popover placement="top" width="160" v-model="stateTip">
               <p>
-                确定删除吗？
-                <br>（操作无法逆转）
+                确定删除吗？ <br>（操作无法逆转）
               </p>
               <div>
                 <el-button size="mini" @click="stateTip = false" type="info" plain>取 消</el-button>
@@ -46,19 +45,22 @@
                 type="warning"
                 icon="el-icon-delete"
                 title="删 除"
-              >删 除</el-button>
+              >删 除
+              </el-button>
             </el-popover>
           </el-form-item>
         </el-form>
       </div>
     </div>
     <div class="panel">
-      <el-switch v-model="autoLoad" active-text="自动刷新"></el-switch>
+      <div class='switch'>
+        <el-switch v-model="autoLoad" active-text="自动刷新"></el-switch>
+      </div>
       <el-input
         type="textarea"
         ref="textarea"
         placeholder="请先选择日志类型与日志文件"
-        :readonly="true"
+        readonly
         :autosize="{ minRows: 20, maxRows: 30}"
         v-model="content"
       ></el-input>
@@ -66,114 +68,123 @@
   </div>
 </template>
 <script>
-var title = "程序日志",
-  that,
-  timer;
-Spa.define(
-  {
-    mixins: [mixinLists],
-    data: function() {
-      return {
-        title: title,
-        SpaTitle: title + " - %s",
-        lists: [],
-        types: [],
-        currentType: null,
-        current: null,
-        content: "",
-        stateTip: false,
-        ban: true,
-        autoLoad: true
-      };
-    },
-    created: function() {
-      that = this;
-    },
-    beforeDestroy: function() {
-      clearTimeout(timer);
-    },
-    watch: {
-      current: function(v) {
-        if (v) {
-          that.current = v;
-          that.getDate();
-        }
+  var title = '系统日志',
+    that,
+    timer;
+  Spa.define(
+    {
+      mixins: [mixinLists],
+      data: function () {
+        return {
+          title: title,
+          SpaTitle: title + ' - %s',
+          lists: [],
+          types: [],
+          currentType: null,
+          current: null,
+          content: '',
+          stateTip: false,
+          ban: true,
+          autoLoad: true,
+          currentLine: 0
+        };
       },
-      currentType: function(v, o) {
-        if (v !== o) {
-          that.current = "";
-          that.content = "";
-          that.lists = [];
-          this.stateTip = false;
-          that.getDate();
-        }
-        if (that.ban && v) {
-          that.ban = false;
-        }
+      created: function () {
+        that = this;
       },
-      autoLoad: function() {
-        that.timeout();
-      }
-    },
-    mounted: function() {
-      that.getDate();
-    },
-    computed: {
-      stateDel: function() {
-        return !that.current;
-      }
-    },
-    init: function(query, search) {},
-    methods: {
-      timeout: function() {
+      beforeDestroy: function () {
         clearTimeout(timer);
-        if (that.autoLoad && that.current) {
-          timer = setTimeout(function() {
-            that.reloadDate();
-          }, 1000);
+      },
+      watch: {
+        current: function (v) {
+          if (v) {
+            that.current = v;
+            that.currentLine = 0;
+            that.getDate();
+          }
+        },
+        currentType: function (v, o) {
+          if (v !== o) {
+            that.current = '';
+            that.content = '';
+            that.lists = [];
+            this.stateTip = false;
+            that.getDate();
+          }
+          if (that.ban && v) {
+            that.ban = false;
+          }
+        },
+        autoLoad: function () {
+          that.timeout();
         }
       },
-      reloadDate: function() {
+      mounted: function () {
         that.getDate();
       },
-      deleteLog: function() {
-        that
+      computed: {
+        stateDel: function () {
+          return !that.current;
+        }
+      },
+      init: function (query, search) {
+      },
+      methods: {
+        timeout: function () {
+          clearTimeout(timer);
+          if (that.autoLoad && that.current) {
+            timer = setTimeout(function () {
+              that.reloadDate();
+            }, 2000);
+          }
+        },
+        reloadDate: function () {
+          that.getDate();
+        },
+        deleteLog: function () {
+          that
           .$api(apis.systemLogsDelete, {
             name: that.current,
             type: that.currentType
           })
-          .then(function() {
-            that.current = "";
+          .then(function () {
+            that.current = '';
             that.reloadDate();
           })
-          .finally(function() {
-            setTimeout(function() {
+          .finally(function () {
+            setTimeout(function () {
               that.stateTip = false;
             });
           });
-      },
-      getDate: function() {
-        that
-          .$api(apis.systemLogs, { name: that.current, type: that.currentType })
-          .then(function(e) {
+        },
+        getDate: function () {
+          that
+          .$api(apis.systemLogs, { name: that.current, type: that.currentType, currentLine: that.currentLine })
+          .then(function (e) {
             that.lists = e.data.lists;
-            that.content = e.data.content;
+            if (that.currentLine) {
+              that.content = that.content + e.data.content;
+            } else {
+              that.content = e.data.content;
+            }
+
             that.types = e.data.types;
+            that.currentLine = e.data.currentLine;
             that.timeout();
           })
-          .catch(function(err) {
+          .catch(function (err) {
             that.$warMsg(err);
           })
-          .finally(function() {
-            that.$nextTick(function() {
-              var textarea = that.$refs.textarea.$el.querySelector("textarea");
+          .finally(function () {
+            that.$nextTick(function () {
+              var textarea = that.$refs.textarea.$el.querySelector('textarea');
               textarea.scrollTop = textarea.scrollHeight;
             });
           });
+        }
       }
-    }
-  },
-  [],
-  "/index"
-);
+    },
+    [],
+    '/index'
+  );
 </script>
