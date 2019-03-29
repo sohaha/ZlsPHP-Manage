@@ -33,7 +33,7 @@ class SysLogBusiness extends \Zls_Business
         $this->listDir($name, $dirs);
         if ($file && z::arrayKeyExists($file, $dirs, false)) {
             $size = filesize($dirs[$file]['file']);
-            if ($line) {
+            if ($line > 0) {
                 $tail = $this->tail($dirs[$file]['file'], $line, true);
             } elseif ($size > (1024 * 500)) {
                 $content = "日志文件过大（{$size}kb），不支持在线查看全部内容。\n\n";
@@ -82,14 +82,16 @@ class SysLogBusiness extends \Zls_Business
         if (!$fp = fopen($file, 'r')) {
             return false;
         }
-        $lines       = "";
-        $total       = 0;
+        $lines = "";
+        $total = 0;
         while (fgets($fp)) {
             $total++;
         }
         fseek($fp, 0, SEEK_SET);
         if ($start === false) {
             $start = $total - $sum;
+        } else {
+            $start = (int)$start;
         }
         if ($sum === true) {
             $sum = $total;
