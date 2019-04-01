@@ -155,7 +155,7 @@ Spa.run({
     }
   },
   routerBeforeEach: function (to, from, next) {
-    console.log(from + '->' + to + '');
+    Spa.debug && console.log(from + '->' + to + '');
     if (to !== 'login' && !vstore.getters.nickname) {
       return 'login';
     } else {

@@ -92,13 +92,27 @@
 <script src='script/nav.js'></script>
 <!--suppress VueDuplicateTag -->
 <script>
-var that, navLoadDefault;
+var that,
+  navLoadDefault,
+  currentNav = [],
+  verifyRouting = function(page, navs) {
+    for (var i = 0, length = navs.length; i < length; i++) {
+      var index = "main/" + navs[i].index;
+      var child = navs[i].child;
+      if (index === page) {
+        return navs[i];
+      } else if (child) {
+        var childIndex = verifyRouting(page, child);
+        if (childIndex) return childIndex;
+      }
+    }
+  };
 Spa.define({
   beforeDestroy: function() {
     navLoadDefault = false;
   },
   data: function() {
-    var nav = [].concat(
+    currentNav = [].concat(
       navs["global"],
       navs["customize"][this.$store.getters.groupID] || []
     );
@@ -106,7 +120,7 @@ Spa.define({
     // this.$SpaSetTitle();
     if (Spa.debug && !navLoadDefault) {
       navLoadDefault = true;
-      nav.push({
+      currentNav.push({
         title: "页面示例",
         index: "demo",
         icon: "icon-folder",
@@ -128,11 +142,26 @@ Spa.define({
       });
     }
     return {
-      data: nav
+      data: currentNav
     };
   },
   created: function() {
     that = this;
+  },
+  watch: {
+    router: {
+      handler: function(val) {
+        var verify = verifyRouting(val.page, currentNav);
+        if (!verify) {
+          // 不在导航栏的不显示
+          setTimeout(function() {
+            that.$go("/");
+          });
+        }
+      },
+      deep: true,
+      immediate: true
+    }
   },
   props: {
     isCollapse: {
