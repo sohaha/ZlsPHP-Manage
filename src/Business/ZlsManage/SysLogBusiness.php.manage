@@ -90,6 +90,8 @@ class SysLogBusiness extends \Zls_Business
         fseek($fp, 0, SEEK_SET);
         if ($start === false) {
             $start = $total - $sum;
+        } elseif ($start === true) {
+            $start = 0;
         } else {
             $start = (int)$start;
         }

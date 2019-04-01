@@ -59,7 +59,7 @@
       <el-input
         type="textarea"
         ref="textarea"
-        placeholder="请先选择日志类型与日志文件"
+        :placeholder="current?'':'请先选择日志类型与日志文件'"
         readonly
         :autosize="{ minRows: 20, maxRows: 30}"
         v-model="content"
@@ -149,6 +149,7 @@
           })
           .then(function () {
             that.current = '';
+            that.content = '';
             that.reloadDate();
           })
           .finally(function () {
@@ -167,7 +168,6 @@
             } else {
               that.content = e.data.content;
             }
-
             that.types = e.data.types;
             that.currentLine = e.data.currentLine;
             that.timeout();
