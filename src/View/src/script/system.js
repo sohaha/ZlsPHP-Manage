@@ -233,7 +233,7 @@ Spa.run({
     Vue.prototype.$request = request;
     var message = function(type, tip, duration) {
       if (!tip) return;
-      if (tip === "0 : ") {
+      if (tip === "") {
         tip = "网络繁忙，请稍后重试";
       }
       if (typeof duration === "undefined") duration = 3000;

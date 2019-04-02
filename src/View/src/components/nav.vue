@@ -1,55 +1,53 @@
 <style>
 .el-menu {
-  border: 0;
+  border : 0;
 }
 
 .nav-left {
-  background-color: #f5f7f9;
-  overflow: hidden;
-  -webkit-transition: width 0.35s cubic-bezier(0.37, 1.46, 0.61, 1.41);
-  transition: width 0.35s cubic-bezier(0.37, 1.46, 0.61, 1.41);
-  margin-right: 5px;
+  background-color : #F5F7F9;
+  overflow : hidden;
+  -webkit-transition : width .35s cubic-bezier(.37, 1.46, .61, 1.41);
+  transition : width .35s cubic-bezier(.37, 1.46, .61, 1.41);
+  margin-right : 5px;
 }
 
 .nav-left .menu_title {
-  font-size: 16px;
-  margin-left: 10px;
+  font-size : 16px;
+  margin-left : 10px;
 }
 
 .nav-left .el-scrollbar__wrap {
-  overflow-x: hidden;
+  overflow-x : hidden;
 }
 
 .nav-left .el-menu {
-  background: #f6f8f9;
+  background : #F6F8F9;
 }
 
-.nav-left .el-menu-item,
-.nav-left .el-submenu__title {
-  margin-bottom: 5px;
+.nav-left .el-menu-item, .nav-left .el-submenu__title {
+  margin-bottom : 5px;
 }
 
-.el-menu--collapse .el-submenu__title i,
-.el-menu-item > .el-tooltip > i {
-  font-size: 35px;
-  width: 34px;
+.el-menu--collapse .el-submenu__title i, .el-menu-item > .el-tooltip > i {
+  font-size : 35px;
+  width : 34px;
 }
 
 .nav-left .el-menu-item:focus {
-  background: none;
+  background : none;
 }
 
-.el-menu--collapse .el-submenu__title,
-.el-menu-item > .el-tooltip {
-  padding: 0 15px !important;
+.el-menu--collapse .el-submenu__title, .el-menu-item > .el-tooltip {
+  padding : 0 15px !important;
 }
 
 .nav_scrollbar {
-  padding: 30px 0 10px 10px;
-  max-height: calc(100vh - 60px);
-  box-sizing: border-box;
-  margin-bottom: -10px !important;
+  padding : 30px 0 10px 10px;
+  max-height : calc(100vh - 60px);
+  box-sizing : border-box;
+  margin-bottom : -10px !important;
 }
+
 </style>
 <template>
   <el-scrollbar
@@ -152,9 +150,9 @@ Spa.define({
     router: {
       handler: function(val) {
         var verify = verifyRouting(val.page, currentNav);
-        if (!verify) {
+        if (!verify && val.page.indexOf("main") === -1) {
           // 不在导航栏的不显示
-          setTimeout(function() {
+          this.$nextTick(function() {
             that.$go("/");
           });
         }
