@@ -39,7 +39,7 @@
         SpaViews: {
           handler: function (e) {
             if (e.items.length <= 1) {
-              console.log('当前组件为空，重定向到main/main');
+              // console.log('当前组件为空，重定向到main/main');
               Spa.replace('main/main');
             }
           },

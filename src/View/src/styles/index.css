@@ -3,12 +3,12 @@ html, body, #app {
   padding : 0;
 }
 
-body{
-  font-family: "Helvetica Neue", Helvetica, "Microsoft Yahei", Arial, sans-serif;
+body {
+  font-family : 'Helvetica Neue', Helvetica, 'Microsoft Yahei', Arial, sans-serif;
 }
 
 :focus {
-  outline: 0;/* Not friendly */
+  outline : 0;/* Not friendly */
 }
 
 svg[hidden] {
@@ -243,8 +243,8 @@ img {
   min-width : 100px;
 }
 
-.el-button{
-  font-weight: normal;
+.el-button {
+  font-weight : normal;
 }
 
 .el-button.min {
@@ -435,3 +435,14 @@ span:not(.class) + .el-button {
 .text-grey {
   color : #C0C4CC;
 }
+
+/* 竖排表单 */
+.form-verticalRow.el-form--label-top .el-form-item__label {
+  padding-bottom : 0;
+  line-height : 14px;
+}
+
+.form-verticalRow .el-form-item:not(:nth-last-child(2)) {
+  margin-bottom : 10px;
+}
+/* 竖排表单 END */

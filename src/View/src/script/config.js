@@ -8,6 +8,8 @@ var apis = {
   logout: ['post', '/ZlsManage/UserApi/ClearToken.go'], 
   systemLogs: ['get', '/ZlsManage/UserApi/SystemLogs.go'],
   systemLogsDelete: ['delete', '/ZlsManage/UserApi/SystemLogs.go'],
+  sysGetSystemConfig: ['get', '/ZlsManage/UserApi/SystemConfig.go'],
+  sysSetSystemConfig: ['put', '/ZlsManage/UserApi/SystemConfig.go'],
   sysUseriInfo: ['get', '/ZlsManage/UserApi/UseriInfo.go'],
   sysEditPassword: ['put', '/ZlsManage/UserApi/EditPassword.go'],
   sysUserLists: ['get', '/ZlsManage/UserApi/UserLists.go'],
