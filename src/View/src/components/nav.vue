@@ -150,7 +150,7 @@ Spa.define({
     router: {
       handler: function(val) {
         var verify = verifyRouting(val.page, currentNav);
-        if (!verify && val.page.indexOf("main") === -1) {
+        if (!verify && val.page.indexOf("main") === 0) {
           // 不在导航栏的不显示
           this.$nextTick(function() {
             that.$go("/");

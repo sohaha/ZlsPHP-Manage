@@ -442,7 +442,11 @@ span:not(.class) + .el-button {
   line-height : 14px;
 }
 
-.form-verticalRow .el-form-item:not(:nth-last-child(2)) {
+.form-verticalRow .el-form-item:first-child {
+  margin-top : 10px;
+}
+
+.form-verticalRow .el-form-item {
   margin-bottom : 10px;
 }
 /* 竖排表单 END */
