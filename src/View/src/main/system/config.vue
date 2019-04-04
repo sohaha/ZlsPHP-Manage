@@ -18,7 +18,7 @@
           <el-input v-model.number="form.wxjs" size="mini" placeholder></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submit">提 交</el-button>
+          <el-button size="small" type="primary" @click="submit">提 交</el-button>
         </el-form-item>
       </el-form>
     </div>

@@ -210,10 +210,10 @@ Spa.run({
   .then(function() {
     Spa.loadJs("./src/script/tools.js");
     Spa.loadRemoteJs(
-      "//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js",
+      '//cdn.jsdelivr.net/npm/zls-manage/nprogress/nprogress.js',
       true
     );
-    Spa.loadRemoteCss("//cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.css");
+    Spa.loadRemoteCss('//cdn.jsdelivr.net/npm/zls-manage/nprogress/nprogress.css');
     Vue.use(Vuex);
     Vue.prototype.$store = vstore;
     Vue.prototype.$api = function(name, data) {
