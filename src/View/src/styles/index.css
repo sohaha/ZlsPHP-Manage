@@ -8,7 +8,7 @@ body {
 }
 
 :focus {
-  outline : 0;/* Not friendly */
+  outline : 0; /* Not friendly */
 }
 
 svg[hidden] {
@@ -214,8 +214,8 @@ img {
 }
 
 ::-webkit-scrollbar {
-  width : 5px;
-  height : 7px;
+  width : 3px;
+  height : 3px;
 }
 
 ::-webkit-scrollbar-track {
@@ -324,13 +324,14 @@ span:not(.class) + .el-button {
 }
 
 .panel {
-  margin-bottom : 30px;
+  margin-bottom : 20px;
   background-color : rgb(255, 255, 255);
   border-radius : 3px;
   -moz-border-radius : 3px;
   -webkit-border-radius : 3px;
-  -webkit-box-shadow : 0 1px 5px 0 #C0C4CC;
-  box-shadow : 0 1px 5px 0 #C0C4CC;
+  -webkit-box-shadow : 0 2px 12px 0 rgba(0, 0, 0, .1);
+  box-shadow : 0 2px 12px 0 rgba(0, 0, 0, .1);
+  border : 1px solid #EBEEF5;
   padding : 14px 20px;
 }
 
@@ -412,7 +413,6 @@ span:not(.class) + .el-button {
   position : relative;
 }
 
-
 .view-title + div:not(.tip-area) {
   margin-top : 10px;
 }
@@ -450,3 +450,48 @@ span:not(.class) + .el-button {
   margin-bottom : 10px;
 }
 /* 竖排表单 END */
+
+fieldset {
+  box-shadow : 0 2px 12px 0 rgba(0, 0, 0, .1);
+  border : 1px solid #EBEEF5;
+  background-color : #FFFFFF;
+  margin-bottom : 10px;
+  padding : 5px 10px;
+  font-size : 14px;
+}
+
+fieldset > aside {
+  padding : 5px;
+}
+
+fieldset li {
+  display : -webkit-box;
+  display : -ms-flexbox;
+  display : flex;
+  -webkit-box-align : center;
+  -ms-flex-align : center;
+  align-items : center;
+  min-height : 30px;
+  border-bottom : 1px solid #EBEEF5;
+  font-size : 13px;
+  word-break : keep-all;
+}
+
+fieldset li:last-child {
+  border : 0;
+}
+
+fieldset li span {
+  padding : 5px;
+}
+
+fieldset li span:last-child {
+  flex : 1;
+  text-align : right;
+}
+
+legend {
+  background-color : #FFFFFF;
+  padding : 3px 10px;
+  box-shadow : 0 1px 2px 0 rgba(0, 0, 0, .1);
+}
