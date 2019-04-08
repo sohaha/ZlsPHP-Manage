@@ -136,8 +136,16 @@ Spa.define({
             index: "demo/demo-tabs"
           },
           { title: "图标示例", icon: "icon-award", index: "demo/demo-icon" },
-          { title: '富文本示例', icon: 'icon-file-text', index: 'demo/demo-content' },
-       
+          {
+            title: "富文本示例",
+            icon: "icon-file-text",
+            index: "demo/demo-content"
+          },
+          {
+            title: "Markdown",
+            icon: "icon-file-remove",
+            index: "demo/demo-markdown"
+          }
         ]
       });
     }

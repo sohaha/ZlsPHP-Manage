@@ -1,22 +1,24 @@
 <style>
   .panel .panel {
-    margin-bottom : 10px;
+    margin-bottom: 10px;
   }
-
 </style>
 <template>
   <div>
     <div class="view-title float-clear">
       <span v-once>{{title}} </span>
     </div>
-    <div class="panel">
-      <components_tinymce ref='editor' v-model='content' :config='tinymceConfig' @init='initDone'></components_tinymce>
-      <br>
-      <div class="panel" v-show='tinymceHasInit'>
-        <div class="tip-area">富文本内容</div>
-        <code>{{content}}</code>
-      </div>
-    </div>
+    <fieldset>
+      <legend>富文本示例</legend>
+      <aside>
+        <components_tinymce ref='editor' v-model='content' :config='tinymceConfig' @init='initDone'></components_tinymce>
+        <br>
+        <div class="panel" v-show='tinymceHasInit'>
+          <div class="tip-area">富文本内容</div>
+          <code>{{content}}</code>
+        </div>
+      </aside>
+    </fieldset>
     <div class="panel">
       更多自定义配置请参考 <a href='https://www.tiny.cloud/docs/advanced/events/#init' target='_blank'>tinymce 文档</a>。
     </div>

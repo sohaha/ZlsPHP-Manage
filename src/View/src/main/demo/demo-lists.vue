@@ -45,6 +45,7 @@ var title = "列表示例",
   that;
 Spa.define(
   {
+    name:"DemoViewLits",
     mixins: [mixinLists],
     data: function() {
       return {
