@@ -3,7 +3,6 @@
 <template>
   <div>
     <div class="view-title float-clear no">
-      <span v-once>{{title}}</span>
       <div class="view-title-right"></div>
     </div>
     <el-tabs class="reply-tabs" v-model="activeName" @tab-click="handleClick">

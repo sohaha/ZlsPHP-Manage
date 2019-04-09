@@ -306,6 +306,11 @@ span:not(.class) + .el-button {
   left : 0;
 }
 
+.el-table__header, .el-table__body {
+  width : 100% !important;
+  table-layout : auto !important;
+}
+
 /*UI END*/
 #main {
   background-color : #F5F7F9;
@@ -315,7 +320,7 @@ span:not(.class) + .el-button {
 }
 
 .content-box {
-  padding : 40px 20px 20px 5px;
+  padding : 20px 20px 20px 5px;
   overflow : auto;
 }
 
@@ -339,9 +344,13 @@ span:not(.class) + .el-button {
   font-size : 26px;
   font-weight : 400;
   line-height : 1;
-  min-height : 40px;
+  min-height : 32px;
   position : relative;
   /* margin-bottom: 10px; */
+}
+
+.view-title.float-clear > span:first-child {
+  visibility : hidden;
 }
 
 .view-title.no {
@@ -356,10 +365,14 @@ span:not(.class) + .el-button {
 
 .view-title-right {
   float : right;
-  height : 40px;
+  height : 35px;
   /* padding-bottom : 10px; */
   overflow : auto;
   white-space : nowrap;
+}
+
+.view-title-right.view-title-right__alone {
+  margin : 32px 0 5px;
 }
 
 .view-title-right .el-form--inline .el-form-item__content {
@@ -413,12 +426,7 @@ span:not(.class) + .el-button {
   position : relative;
 }
 
-.view-title + div:not(.tip-area) {
-  margin-top : 10px;
-}
-
 .tip-area {
-  text-align : right;
   font-size : 12px;
   color : rgb(153, 153, 153);
   padding-bottom : 10px;
@@ -464,7 +472,7 @@ fieldset > aside {
   padding : 5px;
 }
 
-fieldset li {
+fieldset aside > li {
   display : -webkit-box;
   display : -ms-flexbox;
   display : flex;
@@ -477,15 +485,15 @@ fieldset li {
   word-break : keep-all;
 }
 
-fieldset li:last-child {
+fieldset aside > li:last-child {
   border : 0;
 }
 
-fieldset li span {
+fieldset aside > li span {
   padding : 5px;
 }
 
-fieldset li span:last-child {
+fieldset aside > li span:last-child {
   flex : 1;
   text-align : right;
 }

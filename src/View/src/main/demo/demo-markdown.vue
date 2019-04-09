@@ -6,7 +6,6 @@
 <template>
   <div>
     <div class="view-title float-clear">
-      <span v-once>{{title}} </span>
     </div>
     <fieldset>
       <legend>Markdown 示例</legend>

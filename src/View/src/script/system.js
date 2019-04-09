@@ -37,6 +37,7 @@ var vstore = new Vuex.Store({
   state: {
     token: localStorage.getItem("token"),
     user: userData || {},
+    nav: [],
     unreadMessageCount: 0,
     defaultData: { avatar: defaultAvatar }
   },
@@ -51,6 +52,9 @@ var vstore = new Vuex.Store({
     setUser: function(state, data) {
       state.user = data;
       localStorage.setItem("user", JSON.stringify(data));
+    },
+    setNav: function(state, data) {
+      state.nav = data;
     }
   },
   actions: {},
@@ -150,7 +154,8 @@ Spa.run({
       return {
         sourceUrl: "",
         ProjectName: title,
-        loading: true
+        loading: true,
+        clientWidth: document.documentElement.clientWidth
       };
     },
     methods: {
@@ -192,7 +197,11 @@ Spa.run({
     }
   },
   routerBeforeEach: function(to, from, next) {
-    Spa.debug && console.log(from + "->" + to + "");
+    if (Spa.debug) {
+      console.log(from + " -> " + to + "");
+      console.groupEnd();
+      console.group("router: " + to);
+    }
     if (to !== "login" && !vstore.getters.nickname) {
       return "login";
     } else {
@@ -204,16 +213,18 @@ Spa.run({
   },
   routerError: function(err, page, state) {
     console.warn(err);
-    Spa.go("/not-exist");
+    Spa.replace("/not-exist");
   }
 })
   .then(function() {
     Spa.loadJs("./src/script/tools.js");
     Spa.loadRemoteJs(
-      '//cdn.jsdelivr.net/npm/zls-manage/nprogress/nprogress.js',
+      "//cdn.jsdelivr.net/npm/zls-manage/nprogress/nprogress.js",
       true
     );
-    Spa.loadRemoteCss('//cdn.jsdelivr.net/npm/zls-manage/nprogress/nprogress.css');
+    Spa.loadRemoteCss(
+      "//cdn.jsdelivr.net/npm/zls-manage/nprogress/nprogress.css"
+    );
     Vue.use(Vuex);
     Vue.prototype.$store = vstore;
     Vue.prototype.$api = function(name, data) {

@@ -20,14 +20,13 @@
 </style>
 <template>
   <div class="main">
-    <!-- <div class="view-title float-clear">
+    <div class="view-title float-clear">
       <span>后台中心</span>
-    </div>-->
+    </div>
     <div v-if="showError" class="panel">
       <el-alert v-for="(v,k) in error" :key="k" :title="v.tip" type="warning" :closable="false"></el-alert>
     </div>
     <fieldset>
-      <legend>后台中心</legend>
       <aside class="welcome">
         <i class="icon-bulb"></i>
         <span class="welcome-tip">{{nickname}}，欢迎回来！</span>

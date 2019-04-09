@@ -42,7 +42,7 @@
 }
 
 .nav_scrollbar {
-  padding : 30px 0 10px 10px;
+  padding : 20px 0 10px 10px;
   max-height : calc(100vh - 60px);
   box-sizing : border-box;
   margin-bottom : -10px !important;
@@ -58,6 +58,7 @@
     :native="false"
   >
     <el-menu
+      ref="menu"
       :collapse="isCollapse"
       :default-active="active"
       @open="handleOpen"
@@ -68,17 +69,22 @@
       unique-opened
     >
       <template v-for="(v,k) in data">
-        <el-submenu v-if="v.child" :index="v.index" v-bind:key="k">
+        <el-submenu v-if="v.child && v.childLen > 0" :index="v.index" v-bind:key="k">
           <template slot="title">
             <i v-if="typeof v.icon!=='undefined'" :class="v.icon||'icon-flag'"></i>
             <span class="menu_title">{{ v.title }}</span>
           </template>
-          <el-menu-item v-for="(vv,kk) in v.child" :key="kk" :index="vv.index">
+          <el-menu-item
+            v-for="(vv,kk) in v.child"
+            :key="kk"
+            :index="vv.index"
+            v-show="vv.show!==false"
+          >
             <i v-if="typeof vv.icon!=='undefined'" :class="vv.icon||'icon-flag'"></i>
             {{ vv.title }}
           </el-menu-item>
         </el-submenu>
-        <el-menu-item v-else :index="v.index" v-bind:key="k">
+        <el-menu-item v-else :index="v.index" v-bind:key="k" v-show="v.show!==false">
           <i v-if="v.icon" :class="v.icon"></i>
           <span slot="title" class="menu_title">{{ v.title }}</span>
         </el-menu-item>
@@ -148,6 +154,19 @@ Spa.define({
           }
         ]
       });
+    }
+    this.$store.commit("setNav", currentNav);
+    for (var i = 0, length = currentNav.length; i < length; i++) {
+      var childLen = 0,
+        child = currentNav[i]["child"];
+      if (child && child.length > 0) {
+        for (var j = 0, len = child.length; j < len; j++) {
+          if (child[j].show !== false) {
+            childLen++;
+          }
+        }
+      }
+      currentNav[i]["childLen"] = childLen;
     }
     return {
       data: currentNav

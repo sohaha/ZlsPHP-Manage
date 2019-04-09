@@ -2,7 +2,6 @@
 <template>
   <div>
     <div class="view-title float-clear">
-      <span v-once>{{title}}</span>
       <div class="view-title-right">
         <el-form @submit.prevent.stop.native inline class="tip-top">
           <el-form-item>
@@ -18,81 +17,84 @@
         </el-form>
       </div>
     </div>
-    <div class="panel" v-loading="ml_listsLoading">
-      <el-table
-        @selection-change="handleSelectionChange"
-        :data="ml_data"
-        style="width: 100%"
-        size="mini"
-      >
-        <el-table-column :selectable="selectable" type="selection" width="55"></el-table-column>
-        <el-table-column label="标题">
-          <template slot-scope="scope">
-            <div v-if="scope.row._isEdit">
-              <el-input v-model="scope.row.title" placeholder size="small"></el-input>
-            </div>
-            <div v-else class="text-nowrap" :title="scope.row.title">{{scope.row.title}}</div>
-          </template>
-        </el-table-column>
-        <el-table-column prop="date" label="日期"></el-table-column>
-        <el-table-column label="操作" width="180">
-          <template slot-scope="scope">
-            <div class="btns-operating">
-              <el-button v-bind="getEditBtnAttrs(scope)" size="mini" @click="editRow(scope)"></el-button>
-              <el-button
-                v-if="scope.row._isEdit"
-                title="放 弃"
-                @click="quitRow(scope)"
-                size="mini"
-                icon="el-icon-close"
-              ></el-button>
-              <template>
-                <el-popover placement="top" width="160" v-model="scope.row._isPopover">
-                  <p>确定删除吗？</p>
-                  <div>
+    <fieldset>
+      <legend>{{title}}</legend>
+      <aside v-loading="ml_listsLoading">
+        <el-table
+          @selection-change="handleSelectionChange"
+          :data="ml_data"
+          style="width: 100%"
+          size="mini"
+        >
+          <el-table-column :selectable="selectable" type="selection" width="55"></el-table-column>
+          <el-table-column label="标题">
+            <template slot-scope="scope">
+              <div v-if="scope.row._isEdit">
+                <el-input v-model="scope.row.title" placeholder size="small"></el-input>
+              </div>
+              <div v-else class="text-nowrap" :title="scope.row.title">{{scope.row.title}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column prop="date" label="日期"></el-table-column>
+          <el-table-column label="操作" width="180">
+            <template slot-scope="scope">
+              <div class="btns-operating">
+                <el-button v-bind="getEditBtnAttrs(scope)" size="mini" @click="editRow(scope)"></el-button>
+                <el-button
+                  v-if="scope.row._isEdit"
+                  title="放 弃"
+                  @click="quitRow(scope)"
+                  size="mini"
+                  icon="el-icon-close"
+                ></el-button>
+                <template>
+                  <el-popover placement="top" width="160" v-model="scope.row._isPopover">
+                    <p>确定删除吗？</p>
+                    <div>
+                      <el-button
+                        size="mini"
+                        @click="scope.row._isPopover = false"
+                        type="info"
+                        plain
+                      >取 消</el-button>
+                      <el-button type="danger" size="mini" @click="deleteRow(scope)" plain>确 定</el-button>
+                    </div>
                     <el-button
+                      v-show="!scope.row._isEdit"
+                      slot="reference"
                       size="mini"
-                      @click="scope.row._isPopover = false"
-                      type="info"
-                      plain
-                    >取 消</el-button>
-                    <el-button type="danger" size="mini" @click="deleteRow(scope)" plain>确 定</el-button>
-                  </div>
-                  <el-button
-                    v-show="!scope.row._isEdit"
-                    slot="reference"
-                    size="mini"
-                    type="danger"
-                    icon="el-icon-delete"
-                    title="删 除"
-                  ></el-button>
-                </el-popover>
-              </template>
-            </div>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="tip-page" v-if="!!ml_pagetotal">
-        <div class="panel-left" v-show="showColumnBtn">
-          <el-button
-            @click="deleteSelection"
-            size="mini"
-            type="danger"
-            icon="el-icon-delete"
-            title="删除选中"
-          ></el-button>
+                      type="danger"
+                      icon="el-icon-delete"
+                      title="删 除"
+                    ></el-button>
+                  </el-popover>
+                </template>
+              </div>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="tip-page" v-if="!!ml_pagetotal">
+          <div class="panel-left" v-show="showColumnBtn">
+            <el-button
+              @click="deleteSelection"
+              size="mini"
+              type="danger"
+              icon="el-icon-delete"
+              title="删除选中"
+            ></el-button>
+          </div>
+          <el-pagination
+            :current-page.sync="ml_page"
+            @size-change="ml_sizeChange"
+            @current-change="ml_currentChange"
+            background
+            layout="prev, pager, next, sizes, total"
+            :total="ml_pagetotal"
+            :page-size.sync="ml_pagesize"
+          ></el-pagination>
         </div>
-        <el-pagination
-          :current-page.sync="ml_page"
-          @size-change="ml_sizeChange"
-          @current-change="ml_currentChange"
-          background
-          layout="prev, pager, next, sizes, total"
-          :total="ml_pagetotal"
-          :page-size.sync="ml_pagesize"
-        ></el-pagination>
-      </div>
-    </div>
+      </aside>
+    </fieldset>
   </div>
 </template>
 <script>

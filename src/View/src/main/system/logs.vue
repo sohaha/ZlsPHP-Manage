@@ -16,7 +16,7 @@
 <template>
   <div class="logs-view">
     <div class="view-title float-clear">
-      <span v-once>{{title}}</span>
+      <!-- <span v-once>{{title}}</span> -->
       <div class="view-title-right">
         <el-form @submit.prevent.stop.native inline class="tip-top">
           <el-form-item>
