@@ -182,7 +182,7 @@ Spa.define({
         if (!verify && val.page.indexOf("main") === 0) {
           // 不在导航栏的不显示
           this.$nextTick(function() {
-            that.$go("/");
+            Spa.replace("/not-exist");
           });
         }
       },
@@ -206,13 +206,13 @@ Spa.define({
       this.isCollapse = !this.isCollapse;
     },
     handleOpen: function(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     handleClose: function(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
     },
     handleSelect: function(key, keyPath) {
-      console.log(key, keyPath);
+      // console.log(key, keyPath);
       this.$go(key);
     }
   }

@@ -7,7 +7,7 @@ var navs = {
       title: "后台中心",
       index: "main",
       real: true,
-      show: false,
+      show: true,
       icon: "icon-home"
     },
     {
