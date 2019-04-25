@@ -25,20 +25,34 @@
     height: 120px;
     display: block;
   }
+
+  .user-view .el-form-item__content .el-select {
+    width: 100%;
+  }
 </style>
 <template>
-  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px">
+  <el-form class='user-view' v-loading="formState" :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px">
     <el-form-item label="Email" prop="email">
       <el-input v-model="ruleForm.email"></el-input>
     </el-form-item>
     <el-form-item label="用户名" prop="username">
-      <el-input v-model="ruleForm.username" :disabled="isEdit"></el-input>
+      <el-input v-model="ruleForm.username" :disabled="hasEdit"></el-input>
     </el-form-item>
-    <el-form-item label="用户密码" prop="password" v-if="!isEdit">
-      <el-input v-model="ruleForm.password"></el-input>
+    <el-form-item label="用户密码" prop="password" v-if="hasEditPass">
+      <el-input :placeholder="passwordPlaceholder" v-model="ruleForm.password" type='password'></el-input>
     </el-form-item>
-    <el-form-item label="确定密码" prop="password2" v-if="!isEdit">
-      <el-input v-model="ruleForm.password2"></el-input>
+    <el-form-item label="确定密码" prop="password2" v-if="hasEditPass">
+      <el-input v-model="ruleForm.password2" type='password'></el-input>
+    </el-form-item>
+    <el-form-item label="用户身份" v-if="hasGroup">
+      <el-select v-model="ruleForm.group_id" placeholder="请选择角色">
+        <el-option
+          v-for="(v,k) in groups"
+          :key="k"
+          :label="v.name"
+          :value="v.id">
+        </el-option>
+      </el-select>
     </el-form-item>
     <el-form-item label="用户状态" prop="status">
       <el-radio-group v-model="ruleForm.status">
@@ -69,20 +83,21 @@
 </template>
 <script>
   var ruleForm = {
-      id: '',
-      username: '',
-      password: '',
-      password2: '',
-      status: '1',
-      avatar: '',
-      remark: '',
-      email: '',
-    },
-    that;
+    id: '',
+    username: '',
+    password: '',
+    password2: '',
+    status: '1',
+    avatar: '',
+    remark: '',
+    email: '',
+    group_id: ''
+  }, that;
   Spa.define({
     data: function () {
       return {
         ruleForm: JSON.parse(JSON.stringify(ruleForm)),
+        formState: false
       };
     },
     props: {
@@ -95,6 +110,12 @@
       that = this;
     },
     computed: {
+      groups: function () {
+        return this.$store.getters.groups;
+      },
+      passwordPlaceholder: function () {
+        return this.$store.getters.isSuper && this.hasEdit ? '留空则不修改密码' : ' ';
+      },
       rules: function () {
         var rules = {
           status: [
@@ -113,7 +134,7 @@
             { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] },
           ],
         };
-        if (!this.isEdit) {
+        if (!this.hasEdit) {
           var validatePass = function (rule, value, callback) {
             if (value !== that.ruleForm.password) {
               callback(new Error('两次输入密码不一致!'));
@@ -146,11 +167,17 @@
       uploadAvatarUrl: function () {
         return this.$api('sysUploadAvatar');
       },
-      isEdit: function () {
+      hasEdit: function () {
         return !!this.info.id;
       },
+      hasEditPass: function () {
+        return !this.hasEdit || this.$store.getters.isSuper;
+      },
+      hasGroup: function () {
+        return !this.hasEdit || this.$store.getters.isSuper;
+      },
       btnText: function () {
-        return this.isEdit ? '更 新' : '创 建';
+        return this.hasEdit ? '更 新' : '创 建';
       },
     },
     watch: {
@@ -185,11 +212,12 @@
       },
       submitForm: function () {
         this.$refs['ruleForm'].validate(function (valid) {
-          var api = that.isEdit ? that.$api(apis.sysUpdateUser, that.ruleForm) : that.$api(apis.sysCreateUser, that.ruleForm);
+          var api = that.hasEdit ? that.$api(apis.sysUpdateUser, that.ruleForm) : that.$api(apis.sysCreateUser, that.ruleForm);
           if (valid) {
+            that.formState = true;
             api.then(function (e) {
               var id;
-              if (!that.isEdit) {
+              if (!that.hasEdit) {
                 id = e.data.id;
                 that.resetForm();
               } else {
@@ -199,6 +227,10 @@
             })
                .catch(function (msg) {
                  that.$warMsg(msg);
+                 that.resetForm();
+               })
+               .finally(function () {
+                 that.formState = false;
                });
           } else {
             return false;

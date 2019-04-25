@@ -50,7 +50,7 @@ class SysLogBusiness extends \Zls_Business
             }
         }
         $data['lists']       = $this->listsReverse($dirs);
-        $data['content']     = $content ?: "";
+        $data['content']     = $content ? $content . "\n" : "";
         $data['current']     = $file;
         $data['currentLine'] = $currentLine;
         $data['size']        = $size;
@@ -72,6 +72,7 @@ class SysLogBusiness extends \Zls_Business
     }
 
     /**
+     * 读取日志
      * @param          $file
      * @param int|bool $start 开始读取行数，true表示从头开始,false表示从底部开始
      * @param int|bool $sum   读取行数，true表示读取整个文件

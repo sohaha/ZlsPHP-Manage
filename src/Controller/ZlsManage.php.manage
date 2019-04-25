@@ -2,9 +2,9 @@
 
 namespace Controller;
 
-use Z;
-use Dao\ZlsManage\UserDao;
+use Business\ZlsManage\AuthBusiness;
 use Business\ZlsManage\UserBusiness;
+use Z;
 
 /**
  * Class ZlsManage
@@ -12,6 +12,13 @@ use Business\ZlsManage\UserBusiness;
  */
 class ZlsManage extends \Zls_Controller
 {
+    public function __construct()
+    {
+        $cfg = Z::config();
+        $cfg->setHttpMiddleware($cfg->getHttpMiddleware() + ['Middleware\ZlsManage\Manage']);
+        $cfg->setDatabaseMiddleware($cfg->getDatabaseMiddleware() + ['Middleware\ZlsManage\Database']);
+    }
+
     public function zIndex()
     {
         Z::redirect('/ZlsManage/index.html');
@@ -23,14 +30,25 @@ class ZlsManage extends \Zls_Controller
 
     public function before($method, $controllerShort, $args, $controller)
     {
-        $methodName         = z::strCamel2Snake(str_replace('\\', '_', $controllerShort) . '_' . $method, '');
-        $noVerification     = ['zlsmanage_userapi_gettoken', 'user_index'];
+        $AuthBusiness       = new AuthBusiness();
+        $router             = str_replace('_', '/', z::strCamel2Snake(str_replace('\\', '/', $controllerShort) . '/' . $method, ''));
         $this->UserBusiness = new UserBusiness;
-        if (!in_array($methodName, $noVerification)) {
+        if (!in_array($router, ['zlsmanage/userapi/gettoken'])) {
             $token      = $this->getToken();
             $this->USER = $this->UserBusiness->tokenToInfo($token);
             if (!$this->USER) {
-                return z::json(401, '请先登录');
+                return [401, '请先登录'];
+            }
+            // 是否超级管理员
+            $this->USER['isSuper'] = $this->UserBusiness->isSuperAdmin($this->USER['id']);
+            // 只要登录就就要开放的权限
+            $noVerification = ['zlsmanage/userapi/useriinfo', 'zlsmanage/systemapi/unreadmessagecount', 'zlsmanage/userapi/cleartoken'];
+            // 'ZlsManage/UserApi/UseriInfo/
+            if (!$this->USER['isSuper'] && !in_array($router, $noVerification)) {
+                $auth = $AuthBusiness->userAuth($this->USER['group_id'], $router);
+                if ($auth !== true) {
+                    return [403, '对不起，权限不足', $auth];
+                }
             }
         }
 
@@ -49,11 +67,11 @@ class ZlsManage extends \Zls_Controller
 
     public function after($contents, $methodName, $controllerShort, $args, $controller)
     {
-        return $contents;
+        return is_array($contents) ? Z::json($contents) : Z::json(211, $contents);
     }
 
     public function call($method, $controllerShort, $args, $controller)
     {
-        return z::json(404);
+        return [404, '此路不通'];
     }
 }

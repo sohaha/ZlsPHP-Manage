@@ -1,0 +1,37 @@
+<?php
+
+use Zls\Migration\AbstractMigration as M;
+
+class UserRules extends M
+{
+    public function change()
+    {
+        $table = $this->table('auth_user_rules', ['id' => false, 'primary_key' => ['id']]);
+        $table->addColumn('id', 'integer', ['identity' => true, 'comment' => '主键'])->comment('权限规则');
+        $table->addColumn('title', 'string', ['default' => '', 'null' => false, 'comment' => '规则名称']);
+        $table->addColumn('create_time', 'timestamp', ['default' => null, 'null' => true, 'comment' => '创建时间']);
+        $table->addColumn('update_time', 'timestamp', ['default' => null, 'null' => true, 'comment' => '更新时间']);
+        $table->addColumn('status', 'integer', ['default' => 1, 'limit' => 255, 'comment' => '状态:1正常，2禁止']);
+        $table->addColumn('router', 'string', ['default' => '', 'comment' => '路由地址']);
+        $table->addColumn('remark', 'string', ['default' => '', 'comment' => '备注']);
+        $table->addColumn('condition', 'string', ['default' => '', 'comment' => '附加条件']);
+        $table->addColumn('sort', 'integer', ['default' => 0, 'comment' => '排序']);
+        $table->create();
+        $rows = [
+            [
+                'title'       => '后台自带路由',
+                'create_time' => date('Y-m-d H:i:s'),
+                'update_time' => date('Y-m-d H:i:s'),
+                'router'      => '/ZlsManage/*',
+            ],
+            [
+                'title'       => '用户列表',
+                'create_time' => date('Y-m-d H:i:s'),
+                'update_time' => date('Y-m-d H:i:s'),
+                'router'      => '/ZlsManage/UserManageApi*',
+            ],
+        ];
+        $table->insert($rows);
+        $table->saveData();
+    }
+}

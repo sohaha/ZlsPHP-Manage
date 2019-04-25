@@ -20,7 +20,7 @@
     pass: '',
     pass2: '',
     oldPass: '',
-  }, that;
+  };
   Spa.define({
     data: function () {
       return {
@@ -28,16 +28,13 @@
       };
     },
     props: {},
-    created: function () {
-      that = this;
-    },
     computed: {
       userid: function () {
-        return that.$store.getters.userid;
+        return this.$store.getters.userid;
       },
       rules: function () {
         var validatePass = function (rule, value, callback) {
-          if (value !== that.ruleForm.pass) {
+          if (value !== this.ruleForm.pass) {
             callback(new Error('两次输入密码不一致!'));
           } else {
             callback();
@@ -61,6 +58,7 @@
     watch: {},
     methods: {
       submitForm: function () {
+        var that = this;
         that.$refs['ruleForm'].validate(function (valid) {
           if (valid) {
             that.$api(apis.sysEditPassword, Object.assign({ userid: that.userid }, that.ruleForm))
@@ -78,6 +76,7 @@
         });
       },
       resetForm: function () {
+        var that = this;
         that.ruleForm = Object.assign({}, ruleForm);
         that.$nextTick(function () {
           that.$refs['ruleForm'].clearValidate();

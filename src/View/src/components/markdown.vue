@@ -6,7 +6,7 @@
 <script>
   var loadCss = ['//cdn.jsdelivr.net/npm/zls-manage/vditor/index.classic.css'];
   var loadJs = ['//cdn.jsdelivr.net/npm/zls-manage/vditor/index.min.js'];
-  var that, vditor;
+  var vditor;
   Spa.define({
     props: {
       id: {

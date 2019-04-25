@@ -1,0 +1,64 @@
+<?php
+
+namespace Dao\ZlsManage;
+
+use Z;
+
+class GroupDao extends \Zls_Dao
+{
+    public function getColumns()
+    {
+        return [
+            'id',//id
+            'name',//角色名称
+            'create_time',//创建时间
+            'update_time',//更新时间
+            'status',//状态:1正常，2禁止
+            'remark',//角色简介
+        ];
+    }
+
+    public function getHideColumns()
+    {
+        return [];
+    }
+
+    public function getPrimaryKey()
+    {
+        return 'id';
+    }
+
+    public function getTable()
+    {
+        return 'auth_user_group';
+    }
+
+
+    public function verifyRules($columns = [])
+    {
+        if (!$columns) {
+            $columns = $this->getColumns();
+        }
+        $verifyrules         = [];
+        $rules               = [];
+        $verifyrules['name'] = [
+            'required' => '角色名称不能为空',
+            'function' => function ($key, $value, $data, $args, &$returnValue, &$break, &$db) {
+                $row          = (!!$id = z::arrayGet($data, 'id')) ? $this->find($id) : [];
+                $verifyRouter = !!$row ? $data['name'] !== $row['name'] : true;
+                if ($verifyRouter && (!z::checkValue($value, ['unique[' . $this->getTable() . '.name]']))) {
+                    return '角色名称已存在';
+                }
+            },
+        ];
+        foreach ($columns as $column) {
+            if (Z::arrayKeyExists($column, $verifyrules)) {
+                $rules[$column] = $verifyrules[$column];
+            }
+        }
+
+        return $rules;
+    }
+
+
+}

@@ -13,7 +13,7 @@
               <div class="name">
                 arrow-back-outline
               </div>
-              <div class="code-name">.icon-arrow-back-outline
+              <div class="code-name">icon-arrow-back-outline
               </div>
             </li>
 
@@ -22,7 +22,7 @@
               <div class="name">
                 arrow-back
               </div>
-              <div class="code-name">.icon-arrow-back
+              <div class="code-name">icon-arrow-back
               </div>
             </li>
 
@@ -31,7 +31,7 @@
               <div class="name">
                 arrow-circle-down
               </div>
-              <div class="code-name">.icon-arrow-circle-down
+              <div class="code-name">icon-arrow-circle-down
               </div>
             </li>
 
@@ -40,7 +40,7 @@
               <div class="name">
                 arrow-circle-left
               </div>
-              <div class="code-name">.icon-arrow-circle-left
+              <div class="code-name">icon-arrow-circle-left
               </div>
             </li>
 
@@ -49,7 +49,7 @@
               <div class="name">
                 arrow-circle-right-o
               </div>
-              <div class="code-name">.icon-arrow-circle-right-o
+              <div class="code-name">icon-arrow-circle-right-o
               </div>
             </li>
 
@@ -58,7 +58,7 @@
               <div class="name">
                 arrow-circle-left-ou
               </div>
-              <div class="code-name">.icon-arrow-circle-left-ou
+              <div class="code-name">icon-arrow-circle-left-ou
               </div>
             </li>
 
@@ -67,7 +67,7 @@
               <div class="name">
                 arrow-circle-up
               </div>
-              <div class="code-name">.icon-arrow-circle-up
+              <div class="code-name">icon-arrow-circle-up
               </div>
             </li>
 
@@ -76,7 +76,7 @@
               <div class="name">
                 arrow-circle-right
               </div>
-              <div class="code-name">.icon-arrow-circle-right
+              <div class="code-name">icon-arrow-circle-right
               </div>
             </li>
 
@@ -85,7 +85,7 @@
               <div class="name">
                 arrow-circle-down-ou
               </div>
-              <div class="code-name">.icon-arrow-circle-down-ou
+              <div class="code-name">icon-arrow-circle-down-ou
               </div>
             </li>
 
@@ -94,7 +94,7 @@
               <div class="name">
                 arrow-down
               </div>
-              <div class="code-name">.icon-arrow-down
+              <div class="code-name">icon-arrow-down
               </div>
             </li>
 
@@ -103,7 +103,7 @@
               <div class="name">
                 arrow-circle-up-outl
               </div>
-              <div class="code-name">.icon-arrow-circle-up-outl
+              <div class="code-name">icon-arrow-circle-up-outl
               </div>
             </li>
 
@@ -112,7 +112,7 @@
               <div class="name">
                 arrow-downward-outli
               </div>
-              <div class="code-name">.icon-arrow-downward-outli
+              <div class="code-name">icon-arrow-downward-outli
               </div>
             </li>
 
@@ -121,7 +121,7 @@
               <div class="name">
                 arrow-down-outline
               </div>
-              <div class="code-name">.icon-arrow-down-outline
+              <div class="code-name">icon-arrow-down-outline
               </div>
             </li>
 
@@ -130,7 +130,7 @@
               <div class="name">
                 arrowhead-down
               </div>
-              <div class="code-name">.icon-arrowhead-down
+              <div class="code-name">icon-arrowhead-down
               </div>
             </li>
 
@@ -139,7 +139,7 @@
               <div class="name">
                 arrow-forward
               </div>
-              <div class="code-name">.icon-arrow-forward
+              <div class="code-name">icon-arrow-forward
               </div>
             </li>
 
@@ -148,7 +148,7 @@
               <div class="name">
                 arrow-downward
               </div>
-              <div class="code-name">.icon-arrow-downward
+              <div class="code-name">icon-arrow-downward
               </div>
             </li>
 
@@ -157,7 +157,7 @@
               <div class="name">
                 arrow-forward-outlin
               </div>
-              <div class="code-name">.icon-arrow-forward-outlin
+              <div class="code-name">icon-arrow-forward-outlin
               </div>
             </li>
 
@@ -166,7 +166,7 @@
               <div class="name">
                 arrowhead-left-outli
               </div>
-              <div class="code-name">.icon-arrowhead-left-outli
+              <div class="code-name">icon-arrowhead-left-outli
               </div>
             </li>
 
@@ -175,7 +175,7 @@
               <div class="name">
                 arrowhead-down-outli
               </div>
-              <div class="code-name">.icon-arrowhead-down-outli
+              <div class="code-name">icon-arrowhead-down-outli
               </div>
             </li>
 
@@ -184,7 +184,7 @@
               <div class="name">
                 arrowhead-left
               </div>
-              <div class="code-name">.icon-arrowhead-left
+              <div class="code-name">icon-arrowhead-left
               </div>
             </li>
 
@@ -193,7 +193,7 @@
               <div class="name">
                 arrowhead-up
               </div>
-              <div class="code-name">.icon-arrowhead-up
+              <div class="code-name">icon-arrowhead-up
               </div>
             </li>
 
@@ -202,7 +202,7 @@
               <div class="name">
                 arrowhead-right-outl
               </div>
-              <div class="code-name">.icon-arrowhead-right-outl
+              <div class="code-name">icon-arrowhead-right-outl
               </div>
             </li>
 
@@ -211,7 +211,7 @@
               <div class="name">
                 arrowhead-right
               </div>
-              <div class="code-name">.icon-arrowhead-right
+              <div class="code-name">icon-arrowhead-right
               </div>
             </li>
 
@@ -220,7 +220,7 @@
               <div class="name">
                 arrowhead-up-outline
               </div>
-              <div class="code-name">.icon-arrowhead-up-outline
+              <div class="code-name">icon-arrowhead-up-outline
               </div>
             </li>
 
@@ -229,7 +229,7 @@
               <div class="name">
                 arrow-ios-back-outli
               </div>
-              <div class="code-name">.icon-arrow-ios-back-outli
+              <div class="code-name">icon-arrow-ios-back-outli
               </div>
             </li>
 
@@ -238,7 +238,7 @@
               <div class="name">
                 arrow-ios-back
               </div>
-              <div class="code-name">.icon-arrow-ios-back
+              <div class="code-name">icon-arrow-ios-back
               </div>
             </li>
 
@@ -247,7 +247,7 @@
               <div class="name">
                 arrow-ios-downward
               </div>
-              <div class="code-name">.icon-arrow-ios-downward
+              <div class="code-name">icon-arrow-ios-downward
               </div>
             </li>
 
@@ -256,7 +256,7 @@
               <div class="name">
                 arrow-ios-downward-o
               </div>
-              <div class="code-name">.icon-arrow-ios-downward-o
+              <div class="code-name">icon-arrow-ios-downward-o
               </div>
             </li>
 
@@ -265,7 +265,7 @@
               <div class="name">
                 arrow-ios-forward
               </div>
-              <div class="code-name">.icon-arrow-ios-forward
+              <div class="code-name">icon-arrow-ios-forward
               </div>
             </li>
 
@@ -274,7 +274,7 @@
               <div class="name">
                 arrow-ios-forward-ou
               </div>
-              <div class="code-name">.icon-arrow-ios-forward-ou
+              <div class="code-name">icon-arrow-ios-forward-ou
               </div>
             </li>
 
@@ -283,7 +283,7 @@
               <div class="name">
                 arrow-ios-upward
               </div>
-              <div class="code-name">.icon-arrow-ios-upward
+              <div class="code-name">icon-arrow-ios-upward
               </div>
             </li>
 
@@ -292,7 +292,7 @@
               <div class="name">
                 arrow-left
               </div>
-              <div class="code-name">.icon-arrow-left
+              <div class="code-name">icon-arrow-left
               </div>
             </li>
 
@@ -301,7 +301,7 @@
               <div class="name">
                 arrow-right
               </div>
-              <div class="code-name">.icon-arrow-right
+              <div class="code-name">icon-arrow-right
               </div>
             </li>
 
@@ -310,7 +310,7 @@
               <div class="name">
                 arrow-left-outline
               </div>
-              <div class="code-name">.icon-arrow-left-outline
+              <div class="code-name">icon-arrow-left-outline
               </div>
             </li>
 
@@ -319,7 +319,7 @@
               <div class="name">
                 arrow-right-outline
               </div>
-              <div class="code-name">.icon-arrow-right-outline
+              <div class="code-name">icon-arrow-right-outline
               </div>
             </li>
 
@@ -328,7 +328,7 @@
               <div class="name">
                 arrow-up-outline
               </div>
-              <div class="code-name">.icon-arrow-up-outline
+              <div class="code-name">icon-arrow-up-outline
               </div>
             </li>
 
@@ -337,7 +337,7 @@
               <div class="name">
                 arrow-up
               </div>
-              <div class="code-name">.icon-arrow-up
+              <div class="code-name">icon-arrow-up
               </div>
             </li>
 
@@ -346,7 +346,7 @@
               <div class="name">
                 arrow-upward
               </div>
-              <div class="code-name">.icon-arrow-upward
+              <div class="code-name">icon-arrow-upward
               </div>
             </li>
 
@@ -355,7 +355,7 @@
               <div class="name">
                 arrow-upward-outline
               </div>
-              <div class="code-name">.icon-arrow-upward-outline
+              <div class="code-name">icon-arrow-upward-outline
               </div>
             </li>
 
@@ -364,7 +364,7 @@
               <div class="name">
                 arrow-ios-upward-out
               </div>
-              <div class="code-name">.icon-arrow-ios-upward-out
+              <div class="code-name">icon-arrow-ios-upward-out
               </div>
             </li>
 
@@ -373,7 +373,7 @@
               <div class="name">
                 at-outline
               </div>
-              <div class="code-name">.icon-at-outline
+              <div class="code-name">icon-at-outline
               </div>
             </li>
 
@@ -382,7 +382,7 @@
               <div class="name">
                 attach-2
               </div>
-              <div class="code-name">.icon-attach-
+              <div class="code-name">icon-attach-
               </div>
             </li>
 
@@ -391,7 +391,7 @@
               <div class="name">
                 attach
               </div>
-              <div class="code-name">.icon-attach
+              <div class="code-name">icon-attach
               </div>
             </li>
 
@@ -400,7 +400,7 @@
               <div class="name">
                 award
               </div>
-              <div class="code-name">.icon-award
+              <div class="code-name">icon-award
               </div>
             </li>
 
@@ -409,7 +409,7 @@
               <div class="name">
                 at
               </div>
-              <div class="code-name">.icon-at
+              <div class="code-name">icon-at
               </div>
             </li>
 
@@ -418,7 +418,7 @@
               <div class="name">
                 attach-2-outline
               </div>
-              <div class="code-name">.icon-attach--outline
+              <div class="code-name">icon-attach--outline
               </div>
             </li>
 
@@ -427,7 +427,7 @@
               <div class="name">
                 award-outline
               </div>
-              <div class="code-name">.icon-award-outline
+              <div class="code-name">icon-award-outline
               </div>
             </li>
 
@@ -436,7 +436,7 @@
               <div class="name">
                 attach-outline
               </div>
-              <div class="code-name">.icon-attach-outline
+              <div class="code-name">icon-attach-outline
               </div>
             </li>
 
@@ -445,7 +445,7 @@
               <div class="name">
                 backspace
               </div>
-              <div class="code-name">.icon-backspace
+              <div class="code-name">icon-backspace
               </div>
             </li>
 
@@ -454,7 +454,7 @@
               <div class="name">
                 backspace-outline
               </div>
-              <div class="code-name">.icon-backspace-outline
+              <div class="code-name">icon-backspace-outline
               </div>
             </li>
 
@@ -463,7 +463,7 @@
               <div class="name">
                 bar-chart
               </div>
-              <div class="code-name">.icon-bar-chart
+              <div class="code-name">icon-bar-chart
               </div>
             </li>
 
@@ -472,7 +472,7 @@
               <div class="name">
                 bar-chart-2-outline
               </div>
-              <div class="code-name">.icon-bar-chart--outline
+              <div class="code-name">icon-bar-chart--outline
               </div>
             </li>
 
@@ -481,7 +481,7 @@
               <div class="name">
                 bar-chart-2
               </div>
-              <div class="code-name">.icon-bar-chart-
+              <div class="code-name">icon-bar-chart-
               </div>
             </li>
 
@@ -490,7 +490,7 @@
               <div class="name">
                 bar-chart-outline
               </div>
-              <div class="code-name">.icon-bar-chart-outline
+              <div class="code-name">icon-bar-chart-outline
               </div>
             </li>
 
@@ -499,7 +499,7 @@
               <div class="name">
                 battery-outline
               </div>
-              <div class="code-name">.icon-battery-outline
+              <div class="code-name">icon-battery-outline
               </div>
             </li>
 
@@ -508,7 +508,7 @@
               <div class="name">
                 battery
               </div>
-              <div class="code-name">.icon-battery
+              <div class="code-name">icon-battery
               </div>
             </li>
 
@@ -517,7 +517,7 @@
               <div class="name">
                 bell
               </div>
-              <div class="code-name">.icon-bell
+              <div class="code-name">icon-bell
               </div>
             </li>
 
@@ -526,7 +526,7 @@
               <div class="name">
                 behance
               </div>
-              <div class="code-name">.icon-behance
+              <div class="code-name">icon-behance
               </div>
             </li>
 
@@ -535,7 +535,7 @@
               <div class="name">
                 bell-outline
               </div>
-              <div class="code-name">.icon-bell-outline
+              <div class="code-name">icon-bell-outline
               </div>
             </li>
 
@@ -544,7 +544,7 @@
               <div class="name">
                 bell-off
               </div>
-              <div class="code-name">.icon-bell-off
+              <div class="code-name">icon-bell-off
               </div>
             </li>
 
@@ -553,7 +553,7 @@
               <div class="name">
                 bell-off-outline
               </div>
-              <div class="code-name">.icon-bell-off-outline
+              <div class="code-name">icon-bell-off-outline
               </div>
             </li>
 
@@ -562,7 +562,7 @@
               <div class="name">
                 bluetooth-outline
               </div>
-              <div class="code-name">.icon-bluetooth-outline
+              <div class="code-name">icon-bluetooth-outline
               </div>
             </li>
 
@@ -571,7 +571,7 @@
               <div class="name">
                 book
               </div>
-              <div class="code-name">.icon-book
+              <div class="code-name">icon-book
               </div>
             </li>
 
@@ -580,7 +580,7 @@
               <div class="name">
                 bluetooth
               </div>
-              <div class="code-name">.icon-bluetooth
+              <div class="code-name">icon-bluetooth
               </div>
             </li>
 
@@ -589,7 +589,7 @@
               <div class="name">
                 book-open
               </div>
-              <div class="code-name">.icon-book-open
+              <div class="code-name">icon-book-open
               </div>
             </li>
 
@@ -598,7 +598,7 @@
               <div class="name">
                 bookmark-outline
               </div>
-              <div class="code-name">.icon-bookmark-outline
+              <div class="code-name">icon-bookmark-outline
               </div>
             </li>
 
@@ -607,7 +607,7 @@
               <div class="name">
                 bookmark
               </div>
-              <div class="code-name">.icon-bookmark
+              <div class="code-name">icon-bookmark
               </div>
             </li>
 
@@ -616,7 +616,7 @@
               <div class="name">
                 book-open-outline
               </div>
-              <div class="code-name">.icon-book-open-outline
+              <div class="code-name">icon-book-open-outline
               </div>
             </li>
 
@@ -625,7 +625,7 @@
               <div class="name">
                 book-outline
               </div>
-              <div class="code-name">.icon-book-outline
+              <div class="code-name">icon-book-outline
               </div>
             </li>
 
@@ -634,7 +634,7 @@
               <div class="name">
                 briefcase
               </div>
-              <div class="code-name">.icon-briefcase
+              <div class="code-name">icon-briefcase
               </div>
             </li>
 
@@ -643,7 +643,7 @@
               <div class="name">
                 briefcase-outline
               </div>
-              <div class="code-name">.icon-briefcase-outline
+              <div class="code-name">icon-briefcase-outline
               </div>
             </li>
 
@@ -652,7 +652,7 @@
               <div class="name">
                 browser
               </div>
-              <div class="code-name">.icon-browser
+              <div class="code-name">icon-browser
               </div>
             </li>
 
@@ -661,7 +661,7 @@
               <div class="name">
                 browser-outline
               </div>
-              <div class="code-name">.icon-browser-outline
+              <div class="code-name">icon-browser-outline
               </div>
             </li>
 
@@ -670,7 +670,7 @@
               <div class="name">
                 brush
               </div>
-              <div class="code-name">.icon-brush
+              <div class="code-name">icon-brush
               </div>
             </li>
 
@@ -679,7 +679,7 @@
               <div class="name">
                 bulb
               </div>
-              <div class="code-name">.icon-bulb
+              <div class="code-name">icon-bulb
               </div>
             </li>
 
@@ -688,7 +688,7 @@
               <div class="name">
                 brush-outline
               </div>
-              <div class="code-name">.icon-brush-outline
+              <div class="code-name">icon-brush-outline
               </div>
             </li>
 
@@ -697,7 +697,7 @@
               <div class="name">
                 calendar
               </div>
-              <div class="code-name">.icon-calendar
+              <div class="code-name">icon-calendar
               </div>
             </li>
 
@@ -706,7 +706,7 @@
               <div class="name">
                 calendar-outline
               </div>
-              <div class="code-name">.icon-calendar-outline
+              <div class="code-name">icon-calendar-outline
               </div>
             </li>
 
@@ -715,7 +715,7 @@
               <div class="name">
                 camera
               </div>
-              <div class="code-name">.icon-camera
+              <div class="code-name">icon-camera
               </div>
             </li>
 
@@ -724,7 +724,7 @@
               <div class="name">
                 camera-outline
               </div>
-              <div class="code-name">.icon-camera-outline
+              <div class="code-name">icon-camera-outline
               </div>
             </li>
 
@@ -733,7 +733,7 @@
               <div class="name">
                 car
               </div>
-              <div class="code-name">.icon-car
+              <div class="code-name">icon-car
               </div>
             </li>
 
@@ -742,7 +742,7 @@
               <div class="name">
                 car-outline
               </div>
-              <div class="code-name">.icon-car-outline
+              <div class="code-name">icon-car-outline
               </div>
             </li>
 
@@ -751,7 +751,7 @@
               <div class="name">
                 bulb-outline
               </div>
-              <div class="code-name">.icon-bulb-outline
+              <div class="code-name">icon-bulb-outline
               </div>
             </li>
 
@@ -760,7 +760,7 @@
               <div class="name">
                 cast
               </div>
-              <div class="code-name">.icon-cast
+              <div class="code-name">icon-cast
               </div>
             </li>
 
@@ -769,7 +769,7 @@
               <div class="name">
                 charging
               </div>
-              <div class="code-name">.icon-charging
+              <div class="code-name">icon-charging
               </div>
             </li>
 
@@ -778,7 +778,7 @@
               <div class="name">
                 checkmark
               </div>
-              <div class="code-name">.icon-checkmark
+              <div class="code-name">icon-checkmark
               </div>
             </li>
 
@@ -787,7 +787,7 @@
               <div class="name">
                 checkmark-circle-2-o
               </div>
-              <div class="code-name">.icon-checkmark-circle--o
+              <div class="code-name">icon-checkmark-circle--o
               </div>
             </li>
 
@@ -796,7 +796,7 @@
               <div class="name">
                 checkmark-circle-2
               </div>
-              <div class="code-name">.icon-checkmark-circle-
+              <div class="code-name">icon-checkmark-circle-
               </div>
             </li>
 
@@ -805,7 +805,7 @@
               <div class="name">
                 charging-outline
               </div>
-              <div class="code-name">.icon-charging-outline
+              <div class="code-name">icon-charging-outline
               </div>
             </li>
 
@@ -814,7 +814,7 @@
               <div class="name">
                 checkmark-circle
               </div>
-              <div class="code-name">.icon-checkmark-circle
+              <div class="code-name">icon-checkmark-circle
               </div>
             </li>
 
@@ -823,7 +823,7 @@
               <div class="name">
                 checkmark-outline
               </div>
-              <div class="code-name">.icon-checkmark-outline
+              <div class="code-name">icon-checkmark-outline
               </div>
             </li>
 
@@ -832,7 +832,7 @@
               <div class="name">
                 checkmark-circle-out
               </div>
-              <div class="code-name">.icon-checkmark-circle-out
+              <div class="code-name">icon-checkmark-circle-out
               </div>
             </li>
 
@@ -841,7 +841,7 @@
               <div class="name">
                 checkmark-square
               </div>
-              <div class="code-name">.icon-checkmark-square
+              <div class="code-name">icon-checkmark-square
               </div>
             </li>
 
@@ -850,7 +850,7 @@
               <div class="name">
                 checkmark-square-2
               </div>
-              <div class="code-name">.icon-checkmark-square-
+              <div class="code-name">icon-checkmark-square-
               </div>
             </li>
 
@@ -859,7 +859,7 @@
               <div class="name">
                 checkmark-square-2-o
               </div>
-              <div class="code-name">.icon-checkmark-square--o
+              <div class="code-name">icon-checkmark-square--o
               </div>
             </li>
 
@@ -868,7 +868,7 @@
               <div class="name">
                 checkmark-square-out
               </div>
-              <div class="code-name">.icon-checkmark-square-out
+              <div class="code-name">icon-checkmark-square-out
               </div>
             </li>
 
@@ -877,7 +877,7 @@
               <div class="name">
                 chevron-left
               </div>
-              <div class="code-name">.icon-chevron-left
+              <div class="code-name">icon-chevron-left
               </div>
             </li>
 
@@ -886,7 +886,7 @@
               <div class="name">
                 chevron-down
               </div>
-              <div class="code-name">.icon-chevron-down
+              <div class="code-name">icon-chevron-down
               </div>
             </li>
 
@@ -895,7 +895,7 @@
               <div class="name">
                 chevron-down-outline
               </div>
-              <div class="code-name">.icon-chevron-down-outline
+              <div class="code-name">icon-chevron-down-outline
               </div>
             </li>
 
@@ -904,7 +904,7 @@
               <div class="name">
                 chevron-right-outlin
               </div>
-              <div class="code-name">.icon-chevron-right-outlin
+              <div class="code-name">icon-chevron-right-outlin
               </div>
             </li>
 
@@ -913,7 +913,7 @@
               <div class="name">
                 chevron-right
               </div>
-              <div class="code-name">.icon-chevron-right
+              <div class="code-name">icon-chevron-right
               </div>
             </li>
 
@@ -922,7 +922,7 @@
               <div class="name">
                 chevron-up
               </div>
-              <div class="code-name">.icon-chevron-up
+              <div class="code-name">icon-chevron-up
               </div>
             </li>
 
@@ -931,7 +931,7 @@
               <div class="name">
                 clipboard
               </div>
-              <div class="code-name">.icon-clipboard
+              <div class="code-name">icon-clipboard
               </div>
             </li>
 
@@ -940,7 +940,7 @@
               <div class="name">
                 behance-outline
               </div>
-              <div class="code-name">.icon-behance-outline
+              <div class="code-name">icon-behance-outline
               </div>
             </li>
 
@@ -949,7 +949,7 @@
               <div class="name">
                 chevron-up-outline
               </div>
-              <div class="code-name">.icon-chevron-up-outline
+              <div class="code-name">icon-chevron-up-outline
               </div>
             </li>
 
@@ -958,7 +958,7 @@
               <div class="name">
                 clock-outline
               </div>
-              <div class="code-name">.icon-clock-outline
+              <div class="code-name">icon-clock-outline
               </div>
             </li>
 
@@ -967,7 +967,7 @@
               <div class="name">
                 clock
               </div>
-              <div class="code-name">.icon-clock
+              <div class="code-name">icon-clock
               </div>
             </li>
 
@@ -976,7 +976,7 @@
               <div class="name">
                 close-circle
               </div>
-              <div class="code-name">.icon-close-circle
+              <div class="code-name">icon-close-circle
               </div>
             </li>
 
@@ -985,7 +985,7 @@
               <div class="name">
                 close
               </div>
-              <div class="code-name">.icon-close
+              <div class="code-name">icon-close
               </div>
             </li>
 
@@ -994,7 +994,7 @@
               <div class="name">
                 cast-outline
               </div>
-              <div class="code-name">.icon-cast-outline
+              <div class="code-name">icon-cast-outline
               </div>
             </li>
 
@@ -1003,7 +1003,7 @@
               <div class="name">
                 close-circle-outline
               </div>
-              <div class="code-name">.icon-close-circle-outline
+              <div class="code-name">icon-close-circle-outline
               </div>
             </li>
 
@@ -1012,7 +1012,7 @@
               <div class="name">
                 close-square
               </div>
-              <div class="code-name">.icon-close-square
+              <div class="code-name">icon-close-square
               </div>
             </li>
 
@@ -1021,7 +1021,7 @@
               <div class="name">
                 close-square-outline
               </div>
-              <div class="code-name">.icon-close-square-outline
+              <div class="code-name">icon-close-square-outline
               </div>
             </li>
 
@@ -1030,7 +1030,7 @@
               <div class="name">
                 close-outline
               </div>
-              <div class="code-name">.icon-close-outline
+              <div class="code-name">icon-close-outline
               </div>
             </li>
 
@@ -1039,7 +1039,7 @@
               <div class="name">
                 cloud-download-outli
               </div>
-              <div class="code-name">.icon-cloud-download-outli
+              <div class="code-name">icon-cloud-download-outli
               </div>
             </li>
 
@@ -1048,7 +1048,7 @@
               <div class="name">
                 cloud-upload
               </div>
-              <div class="code-name">.icon-cloud-upload
+              <div class="code-name">icon-cloud-upload
               </div>
             </li>
 
@@ -1057,7 +1057,7 @@
               <div class="name">
                 code
               </div>
-              <div class="code-name">.icon-code
+              <div class="code-name">icon-code
               </div>
             </li>
 
@@ -1066,7 +1066,7 @@
               <div class="name">
                 code-download
               </div>
-              <div class="code-name">.icon-code-download
+              <div class="code-name">icon-code-download
               </div>
             </li>
 
@@ -1075,7 +1075,7 @@
               <div class="name">
                 collapse
               </div>
-              <div class="code-name">.icon-collapse
+              <div class="code-name">icon-collapse
               </div>
             </li>
 
@@ -1084,7 +1084,7 @@
               <div class="name">
                 code-outline
               </div>
-              <div class="code-name">.icon-code-outline
+              <div class="code-name">icon-code-outline
               </div>
             </li>
 
@@ -1093,7 +1093,7 @@
               <div class="name">
                 clipboard-outline
               </div>
-              <div class="code-name">.icon-clipboard-outline
+              <div class="code-name">icon-clipboard-outline
               </div>
             </li>
 
@@ -1102,7 +1102,7 @@
               <div class="name">
                 cloud-download
               </div>
-              <div class="code-name">.icon-cloud-download
+              <div class="code-name">icon-cloud-download
               </div>
             </li>
 
@@ -1111,7 +1111,7 @@
               <div class="name">
                 color-palette
               </div>
-              <div class="code-name">.icon-color-palette
+              <div class="code-name">icon-color-palette
               </div>
             </li>
 
@@ -1120,7 +1120,7 @@
               <div class="name">
                 color-palette-outlin
               </div>
-              <div class="code-name">.icon-color-palette-outlin
+              <div class="code-name">icon-color-palette-outlin
               </div>
             </li>
 
@@ -1129,7 +1129,7 @@
               <div class="name">
                 color-picker-outline
               </div>
-              <div class="code-name">.icon-color-picker-outline
+              <div class="code-name">icon-color-picker-outline
               </div>
             </li>
 
@@ -1138,7 +1138,7 @@
               <div class="name">
                 compass
               </div>
-              <div class="code-name">.icon-compass
+              <div class="code-name">icon-compass
               </div>
             </li>
 
@@ -1147,7 +1147,7 @@
               <div class="name">
                 code-download-outlin
               </div>
-              <div class="code-name">.icon-code-download-outlin
+              <div class="code-name">icon-code-download-outlin
               </div>
             </li>
 
@@ -1156,7 +1156,7 @@
               <div class="name">
                 cloud-upload-outline
               </div>
-              <div class="code-name">.icon-cloud-upload-outline
+              <div class="code-name">icon-cloud-upload-outline
               </div>
             </li>
 
@@ -1165,7 +1165,7 @@
               <div class="name">
                 copy
               </div>
-              <div class="code-name">.icon-copy
+              <div class="code-name">icon-copy
               </div>
             </li>
 
@@ -1174,7 +1174,7 @@
               <div class="name">
                 copy-outline
               </div>
-              <div class="code-name">.icon-copy-outline
+              <div class="code-name">icon-copy-outline
               </div>
             </li>
 
@@ -1183,7 +1183,7 @@
               <div class="name">
                 collapse-outline
               </div>
-              <div class="code-name">.icon-collapse-outline
+              <div class="code-name">icon-collapse-outline
               </div>
             </li>
 
@@ -1192,7 +1192,7 @@
               <div class="name">
                 corner-down-right
               </div>
-              <div class="code-name">.icon-corner-down-right
+              <div class="code-name">icon-corner-down-right
               </div>
             </li>
 
@@ -1201,7 +1201,7 @@
               <div class="name">
                 compass-outline
               </div>
-              <div class="code-name">.icon-compass-outline
+              <div class="code-name">icon-compass-outline
               </div>
             </li>
 
@@ -1210,7 +1210,7 @@
               <div class="name">
                 corner-down-left-out
               </div>
-              <div class="code-name">.icon-corner-down-left-out
+              <div class="code-name">icon-corner-down-left-out
               </div>
             </li>
 
@@ -1219,7 +1219,7 @@
               <div class="name">
                 color-picker
               </div>
-              <div class="code-name">.icon-color-picker
+              <div class="code-name">icon-color-picker
               </div>
             </li>
 
@@ -1228,7 +1228,7 @@
               <div class="name">
                 corner-left-down-out
               </div>
-              <div class="code-name">.icon-corner-left-down-out
+              <div class="code-name">icon-corner-left-down-out
               </div>
             </li>
 
@@ -1237,7 +1237,7 @@
               <div class="name">
                 corner-down-right-ou
               </div>
-              <div class="code-name">.icon-corner-down-right-ou
+              <div class="code-name">icon-corner-down-right-ou
               </div>
             </li>
 
@@ -1246,7 +1246,7 @@
               <div class="name">
                 corner-left-down
               </div>
-              <div class="code-name">.icon-corner-left-down
+              <div class="code-name">icon-corner-left-down
               </div>
             </li>
 
@@ -1255,7 +1255,7 @@
               <div class="name">
                 corner-right-down
               </div>
-              <div class="code-name">.icon-corner-right-down
+              <div class="code-name">icon-corner-right-down
               </div>
             </li>
 
@@ -1264,7 +1264,7 @@
               <div class="name">
                 corner-down-left
               </div>
-              <div class="code-name">.icon-corner-down-left
+              <div class="code-name">icon-corner-down-left
               </div>
             </li>
 
@@ -1273,7 +1273,7 @@
               <div class="name">
                 corner-left-up-outli
               </div>
-              <div class="code-name">.icon-corner-left-up-outli
+              <div class="code-name">icon-corner-left-up-outli
               </div>
             </li>
 
@@ -1282,7 +1282,7 @@
               <div class="name">
                 corner-right-up-outl
               </div>
-              <div class="code-name">.icon-corner-right-up-outl
+              <div class="code-name">icon-corner-right-up-outl
               </div>
             </li>
 
@@ -1291,7 +1291,7 @@
               <div class="name">
                 corner-right-up
               </div>
-              <div class="code-name">.icon-corner-right-up
+              <div class="code-name">icon-corner-right-up
               </div>
             </li>
 
@@ -1300,7 +1300,7 @@
               <div class="name">
                 corner-left-up
               </div>
-              <div class="code-name">.icon-corner-left-up
+              <div class="code-name">icon-corner-left-up
               </div>
             </li>
 
@@ -1309,7 +1309,7 @@
               <div class="name">
                 corner-up-left
               </div>
-              <div class="code-name">.icon-corner-up-left
+              <div class="code-name">icon-corner-up-left
               </div>
             </li>
 
@@ -1318,7 +1318,7 @@
               <div class="name">
                 corner-up-right
               </div>
-              <div class="code-name">.icon-corner-up-right
+              <div class="code-name">icon-corner-up-right
               </div>
             </li>
 
@@ -1327,7 +1327,7 @@
               <div class="name">
                 corner-up-left-outli
               </div>
-              <div class="code-name">.icon-corner-up-left-outli
+              <div class="code-name">icon-corner-up-left-outli
               </div>
             </li>
 
@@ -1336,7 +1336,7 @@
               <div class="name">
                 corner-right-down-ou
               </div>
-              <div class="code-name">.icon-corner-right-down-ou
+              <div class="code-name">icon-corner-right-down-ou
               </div>
             </li>
 
@@ -1345,7 +1345,7 @@
               <div class="name">
                 corner-up-right-outl
               </div>
-              <div class="code-name">.icon-corner-up-right-outl
+              <div class="code-name">icon-corner-up-right-outl
               </div>
             </li>
 
@@ -1354,7 +1354,7 @@
               <div class="name">
                 credit-card
               </div>
-              <div class="code-name">.icon-credit-card
+              <div class="code-name">icon-credit-card
               </div>
             </li>
 
@@ -1363,7 +1363,7 @@
               <div class="name">
                 credit-card-outline
               </div>
-              <div class="code-name">.icon-credit-card-outline
+              <div class="code-name">icon-credit-card-outline
               </div>
             </li>
 
@@ -1372,7 +1372,7 @@
               <div class="name">
                 crop
               </div>
-              <div class="code-name">.icon-crop
+              <div class="code-name">icon-crop
               </div>
             </li>
 
@@ -1381,7 +1381,7 @@
               <div class="name">
                 cube
               </div>
-              <div class="code-name">.icon-cube
+              <div class="code-name">icon-cube
               </div>
             </li>
 
@@ -1390,7 +1390,7 @@
               <div class="name">
                 crop-outline
               </div>
-              <div class="code-name">.icon-crop-outline
+              <div class="code-name">icon-crop-outline
               </div>
             </li>
 
@@ -1399,7 +1399,7 @@
               <div class="name">
                 diagonal-arrow-left-
               </div>
-              <div class="code-name">.icon-diagonal-arrow-left-
+              <div class="code-name">icon-diagonal-arrow-left-
               </div>
             </li>
 
@@ -1408,7 +1408,7 @@
               <div class="name">
                 cube-outline
               </div>
-              <div class="code-name">.icon-cube-outline
+              <div class="code-name">icon-cube-outline
               </div>
             </li>
 
@@ -1417,7 +1417,7 @@
               <div class="name">
                 diagonal-arrow-left-
               </div>
-              <div class="code-name">.icon-diagonal-arrow-left-1
+              <div class="code-name">icon-diagonal-arrow-left-1
               </div>
             </li>
 
@@ -1426,7 +1426,7 @@
               <div class="name">
                 chevron-left-outline
               </div>
-              <div class="code-name">.icon-chevron-left-outline
+              <div class="code-name">icon-chevron-left-outline
               </div>
             </li>
 
@@ -1435,7 +1435,7 @@
               <div class="name">
                 diagonal-arrow-left-
               </div>
-              <div class="code-name">.icon-diagonal-arrow-left-2
+              <div class="code-name">icon-diagonal-arrow-left-2
               </div>
             </li>
 
@@ -1444,7 +1444,7 @@
               <div class="name">
                 diagonal-arrow-left-
               </div>
-              <div class="code-name">.icon-diagonal-arrow-left-3
+              <div class="code-name">icon-diagonal-arrow-left-3
               </div>
             </li>
 
@@ -1453,7 +1453,7 @@
               <div class="name">
                 diagonal-arrow-right
               </div>
-              <div class="code-name">.icon-diagonal-arrow-right
+              <div class="code-name">icon-diagonal-arrow-right
               </div>
             </li>
 
@@ -1462,7 +1462,7 @@
               <div class="name">
                 diagonal-arrow-right
               </div>
-              <div class="code-name">.icon-diagonal-arrow-right1
+              <div class="code-name">icon-diagonal-arrow-right1
               </div>
             </li>
 
@@ -1471,7 +1471,7 @@
               <div class="name">
                 diagonal-arrow-right
               </div>
-              <div class="code-name">.icon-diagonal-arrow-right2
+              <div class="code-name">icon-diagonal-arrow-right2
               </div>
             </li>
 
@@ -1480,7 +1480,7 @@
               <div class="name">
                 diagonal-arrow-right
               </div>
-              <div class="code-name">.icon-diagonal-arrow-right3
+              <div class="code-name">icon-diagonal-arrow-right3
               </div>
             </li>
 
@@ -1489,7 +1489,7 @@
               <div class="name">
                 done-all-outline
               </div>
-              <div class="code-name">.icon-done-all-outline
+              <div class="code-name">icon-done-all-outline
               </div>
             </li>
 
@@ -1498,7 +1498,7 @@
               <div class="name">
                 done-all
               </div>
-              <div class="code-name">.icon-done-all
+              <div class="code-name">icon-done-all
               </div>
             </li>
 
@@ -1507,7 +1507,7 @@
               <div class="name">
                 download
               </div>
-              <div class="code-name">.icon-download
+              <div class="code-name">icon-download
               </div>
             </li>
 
@@ -1516,7 +1516,7 @@
               <div class="name">
                 droplet
               </div>
-              <div class="code-name">.icon-droplet
+              <div class="code-name">icon-droplet
               </div>
             </li>
 
@@ -1525,7 +1525,7 @@
               <div class="name">
                 edit
               </div>
-              <div class="code-name">.icon-edit
+              <div class="code-name">icon-edit
               </div>
             </li>
 
@@ -1534,7 +1534,7 @@
               <div class="name">
                 droplet-outline
               </div>
-              <div class="code-name">.icon-droplet-outline
+              <div class="code-name">icon-droplet-outline
               </div>
             </li>
 
@@ -1543,7 +1543,7 @@
               <div class="name">
                 droplet-off-outline
               </div>
-              <div class="code-name">.icon-droplet-off-outline
+              <div class="code-name">icon-droplet-off-outline
               </div>
             </li>
 
@@ -1552,7 +1552,7 @@
               <div class="name">
                 edit-2
               </div>
-              <div class="code-name">.icon-edit-
+              <div class="code-name">icon-edit-
               </div>
             </li>
 
@@ -1561,7 +1561,7 @@
               <div class="name">
                 edit-2-outline
               </div>
-              <div class="code-name">.icon-edit--outline
+              <div class="code-name">icon-edit--outline
               </div>
             </li>
 
@@ -1570,7 +1570,7 @@
               <div class="name">
                 edit-outline
               </div>
-              <div class="code-name">.icon-edit-outline
+              <div class="code-name">icon-edit-outline
               </div>
             </li>
 
@@ -1579,7 +1579,7 @@
               <div class="name">
                 email-outline
               </div>
-              <div class="code-name">.icon-email-outline
+              <div class="code-name">icon-email-outline
               </div>
             </li>
 
@@ -1588,7 +1588,7 @@
               <div class="name">
                 expand-outline
               </div>
-              <div class="code-name">.icon-expand-outline
+              <div class="code-name">icon-expand-outline
               </div>
             </li>
 
@@ -1597,7 +1597,7 @@
               <div class="name">
                 external-link-outlin
               </div>
-              <div class="code-name">.icon-external-link-outlin
+              <div class="code-name">icon-external-link-outlin
               </div>
             </li>
 
@@ -1606,7 +1606,7 @@
               <div class="name">
                 eye
               </div>
-              <div class="code-name">.icon-eye
+              <div class="code-name">icon-eye
               </div>
             </li>
 
@@ -1615,7 +1615,7 @@
               <div class="name">
                 eye-off
               </div>
-              <div class="code-name">.icon-eye-off
+              <div class="code-name">icon-eye-off
               </div>
             </li>
 
@@ -1624,7 +1624,7 @@
               <div class="name">
                 eye-off-2-outline
               </div>
-              <div class="code-name">.icon-eye-off--outline
+              <div class="code-name">icon-eye-off--outline
               </div>
             </li>
 
@@ -1633,7 +1633,7 @@
               <div class="name">
                 eye-outline
               </div>
-              <div class="code-name">.icon-eye-outline
+              <div class="code-name">icon-eye-outline
               </div>
             </li>
 
@@ -1642,7 +1642,7 @@
               <div class="name">
                 droplet-off
               </div>
-              <div class="code-name">.icon-droplet-off
+              <div class="code-name">icon-droplet-off
               </div>
             </li>
 
@@ -1651,7 +1651,7 @@
               <div class="name">
                 facebook
               </div>
-              <div class="code-name">.icon-facebook
+              <div class="code-name">icon-facebook
               </div>
             </li>
 
@@ -1660,7 +1660,7 @@
               <div class="name">
                 file
               </div>
-              <div class="code-name">.icon-file
+              <div class="code-name">icon-file
               </div>
             </li>
 
@@ -1669,7 +1669,7 @@
               <div class="name">
                 facebook-outline
               </div>
-              <div class="code-name">.icon-facebook-outline
+              <div class="code-name">icon-facebook-outline
               </div>
             </li>
 
@@ -1678,7 +1678,7 @@
               <div class="name">
                 expand
               </div>
-              <div class="code-name">.icon-expand
+              <div class="code-name">icon-expand
               </div>
             </li>
 
@@ -1687,7 +1687,7 @@
               <div class="name">
                 download-outline
               </div>
-              <div class="code-name">.icon-download-outline
+              <div class="code-name">icon-download-outline
               </div>
             </li>
 
@@ -1696,7 +1696,7 @@
               <div class="name">
                 file-add
               </div>
-              <div class="code-name">.icon-file-add
+              <div class="code-name">icon-file-add
               </div>
             </li>
 
@@ -1705,7 +1705,7 @@
               <div class="name">
                 file-remove
               </div>
-              <div class="code-name">.icon-file-remove
+              <div class="code-name">icon-file-remove
               </div>
             </li>
 
@@ -1714,7 +1714,7 @@
               <div class="name">
                 email
               </div>
-              <div class="code-name">.icon-email
+              <div class="code-name">icon-email
               </div>
             </li>
 
@@ -1723,7 +1723,7 @@
               <div class="name">
                 file-remove-outline
               </div>
-              <div class="code-name">.icon-file-remove-outline
+              <div class="code-name">icon-file-remove-outline
               </div>
             </li>
 
@@ -1732,7 +1732,7 @@
               <div class="name">
                 eye-off-2
               </div>
-              <div class="code-name">.icon-eye-off-
+              <div class="code-name">icon-eye-off-
               </div>
             </li>
 
@@ -1741,7 +1741,7 @@
               <div class="name">
                 film-outline
               </div>
-              <div class="code-name">.icon-film-outline
+              <div class="code-name">icon-film-outline
               </div>
             </li>
 
@@ -1750,7 +1750,7 @@
               <div class="name">
                 file-text-outline
               </div>
-              <div class="code-name">.icon-file-text-outline
+              <div class="code-name">icon-file-text-outline
               </div>
             </li>
 
@@ -1759,7 +1759,7 @@
               <div class="name">
                 file-outline
               </div>
-              <div class="code-name">.icon-file-outline
+              <div class="code-name">icon-file-outline
               </div>
             </li>
 
@@ -1768,7 +1768,7 @@
               <div class="name">
                 film
               </div>
-              <div class="code-name">.icon-film
+              <div class="code-name">icon-film
               </div>
             </li>
 
@@ -1777,7 +1777,7 @@
               <div class="name">
                 file-text
               </div>
-              <div class="code-name">.icon-file-text
+              <div class="code-name">icon-file-text
               </div>
             </li>
 
@@ -1786,7 +1786,7 @@
               <div class="name">
                 flag
               </div>
-              <div class="code-name">.icon-flag
+              <div class="code-name">icon-flag
               </div>
             </li>
 
@@ -1795,7 +1795,7 @@
               <div class="name">
                 flash
               </div>
-              <div class="code-name">.icon-flash
+              <div class="code-name">icon-flash
               </div>
             </li>
 
@@ -1804,7 +1804,7 @@
               <div class="name">
                 flash-off
               </div>
-              <div class="code-name">.icon-flash-off
+              <div class="code-name">icon-flash-off
               </div>
             </li>
 
@@ -1813,7 +1813,7 @@
               <div class="name">
                 flash-outline
               </div>
-              <div class="code-name">.icon-flash-outline
+              <div class="code-name">icon-flash-outline
               </div>
             </li>
 
@@ -1822,7 +1822,7 @@
               <div class="name">
                 flag-outline
               </div>
-              <div class="code-name">.icon-flag-outline
+              <div class="code-name">icon-flag-outline
               </div>
             </li>
 
@@ -1831,7 +1831,7 @@
               <div class="name">
                 flash-off-outline
               </div>
-              <div class="code-name">.icon-flash-off-outline
+              <div class="code-name">icon-flash-off-outline
               </div>
             </li>
 
@@ -1840,7 +1840,7 @@
               <div class="name">
                 flip
               </div>
-              <div class="code-name">.icon-flip
+              <div class="code-name">icon-flip
               </div>
             </li>
 
@@ -1849,7 +1849,7 @@
               <div class="name">
                 flip-2-outline
               </div>
-              <div class="code-name">.icon-flip--outline
+              <div class="code-name">icon-flip--outline
               </div>
             </li>
 
@@ -1858,7 +1858,7 @@
               <div class="name">
                 flip-2
               </div>
-              <div class="code-name">.icon-flip-
+              <div class="code-name">icon-flip-
               </div>
             </li>
 
@@ -1867,7 +1867,7 @@
               <div class="name">
                 flip-outline
               </div>
-              <div class="code-name">.icon-flip-outline
+              <div class="code-name">icon-flip-outline
               </div>
             </li>
 
@@ -1876,7 +1876,7 @@
               <div class="name">
                 folder-add
               </div>
-              <div class="code-name">.icon-folder-add
+              <div class="code-name">icon-folder-add
               </div>
             </li>
 
@@ -1885,7 +1885,7 @@
               <div class="name">
                 external-link
               </div>
-              <div class="code-name">.icon-external-link
+              <div class="code-name">icon-external-link
               </div>
             </li>
 
@@ -1894,7 +1894,7 @@
               <div class="name">
                 eye-off-outline
               </div>
-              <div class="code-name">.icon-eye-off-outline
+              <div class="code-name">icon-eye-off-outline
               </div>
             </li>
 
@@ -1903,7 +1903,7 @@
               <div class="name">
                 folder
               </div>
-              <div class="code-name">.icon-folder
+              <div class="code-name">icon-folder
               </div>
             </li>
 
@@ -1912,7 +1912,7 @@
               <div class="name">
                 folder-remove
               </div>
-              <div class="code-name">.icon-folder-remove
+              <div class="code-name">icon-folder-remove
               </div>
             </li>
 
@@ -1921,7 +1921,7 @@
               <div class="name">
                 folder-add-outline
               </div>
-              <div class="code-name">.icon-folder-add-outline
+              <div class="code-name">icon-folder-add-outline
               </div>
             </li>
 
@@ -1930,7 +1930,7 @@
               <div class="name">
                 funnel
               </div>
-              <div class="code-name">.icon-funnel
+              <div class="code-name">icon-funnel
               </div>
             </li>
 
@@ -1939,7 +1939,7 @@
               <div class="name">
                 file-add-outline
               </div>
-              <div class="code-name">.icon-file-add-outline
+              <div class="code-name">icon-file-add-outline
               </div>
             </li>
 
@@ -1948,7 +1948,7 @@
               <div class="name">
                 funnel-outline
               </div>
-              <div class="code-name">.icon-funnel-outline
+              <div class="code-name">icon-funnel-outline
               </div>
             </li>
 
@@ -1957,7 +1957,7 @@
               <div class="name">
                 folder-remove-outlin
               </div>
-              <div class="code-name">.icon-folder-remove-outlin
+              <div class="code-name">icon-folder-remove-outlin
               </div>
             </li>
 
@@ -1966,7 +1966,7 @@
               <div class="name">
                 gift
               </div>
-              <div class="code-name">.icon-gift
+              <div class="code-name">icon-gift
               </div>
             </li>
 
@@ -1975,7 +1975,7 @@
               <div class="name">
                 folder-outline
               </div>
-              <div class="code-name">.icon-folder-outline
+              <div class="code-name">icon-folder-outline
               </div>
             </li>
 
@@ -1984,7 +1984,7 @@
               <div class="name">
                 gift-outline
               </div>
-              <div class="code-name">.icon-gift-outline
+              <div class="code-name">icon-gift-outline
               </div>
             </li>
 
@@ -1993,7 +1993,7 @@
               <div class="name">
                 github
               </div>
-              <div class="code-name">.icon-github
+              <div class="code-name">icon-github
               </div>
             </li>
 
@@ -2002,7 +2002,7 @@
               <div class="name">
                 globe-2
               </div>
-              <div class="code-name">.icon-globe-
+              <div class="code-name">icon-globe-
               </div>
             </li>
 
@@ -2011,7 +2011,7 @@
               <div class="name">
                 globe
               </div>
-              <div class="code-name">.icon-globe
+              <div class="code-name">icon-globe
               </div>
             </li>
 
@@ -2020,7 +2020,7 @@
               <div class="name">
                 globe-3
               </div>
-              <div class="code-name">.icon-globe-1
+              <div class="code-name">icon-globe-1
               </div>
             </li>
 
@@ -2029,7 +2029,7 @@
               <div class="name">
                 globe-2-outline
               </div>
-              <div class="code-name">.icon-globe--outline
+              <div class="code-name">icon-globe--outline
               </div>
             </li>
 
@@ -2038,7 +2038,7 @@
               <div class="name">
                 github-outline
               </div>
-              <div class="code-name">.icon-github-outline
+              <div class="code-name">icon-github-outline
               </div>
             </li>
 
@@ -2047,7 +2047,7 @@
               <div class="name">
                 globe-outline
               </div>
-              <div class="code-name">.icon-globe-outline
+              <div class="code-name">icon-globe-outline
               </div>
             </li>
 
@@ -2056,7 +2056,7 @@
               <div class="name">
                 google
               </div>
-              <div class="code-name">.icon-google
+              <div class="code-name">icon-google
               </div>
             </li>
 
@@ -2065,7 +2065,7 @@
               <div class="name">
                 grid
               </div>
-              <div class="code-name">.icon-grid
+              <div class="code-name">icon-grid
               </div>
             </li>
 
@@ -2074,7 +2074,7 @@
               <div class="name">
                 hard-drive-outline
               </div>
-              <div class="code-name">.icon-hard-drive-outline
+              <div class="code-name">icon-hard-drive-outline
               </div>
             </li>
 
@@ -2083,7 +2083,7 @@
               <div class="name">
                 grid-outline
               </div>
-              <div class="code-name">.icon-grid-outline
+              <div class="code-name">icon-grid-outline
               </div>
             </li>
 
@@ -2092,7 +2092,7 @@
               <div class="name">
                 hash
               </div>
-              <div class="code-name">.icon-hash
+              <div class="code-name">icon-hash
               </div>
             </li>
 
@@ -2101,7 +2101,7 @@
               <div class="name">
                 hard-drive
               </div>
-              <div class="code-name">.icon-hard-drive
+              <div class="code-name">icon-hard-drive
               </div>
             </li>
 
@@ -2110,7 +2110,7 @@
               <div class="name">
                 headphones
               </div>
-              <div class="code-name">.icon-headphones
+              <div class="code-name">icon-headphones
               </div>
             </li>
 
@@ -2119,7 +2119,7 @@
               <div class="name">
                 hash-outline
               </div>
-              <div class="code-name">.icon-hash-outline
+              <div class="code-name">icon-hash-outline
               </div>
             </li>
 
@@ -2128,7 +2128,7 @@
               <div class="name">
                 heart
               </div>
-              <div class="code-name">.icon-heart
+              <div class="code-name">icon-heart
               </div>
             </li>
 
@@ -2137,7 +2137,7 @@
               <div class="name">
                 headphones-outline
               </div>
-              <div class="code-name">.icon-headphones-outline
+              <div class="code-name">icon-headphones-outline
               </div>
             </li>
 
@@ -2146,7 +2146,7 @@
               <div class="name">
                 heart-outline
               </div>
-              <div class="code-name">.icon-heart-outline
+              <div class="code-name">icon-heart-outline
               </div>
             </li>
 
@@ -2155,7 +2155,7 @@
               <div class="name">
                 home
               </div>
-              <div class="code-name">.icon-home
+              <div class="code-name">icon-home
               </div>
             </li>
 
@@ -2164,7 +2164,7 @@
               <div class="name">
                 image
               </div>
-              <div class="code-name">.icon-image
+              <div class="code-name">icon-image
               </div>
             </li>
 
@@ -2173,7 +2173,7 @@
               <div class="name">
                 home-outline
               </div>
-              <div class="code-name">.icon-home-outline
+              <div class="code-name">icon-home-outline
               </div>
             </li>
 
@@ -2182,7 +2182,7 @@
               <div class="name">
                 image-2
               </div>
-              <div class="code-name">.icon-image-
+              <div class="code-name">icon-image-
               </div>
             </li>
 
@@ -2191,7 +2191,7 @@
               <div class="name">
                 inbox
               </div>
-              <div class="code-name">.icon-inbox
+              <div class="code-name">icon-inbox
               </div>
             </li>
 
@@ -2200,7 +2200,7 @@
               <div class="name">
                 image-outline
               </div>
-              <div class="code-name">.icon-image-outline
+              <div class="code-name">icon-image-outline
               </div>
             </li>
 
@@ -2209,7 +2209,7 @@
               <div class="name">
                 info
               </div>
-              <div class="code-name">.icon-info
+              <div class="code-name">icon-info
               </div>
             </li>
 
@@ -2218,7 +2218,7 @@
               <div class="name">
                 inbox-outline
               </div>
-              <div class="code-name">.icon-inbox-outline
+              <div class="code-name">icon-inbox-outline
               </div>
             </li>
 
@@ -2227,7 +2227,7 @@
               <div class="name">
                 info-outline
               </div>
-              <div class="code-name">.icon-info-outline
+              <div class="code-name">icon-info-outline
               </div>
             </li>
 
@@ -2236,7 +2236,7 @@
               <div class="name">
                 google-outline
               </div>
-              <div class="code-name">.icon-google-outline
+              <div class="code-name">icon-google-outline
               </div>
             </li>
 
@@ -2245,7 +2245,7 @@
               <div class="name">
                 keypad
               </div>
-              <div class="code-name">.icon-keypad
+              <div class="code-name">icon-keypad
               </div>
             </li>
 
@@ -2254,7 +2254,7 @@
               <div class="name">
                 keypad-outline
               </div>
-              <div class="code-name">.icon-keypad-outline
+              <div class="code-name">icon-keypad-outline
               </div>
             </li>
 
@@ -2263,7 +2263,7 @@
               <div class="name">
                 layers-outline
               </div>
-              <div class="code-name">.icon-layers-outline
+              <div class="code-name">icon-layers-outline
               </div>
             </li>
 
@@ -2272,7 +2272,7 @@
               <div class="name">
                 layout
               </div>
-              <div class="code-name">.icon-layout
+              <div class="code-name">icon-layout
               </div>
             </li>
 
@@ -2281,7 +2281,7 @@
               <div class="name">
                 layout-outline
               </div>
-              <div class="code-name">.icon-layout-outline
+              <div class="code-name">icon-layout-outline
               </div>
             </li>
 
@@ -2290,7 +2290,7 @@
               <div class="name">
                 link-2-outline
               </div>
-              <div class="code-name">.icon-link--outline
+              <div class="code-name">icon-link--outline
               </div>
             </li>
 
@@ -2299,7 +2299,7 @@
               <div class="name">
                 link
               </div>
-              <div class="code-name">.icon-link
+              <div class="code-name">icon-link
               </div>
             </li>
 
@@ -2308,7 +2308,7 @@
               <div class="name">
                 link-2
               </div>
-              <div class="code-name">.icon-link-
+              <div class="code-name">icon-link-
               </div>
             </li>
 
@@ -2317,7 +2317,7 @@
               <div class="name">
                 layers
               </div>
-              <div class="code-name">.icon-layers
+              <div class="code-name">icon-layers
               </div>
             </li>
 
@@ -2326,7 +2326,7 @@
               <div class="name">
                 link-outline
               </div>
-              <div class="code-name">.icon-link-outline
+              <div class="code-name">icon-link-outline
               </div>
             </li>
 
@@ -2335,7 +2335,7 @@
               <div class="name">
                 linkedin-outline
               </div>
-              <div class="code-name">.icon-linkedin-outline
+              <div class="code-name">icon-linkedin-outline
               </div>
             </li>
 
@@ -2344,7 +2344,7 @@
               <div class="name">
                 linkedin
               </div>
-              <div class="code-name">.icon-linkedin
+              <div class="code-name">icon-linkedin
               </div>
             </li>
 
@@ -2353,7 +2353,7 @@
               <div class="name">
                 list-outline
               </div>
-              <div class="code-name">.icon-list-outline
+              <div class="code-name">icon-list-outline
               </div>
             </li>
 
@@ -2362,7 +2362,7 @@
               <div class="name">
                 loader-outline
               </div>
-              <div class="code-name">.icon-loader-outline
+              <div class="code-name">icon-loader-outline
               </div>
             </li>
 
@@ -2371,7 +2371,7 @@
               <div class="name">
                 lock
               </div>
-              <div class="code-name">.icon-lock
+              <div class="code-name">icon-lock
               </div>
             </li>
 
@@ -2380,7 +2380,7 @@
               <div class="name">
                 log-in
               </div>
-              <div class="code-name">.icon-log-in
+              <div class="code-name">icon-log-in
               </div>
             </li>
 
@@ -2389,7 +2389,7 @@
               <div class="name">
                 lock-outline
               </div>
-              <div class="code-name">.icon-lock-outline
+              <div class="code-name">icon-lock-outline
               </div>
             </li>
 
@@ -2398,7 +2398,7 @@
               <div class="name">
                 list
               </div>
-              <div class="code-name">.icon-list
+              <div class="code-name">icon-list
               </div>
             </li>
 
@@ -2407,7 +2407,7 @@
               <div class="name">
                 log-in-outline
               </div>
-              <div class="code-name">.icon-log-in-outline
+              <div class="code-name">icon-log-in-outline
               </div>
             </li>
 
@@ -2416,7 +2416,7 @@
               <div class="name">
                 log-out
               </div>
-              <div class="code-name">.icon-log-out
+              <div class="code-name">icon-log-out
               </div>
             </li>
 
@@ -2425,7 +2425,7 @@
               <div class="name">
                 log-out-outline
               </div>
-              <div class="code-name">.icon-log-out-outline
+              <div class="code-name">icon-log-out-outline
               </div>
             </li>
 
@@ -2434,7 +2434,7 @@
               <div class="name">
                 map
               </div>
-              <div class="code-name">.icon-map
+              <div class="code-name">icon-map
               </div>
             </li>
 
@@ -2443,7 +2443,7 @@
               <div class="name">
                 maximize
               </div>
-              <div class="code-name">.icon-maximize
+              <div class="code-name">icon-maximize
               </div>
             </li>
 
@@ -2452,7 +2452,7 @@
               <div class="name">
                 map-outline
               </div>
-              <div class="code-name">.icon-map-outline
+              <div class="code-name">icon-map-outline
               </div>
             </li>
 
@@ -2461,7 +2461,7 @@
               <div class="name">
                 maximize-outline
               </div>
-              <div class="code-name">.icon-maximize-outline
+              <div class="code-name">icon-maximize-outline
               </div>
             </li>
 
@@ -2470,7 +2470,7 @@
               <div class="name">
                 menu
               </div>
-              <div class="code-name">.icon-menu
+              <div class="code-name">icon-menu
               </div>
             </li>
 
@@ -2479,7 +2479,7 @@
               <div class="name">
                 menu-2-outline
               </div>
-              <div class="code-name">.icon-menu--outline
+              <div class="code-name">icon-menu--outline
               </div>
             </li>
 
@@ -2488,7 +2488,7 @@
               <div class="name">
                 menu-arrow
               </div>
-              <div class="code-name">.icon-menu-arrow
+              <div class="code-name">icon-menu-arrow
               </div>
             </li>
 
@@ -2497,7 +2497,7 @@
               <div class="name">
                 message-circle
               </div>
-              <div class="code-name">.icon-message-circle
+              <div class="code-name">icon-message-circle
               </div>
             </li>
 
@@ -2506,7 +2506,7 @@
               <div class="name">
                 menu-arrow-outline
               </div>
-              <div class="code-name">.icon-menu-arrow-outline
+              <div class="code-name">icon-menu-arrow-outline
               </div>
             </li>
 
@@ -2515,7 +2515,7 @@
               <div class="name">
                 menu-outline
               </div>
-              <div class="code-name">.icon-menu-outline
+              <div class="code-name">icon-menu-outline
               </div>
             </li>
 
@@ -2524,7 +2524,7 @@
               <div class="name">
                 message-circle-outli
               </div>
-              <div class="code-name">.icon-message-circle-outli
+              <div class="code-name">icon-message-circle-outli
               </div>
             </li>
 
@@ -2533,7 +2533,7 @@
               <div class="name">
                 message-square
               </div>
-              <div class="code-name">.icon-message-square
+              <div class="code-name">icon-message-square
               </div>
             </li>
 
@@ -2542,7 +2542,7 @@
               <div class="name">
                 mic
               </div>
-              <div class="code-name">.icon-mic
+              <div class="code-name">icon-mic
               </div>
             </li>
 
@@ -2551,7 +2551,7 @@
               <div class="name">
                 message-square-outli
               </div>
-              <div class="code-name">.icon-message-square-outli
+              <div class="code-name">icon-message-square-outli
               </div>
             </li>
 
@@ -2560,7 +2560,7 @@
               <div class="name">
                 mic-outline
               </div>
-              <div class="code-name">.icon-mic-outline
+              <div class="code-name">icon-mic-outline
               </div>
             </li>
 
@@ -2569,7 +2569,7 @@
               <div class="name">
                 mic-off
               </div>
-              <div class="code-name">.icon-mic-off
+              <div class="code-name">icon-mic-off
               </div>
             </li>
 
@@ -2578,7 +2578,7 @@
               <div class="name">
                 menu-2
               </div>
-              <div class="code-name">.icon-menu-
+              <div class="code-name">icon-menu-
               </div>
             </li>
 
@@ -2587,7 +2587,7 @@
               <div class="name">
                 mic-off-outline
               </div>
-              <div class="code-name">.icon-mic-off-outline
+              <div class="code-name">icon-mic-off-outline
               </div>
             </li>
 
@@ -2596,7 +2596,7 @@
               <div class="name">
                 minimize
               </div>
-              <div class="code-name">.icon-minimize
+              <div class="code-name">icon-minimize
               </div>
             </li>
 
@@ -2605,7 +2605,7 @@
               <div class="name">
                 minus
               </div>
-              <div class="code-name">.icon-minus
+              <div class="code-name">icon-minus
               </div>
             </li>
 
@@ -2614,7 +2614,7 @@
               <div class="name">
                 minimize-outline
               </div>
-              <div class="code-name">.icon-minimize-outline
+              <div class="code-name">icon-minimize-outline
               </div>
             </li>
 
@@ -2623,7 +2623,7 @@
               <div class="name">
                 minus-circle
               </div>
-              <div class="code-name">.icon-minus-circle
+              <div class="code-name">icon-minus-circle
               </div>
             </li>
 
@@ -2632,7 +2632,7 @@
               <div class="name">
                 minus-outline
               </div>
-              <div class="code-name">.icon-minus-outline
+              <div class="code-name">icon-minus-outline
               </div>
             </li>
 
@@ -2641,7 +2641,7 @@
               <div class="name">
                 minus-circle-outline
               </div>
-              <div class="code-name">.icon-minus-circle-outline
+              <div class="code-name">icon-minus-circle-outline
               </div>
             </li>
 
@@ -2650,7 +2650,7 @@
               <div class="name">
                 minus-square
               </div>
-              <div class="code-name">.icon-minus-square
+              <div class="code-name">icon-minus-square
               </div>
             </li>
 
@@ -2659,7 +2659,7 @@
               <div class="name">
                 monitor
               </div>
-              <div class="code-name">.icon-monitor
+              <div class="code-name">icon-monitor
               </div>
             </li>
 
@@ -2668,7 +2668,7 @@
               <div class="name">
                 minus-square-outline
               </div>
-              <div class="code-name">.icon-minus-square-outline
+              <div class="code-name">icon-minus-square-outline
               </div>
             </li>
 
@@ -2677,7 +2677,7 @@
               <div class="name">
                 moon
               </div>
-              <div class="code-name">.icon-moon
+              <div class="code-name">icon-moon
               </div>
             </li>
 
@@ -2686,7 +2686,7 @@
               <div class="name">
                 moon-outline
               </div>
-              <div class="code-name">.icon-moon-outline
+              <div class="code-name">icon-moon-outline
               </div>
             </li>
 
@@ -2695,7 +2695,7 @@
               <div class="name">
                 monitor-outline
               </div>
-              <div class="code-name">.icon-monitor-outline
+              <div class="code-name">icon-monitor-outline
               </div>
             </li>
 
@@ -2704,7 +2704,7 @@
               <div class="name">
                 more-horizontal
               </div>
-              <div class="code-name">.icon-more-horizontal
+              <div class="code-name">icon-more-horizontal
               </div>
             </li>
 
@@ -2713,7 +2713,7 @@
               <div class="name">
                 more-vertical
               </div>
-              <div class="code-name">.icon-more-vertical
+              <div class="code-name">icon-more-vertical
               </div>
             </li>
 
@@ -2722,7 +2722,7 @@
               <div class="name">
                 more-horizontal-outl
               </div>
-              <div class="code-name">.icon-more-horizontal-outl
+              <div class="code-name">icon-more-horizontal-outl
               </div>
             </li>
 
@@ -2731,7 +2731,7 @@
               <div class="name">
                 more-vertical-outlin
               </div>
-              <div class="code-name">.icon-more-vertical-outlin
+              <div class="code-name">icon-more-vertical-outlin
               </div>
             </li>
 
@@ -2740,7 +2740,7 @@
               <div class="name">
                 move-outline
               </div>
-              <div class="code-name">.icon-move-outline
+              <div class="code-name">icon-move-outline
               </div>
             </li>
 
@@ -2749,7 +2749,7 @@
               <div class="name">
                 move
               </div>
-              <div class="code-name">.icon-move
+              <div class="code-name">icon-move
               </div>
             </li>
 
@@ -2758,7 +2758,7 @@
               <div class="name">
                 music
               </div>
-              <div class="code-name">.icon-music
+              <div class="code-name">icon-music
               </div>
             </li>
 
@@ -2767,7 +2767,7 @@
               <div class="name">
                 navigation
               </div>
-              <div class="code-name">.icon-navigation
+              <div class="code-name">icon-navigation
               </div>
             </li>
 
@@ -2776,7 +2776,7 @@
               <div class="name">
                 music-outline
               </div>
-              <div class="code-name">.icon-music-outline
+              <div class="code-name">icon-music-outline
               </div>
             </li>
 
@@ -2785,7 +2785,7 @@
               <div class="name">
                 navigation-2
               </div>
-              <div class="code-name">.icon-navigation-
+              <div class="code-name">icon-navigation-
               </div>
             </li>
 
@@ -2794,7 +2794,7 @@
               <div class="name">
                 navigation-outline
               </div>
-              <div class="code-name">.icon-navigation-outline
+              <div class="code-name">icon-navigation-outline
               </div>
             </li>
 
@@ -2803,7 +2803,7 @@
               <div class="name">
                 navigation-2-outline
               </div>
-              <div class="code-name">.icon-navigation--outline
+              <div class="code-name">icon-navigation--outline
               </div>
             </li>
 
@@ -2812,7 +2812,7 @@
               <div class="name">
                 npm
               </div>
-              <div class="code-name">.icon-npm
+              <div class="code-name">icon-npm
               </div>
             </li>
 
@@ -2821,7 +2821,7 @@
               <div class="name">
                 npm-outline
               </div>
-              <div class="code-name">.icon-npm-outline
+              <div class="code-name">icon-npm-outline
               </div>
             </li>
 
@@ -2830,7 +2830,7 @@
               <div class="name">
                 options
               </div>
-              <div class="code-name">.icon-options
+              <div class="code-name">icon-options
               </div>
             </li>
 
@@ -2839,7 +2839,7 @@
               <div class="name">
                 options-2
               </div>
-              <div class="code-name">.icon-options-
+              <div class="code-name">icon-options-
               </div>
             </li>
 
@@ -2848,7 +2848,7 @@
               <div class="name">
                 options-outline
               </div>
-              <div class="code-name">.icon-options-outline
+              <div class="code-name">icon-options-outline
               </div>
             </li>
 
@@ -2857,7 +2857,7 @@
               <div class="name">
                 options-2-outline
               </div>
-              <div class="code-name">.icon-options--outline
+              <div class="code-name">icon-options--outline
               </div>
             </li>
 
@@ -2866,7 +2866,7 @@
               <div class="name">
                 pantone
               </div>
-              <div class="code-name">.icon-pantone
+              <div class="code-name">icon-pantone
               </div>
             </li>
 
@@ -2875,7 +2875,7 @@
               <div class="name">
                 paper-plane
               </div>
-              <div class="code-name">.icon-paper-plane
+              <div class="code-name">icon-paper-plane
               </div>
             </li>
 
@@ -2884,7 +2884,7 @@
               <div class="name">
                 pantone-outline
               </div>
-              <div class="code-name">.icon-pantone-outline
+              <div class="code-name">icon-pantone-outline
               </div>
             </li>
 
@@ -2893,7 +2893,7 @@
               <div class="name">
                 paper-plane-outline
               </div>
-              <div class="code-name">.icon-paper-plane-outline
+              <div class="code-name">icon-paper-plane-outline
               </div>
             </li>
 
@@ -2902,7 +2902,7 @@
               <div class="name">
                 pause-circle-outline
               </div>
-              <div class="code-name">.icon-pause-circle-outline
+              <div class="code-name">icon-pause-circle-outline
               </div>
             </li>
 
@@ -2911,7 +2911,7 @@
               <div class="name">
                 people
               </div>
-              <div class="code-name">.icon-people
+              <div class="code-name">icon-people
               </div>
             </li>
 
@@ -2920,7 +2920,7 @@
               <div class="name">
                 pause-circle
               </div>
-              <div class="code-name">.icon-pause-circle
+              <div class="code-name">icon-pause-circle
               </div>
             </li>
 
@@ -2929,7 +2929,7 @@
               <div class="name">
                 percent
               </div>
-              <div class="code-name">.icon-percent
+              <div class="code-name">icon-percent
               </div>
             </li>
 
@@ -2938,7 +2938,7 @@
               <div class="name">
                 percent-outline
               </div>
-              <div class="code-name">.icon-percent-outline
+              <div class="code-name">icon-percent-outline
               </div>
             </li>
 
@@ -2947,7 +2947,7 @@
               <div class="name">
                 person
               </div>
-              <div class="code-name">.icon-person
+              <div class="code-name">icon-person
               </div>
             </li>
 
@@ -2956,7 +2956,7 @@
               <div class="name">
                 people-outline
               </div>
-              <div class="code-name">.icon-people-outline
+              <div class="code-name">icon-people-outline
               </div>
             </li>
 
@@ -2965,7 +2965,7 @@
               <div class="name">
                 person-add
               </div>
-              <div class="code-name">.icon-person-add
+              <div class="code-name">icon-person-add
               </div>
             </li>
 
@@ -2974,7 +2974,7 @@
               <div class="name">
                 person-delete
               </div>
-              <div class="code-name">.icon-person-delete
+              <div class="code-name">icon-person-delete
               </div>
             </li>
 
@@ -2983,7 +2983,7 @@
               <div class="name">
                 person-delete-outlin
               </div>
-              <div class="code-name">.icon-person-delete-outlin
+              <div class="code-name">icon-person-delete-outlin
               </div>
             </li>
 
@@ -2992,7 +2992,7 @@
               <div class="name">
                 person-done
               </div>
-              <div class="code-name">.icon-person-done
+              <div class="code-name">icon-person-done
               </div>
             </li>
 
@@ -3001,7 +3001,7 @@
               <div class="name">
                 person-outline
               </div>
-              <div class="code-name">.icon-person-outline
+              <div class="code-name">icon-person-outline
               </div>
             </li>
 
@@ -3010,7 +3010,7 @@
               <div class="name">
                 person-add-outline
               </div>
-              <div class="code-name">.icon-person-add-outline
+              <div class="code-name">icon-person-add-outline
               </div>
             </li>
 
@@ -3019,7 +3019,7 @@
               <div class="name">
                 person-remove
               </div>
-              <div class="code-name">.icon-person-remove
+              <div class="code-name">icon-person-remove
               </div>
             </li>
 
@@ -3028,7 +3028,7 @@
               <div class="name">
                 person-remove-outlin
               </div>
-              <div class="code-name">.icon-person-remove-outlin
+              <div class="code-name">icon-person-remove-outlin
               </div>
             </li>
 
@@ -3037,7 +3037,7 @@
               <div class="name">
                 phone-off-outline
               </div>
-              <div class="code-name">.icon-phone-off-outline
+              <div class="code-name">icon-phone-off-outline
               </div>
             </li>
 
@@ -3046,7 +3046,7 @@
               <div class="name">
                 phone-call
               </div>
-              <div class="code-name">.icon-phone-call
+              <div class="code-name">icon-phone-call
               </div>
             </li>
 
@@ -3055,7 +3055,7 @@
               <div class="name">
                 phone-outline
               </div>
-              <div class="code-name">.icon-phone-outline
+              <div class="code-name">icon-phone-outline
               </div>
             </li>
 
@@ -3064,7 +3064,7 @@
               <div class="name">
                 phone-call-outline
               </div>
-              <div class="code-name">.icon-phone-call-outline
+              <div class="code-name">icon-phone-call-outline
               </div>
             </li>
 
@@ -3073,7 +3073,7 @@
               <div class="name">
                 pie-chart-2
               </div>
-              <div class="code-name">.icon-pie-chart-
+              <div class="code-name">icon-pie-chart-
               </div>
             </li>
 
@@ -3082,7 +3082,7 @@
               <div class="name">
                 pie-chart
               </div>
-              <div class="code-name">.icon-pie-chart
+              <div class="code-name">icon-pie-chart
               </div>
             </li>
 
@@ -3091,7 +3091,7 @@
               <div class="name">
                 phone-missed
               </div>
-              <div class="code-name">.icon-phone-missed
+              <div class="code-name">icon-phone-missed
               </div>
             </li>
 
@@ -3100,7 +3100,7 @@
               <div class="name">
                 phone-missed-outline
               </div>
-              <div class="code-name">.icon-phone-missed-outline
+              <div class="code-name">icon-phone-missed-outline
               </div>
             </li>
 
@@ -3109,7 +3109,7 @@
               <div class="name">
                 pie-chart-outline
               </div>
-              <div class="code-name">.icon-pie-chart-outline
+              <div class="code-name">icon-pie-chart-outline
               </div>
             </li>
 
@@ -3118,7 +3118,7 @@
               <div class="name">
                 phone
               </div>
-              <div class="code-name">.icon-phone
+              <div class="code-name">icon-phone
               </div>
             </li>
 
@@ -3127,7 +3127,7 @@
               <div class="name">
                 pin
               </div>
-              <div class="code-name">.icon-pin
+              <div class="code-name">icon-pin
               </div>
             </li>
 
@@ -3136,7 +3136,7 @@
               <div class="name">
                 pin-outline
               </div>
-              <div class="code-name">.icon-pin-outline
+              <div class="code-name">icon-pin-outline
               </div>
             </li>
 
@@ -3145,7 +3145,7 @@
               <div class="name">
                 person-done-outline
               </div>
-              <div class="code-name">.icon-person-done-outline
+              <div class="code-name">icon-person-done-outline
               </div>
             </li>
 
@@ -3154,7 +3154,7 @@
               <div class="name">
                 play-circle
               </div>
-              <div class="code-name">.icon-play-circle
+              <div class="code-name">icon-play-circle
               </div>
             </li>
 
@@ -3163,7 +3163,7 @@
               <div class="name">
                 plus
               </div>
-              <div class="code-name">.icon-plus
+              <div class="code-name">icon-plus
               </div>
             </li>
 
@@ -3172,7 +3172,7 @@
               <div class="name">
                 play-circle-outline
               </div>
-              <div class="code-name">.icon-play-circle-outline
+              <div class="code-name">icon-play-circle-outline
               </div>
             </li>
 
@@ -3181,7 +3181,7 @@
               <div class="name">
                 plus-circle
               </div>
-              <div class="code-name">.icon-plus-circle
+              <div class="code-name">icon-plus-circle
               </div>
             </li>
 
@@ -3190,7 +3190,7 @@
               <div class="name">
                 plus-outline
               </div>
-              <div class="code-name">.icon-plus-outline
+              <div class="code-name">icon-plus-outline
               </div>
             </li>
 
@@ -3199,7 +3199,7 @@
               <div class="name">
                 phone-off
               </div>
-              <div class="code-name">.icon-phone-off
+              <div class="code-name">icon-phone-off
               </div>
             </li>
 
@@ -3208,7 +3208,7 @@
               <div class="name">
                 plus-circle-outline
               </div>
-              <div class="code-name">.icon-plus-circle-outline
+              <div class="code-name">icon-plus-circle-outline
               </div>
             </li>
 
@@ -3217,7 +3217,7 @@
               <div class="name">
                 plus-square
               </div>
-              <div class="code-name">.icon-plus-square
+              <div class="code-name">icon-plus-square
               </div>
             </li>
 
@@ -3226,7 +3226,7 @@
               <div class="name">
                 plus-square-outline
               </div>
-              <div class="code-name">.icon-plus-square-outline
+              <div class="code-name">icon-plus-square-outline
               </div>
             </li>
 
@@ -3235,7 +3235,7 @@
               <div class="name">
                 power
               </div>
-              <div class="code-name">.icon-power
+              <div class="code-name">icon-power
               </div>
             </li>
 
@@ -3244,7 +3244,7 @@
               <div class="name">
                 power-outline
               </div>
-              <div class="code-name">.icon-power-outline
+              <div class="code-name">icon-power-outline
               </div>
             </li>
 
@@ -3253,7 +3253,7 @@
               <div class="name">
                 pricetags-outline
               </div>
-              <div class="code-name">.icon-pricetags-outline
+              <div class="code-name">icon-pricetags-outline
               </div>
             </li>
 
@@ -3262,7 +3262,7 @@
               <div class="name">
                 pricetags
               </div>
-              <div class="code-name">.icon-pricetags
+              <div class="code-name">icon-pricetags
               </div>
             </li>
 
@@ -3271,7 +3271,7 @@
               <div class="name">
                 question-mark
               </div>
-              <div class="code-name">.icon-question-mark
+              <div class="code-name">icon-question-mark
               </div>
             </li>
 
@@ -3280,7 +3280,7 @@
               <div class="name">
                 printer
               </div>
-              <div class="code-name">.icon-printer
+              <div class="code-name">icon-printer
               </div>
             </li>
 
@@ -3289,7 +3289,7 @@
               <div class="name">
                 printer-outline
               </div>
-              <div class="code-name">.icon-printer-outline
+              <div class="code-name">icon-printer-outline
               </div>
             </li>
 
@@ -3298,7 +3298,7 @@
               <div class="name">
                 question-mark-circle
               </div>
-              <div class="code-name">.icon-question-mark-circle
+              <div class="code-name">icon-question-mark-circle
               </div>
             </li>
 
@@ -3307,7 +3307,7 @@
               <div class="name">
                 question-mark-circle
               </div>
-              <div class="code-name">.icon-question-mark-circle1
+              <div class="code-name">icon-question-mark-circle1
               </div>
             </li>
 
@@ -3316,7 +3316,7 @@
               <div class="name">
                 radio-button-off
               </div>
-              <div class="code-name">.icon-radio-button-off
+              <div class="code-name">icon-radio-button-off
               </div>
             </li>
 
@@ -3325,7 +3325,7 @@
               <div class="name">
                 radio-button-off-out
               </div>
-              <div class="code-name">.icon-radio-button-off-out
+              <div class="code-name">icon-radio-button-off-out
               </div>
             </li>
 
@@ -3334,7 +3334,7 @@
               <div class="name">
                 radio
               </div>
-              <div class="code-name">.icon-radio
+              <div class="code-name">icon-radio
               </div>
             </li>
 
@@ -3343,7 +3343,7 @@
               <div class="name">
                 question-mark-outlin
               </div>
-              <div class="code-name">.icon-question-mark-outlin
+              <div class="code-name">icon-question-mark-outlin
               </div>
             </li>
 
@@ -3352,7 +3352,7 @@
               <div class="name">
                 radio-button-on
               </div>
-              <div class="code-name">.icon-radio-button-on
+              <div class="code-name">icon-radio-button-on
               </div>
             </li>
 
@@ -3361,7 +3361,7 @@
               <div class="name">
                 radio-button-on-outl
               </div>
-              <div class="code-name">.icon-radio-button-on-outl
+              <div class="code-name">icon-radio-button-on-outl
               </div>
             </li>
 
@@ -3370,7 +3370,7 @@
               <div class="name">
                 radio-outline
               </div>
-              <div class="code-name">.icon-radio-outline
+              <div class="code-name">icon-radio-outline
               </div>
             </li>
 
@@ -3379,7 +3379,7 @@
               <div class="name">
                 recording
               </div>
-              <div class="code-name">.icon-recording
+              <div class="code-name">icon-recording
               </div>
             </li>
 
@@ -3388,7 +3388,7 @@
               <div class="name">
                 recording-outline
               </div>
-              <div class="code-name">.icon-recording-outline
+              <div class="code-name">icon-recording-outline
               </div>
             </li>
 
@@ -3397,7 +3397,7 @@
               <div class="name">
                 refresh
               </div>
-              <div class="code-name">.icon-refresh
+              <div class="code-name">icon-refresh
               </div>
             </li>
 
@@ -3406,7 +3406,7 @@
               <div class="name">
                 refresh-outline
               </div>
-              <div class="code-name">.icon-refresh-outline
+              <div class="code-name">icon-refresh-outline
               </div>
             </li>
 
@@ -3415,7 +3415,7 @@
               <div class="name">
                 repeat-outline
               </div>
-              <div class="code-name">.icon-repeat-outline
+              <div class="code-name">icon-repeat-outline
               </div>
             </li>
 
@@ -3424,7 +3424,7 @@
               <div class="name">
                 repeat
               </div>
-              <div class="code-name">.icon-repeat
+              <div class="code-name">icon-repeat
               </div>
             </li>
 
@@ -3433,7 +3433,7 @@
               <div class="name">
                 rewind-left-outline
               </div>
-              <div class="code-name">.icon-rewind-left-outline
+              <div class="code-name">icon-rewind-left-outline
               </div>
             </li>
 
@@ -3442,7 +3442,7 @@
               <div class="name">
                 rewind-left
               </div>
-              <div class="code-name">.icon-rewind-left
+              <div class="code-name">icon-rewind-left
               </div>
             </li>
 
@@ -3451,7 +3451,7 @@
               <div class="name">
                 rewind-right
               </div>
-              <div class="code-name">.icon-rewind-right
+              <div class="code-name">icon-rewind-right
               </div>
             </li>
 
@@ -3460,7 +3460,7 @@
               <div class="name">
                 rewind-right-outline
               </div>
-              <div class="code-name">.icon-rewind-right-outline
+              <div class="code-name">icon-rewind-right-outline
               </div>
             </li>
 
@@ -3469,7 +3469,7 @@
               <div class="name">
                 save-outline
               </div>
-              <div class="code-name">.icon-save-outline
+              <div class="code-name">icon-save-outline
               </div>
             </li>
 
@@ -3478,7 +3478,7 @@
               <div class="name">
                 save
               </div>
-              <div class="code-name">.icon-save
+              <div class="code-name">icon-save
               </div>
             </li>
 
@@ -3487,7 +3487,7 @@
               <div class="name">
                 search
               </div>
-              <div class="code-name">.icon-search
+              <div class="code-name">icon-search
               </div>
             </li>
 
@@ -3496,7 +3496,7 @@
               <div class="name">
                 scissors
               </div>
-              <div class="code-name">.icon-scissors
+              <div class="code-name">icon-scissors
               </div>
             </li>
 
@@ -3505,7 +3505,7 @@
               <div class="name">
                 scissors-outline
               </div>
-              <div class="code-name">.icon-scissors-outline
+              <div class="code-name">icon-scissors-outline
               </div>
             </li>
 
@@ -3514,7 +3514,7 @@
               <div class="name">
                 search-outline
               </div>
-              <div class="code-name">.icon-search-outline
+              <div class="code-name">icon-search-outline
               </div>
             </li>
 
@@ -3523,7 +3523,7 @@
               <div class="name">
                 settings-2
               </div>
-              <div class="code-name">.icon-settings-
+              <div class="code-name">icon-settings-
               </div>
             </li>
 
@@ -3532,7 +3532,7 @@
               <div class="name">
                 settings
               </div>
-              <div class="code-name">.icon-settings
+              <div class="code-name">icon-settings
               </div>
             </li>
 
@@ -3541,7 +3541,7 @@
               <div class="name">
                 shake
               </div>
-              <div class="code-name">.icon-shake
+              <div class="code-name">icon-shake
               </div>
             </li>
 
@@ -3550,7 +3550,7 @@
               <div class="name">
                 share-outline
               </div>
-              <div class="code-name">.icon-share-outline
+              <div class="code-name">icon-share-outline
               </div>
             </li>
 
@@ -3559,7 +3559,7 @@
               <div class="name">
                 share
               </div>
-              <div class="code-name">.icon-share
+              <div class="code-name">icon-share
               </div>
             </li>
 
@@ -3568,7 +3568,7 @@
               <div class="name">
                 settings-outline
               </div>
-              <div class="code-name">.icon-settings-outline
+              <div class="code-name">icon-settings-outline
               </div>
             </li>
 
@@ -3577,7 +3577,7 @@
               <div class="name">
                 shake-outline
               </div>
-              <div class="code-name">.icon-shake-outline
+              <div class="code-name">icon-shake-outline
               </div>
             </li>
 
@@ -3586,7 +3586,7 @@
               <div class="name">
                 shield-off
               </div>
-              <div class="code-name">.icon-shield-off
+              <div class="code-name">icon-shield-off
               </div>
             </li>
 
@@ -3595,7 +3595,7 @@
               <div class="name">
                 shield-off-outline
               </div>
-              <div class="code-name">.icon-shield-off-outline
+              <div class="code-name">icon-shield-off-outline
               </div>
             </li>
 
@@ -3604,7 +3604,7 @@
               <div class="name">
                 shopping-bag-outline
               </div>
-              <div class="code-name">.icon-shopping-bag-outline
+              <div class="code-name">icon-shopping-bag-outline
               </div>
             </li>
 
@@ -3613,7 +3613,7 @@
               <div class="name">
                 shopping-bag
               </div>
-              <div class="code-name">.icon-shopping-bag
+              <div class="code-name">icon-shopping-bag
               </div>
             </li>
 
@@ -3622,7 +3622,7 @@
               <div class="name">
                 shield
               </div>
-              <div class="code-name">.icon-shield
+              <div class="code-name">icon-shield
               </div>
             </li>
 
@@ -3631,7 +3631,7 @@
               <div class="name">
                 shopping-cart
               </div>
-              <div class="code-name">.icon-shopping-cart
+              <div class="code-name">icon-shopping-cart
               </div>
             </li>
 
@@ -3640,7 +3640,7 @@
               <div class="name">
                 shopping-cart-outlin
               </div>
-              <div class="code-name">.icon-shopping-cart-outlin
+              <div class="code-name">icon-shopping-cart-outlin
               </div>
             </li>
 
@@ -3649,7 +3649,7 @@
               <div class="name">
                 shuffle
               </div>
-              <div class="code-name">.icon-shuffle
+              <div class="code-name">icon-shuffle
               </div>
             </li>
 
@@ -3658,7 +3658,7 @@
               <div class="name">
                 shuffle-2
               </div>
-              <div class="code-name">.icon-shuffle-
+              <div class="code-name">icon-shuffle-
               </div>
             </li>
 
@@ -3667,7 +3667,7 @@
               <div class="name">
                 shuffle-outline
               </div>
-              <div class="code-name">.icon-shuffle-outline
+              <div class="code-name">icon-shuffle-outline
               </div>
             </li>
 
@@ -3676,7 +3676,7 @@
               <div class="name">
                 shuffle-2-outline
               </div>
-              <div class="code-name">.icon-shuffle--outline
+              <div class="code-name">icon-shuffle--outline
               </div>
             </li>
 
@@ -3685,7 +3685,7 @@
               <div class="name">
                 settings-2-outline
               </div>
-              <div class="code-name">.icon-settings--outline
+              <div class="code-name">icon-settings--outline
               </div>
             </li>
 
@@ -3694,7 +3694,7 @@
               <div class="name">
                 skip-back
               </div>
-              <div class="code-name">.icon-skip-back
+              <div class="code-name">icon-skip-back
               </div>
             </li>
 
@@ -3703,7 +3703,7 @@
               <div class="name">
                 skip-forward
               </div>
-              <div class="code-name">.icon-skip-forward
+              <div class="code-name">icon-skip-forward
               </div>
             </li>
 
@@ -3712,7 +3712,7 @@
               <div class="name">
                 skip-back-outline
               </div>
-              <div class="code-name">.icon-skip-back-outline
+              <div class="code-name">icon-skip-back-outline
               </div>
             </li>
 
@@ -3721,7 +3721,7 @@
               <div class="name">
                 shield-outline
               </div>
-              <div class="code-name">.icon-shield-outline
+              <div class="code-name">icon-shield-outline
               </div>
             </li>
 
@@ -3730,7 +3730,7 @@
               <div class="name">
                 skip-forward-outline
               </div>
-              <div class="code-name">.icon-skip-forward-outline
+              <div class="code-name">icon-skip-forward-outline
               </div>
             </li>
 
@@ -3739,7 +3739,7 @@
               <div class="name">
                 slash-outline
               </div>
-              <div class="code-name">.icon-slash-outline
+              <div class="code-name">icon-slash-outline
               </div>
             </li>
 
@@ -3748,7 +3748,7 @@
               <div class="name">
                 slash
               </div>
-              <div class="code-name">.icon-slash
+              <div class="code-name">icon-slash
               </div>
             </li>
 
@@ -3757,7 +3757,7 @@
               <div class="name">
                 smartphone
               </div>
-              <div class="code-name">.icon-smartphone
+              <div class="code-name">icon-smartphone
               </div>
             </li>
 
@@ -3766,7 +3766,7 @@
               <div class="name">
                 speaker
               </div>
-              <div class="code-name">.icon-speaker
+              <div class="code-name">icon-speaker
               </div>
             </li>
 
@@ -3775,7 +3775,7 @@
               <div class="name">
                 square
               </div>
-              <div class="code-name">.icon-square
+              <div class="code-name">icon-square
               </div>
             </li>
 
@@ -3784,7 +3784,7 @@
               <div class="name">
                 speaker-outline
               </div>
-              <div class="code-name">.icon-speaker-outline
+              <div class="code-name">icon-speaker-outline
               </div>
             </li>
 
@@ -3793,7 +3793,7 @@
               <div class="name">
                 square-outline
               </div>
-              <div class="code-name">.icon-square-outline
+              <div class="code-name">icon-square-outline
               </div>
             </li>
 
@@ -3802,7 +3802,7 @@
               <div class="name">
                 smartphone-outline
               </div>
-              <div class="code-name">.icon-smartphone-outline
+              <div class="code-name">icon-smartphone-outline
               </div>
             </li>
 
@@ -3811,7 +3811,7 @@
               <div class="name">
                 stop-circle
               </div>
-              <div class="code-name">.icon-stop-circle
+              <div class="code-name">icon-stop-circle
               </div>
             </li>
 
@@ -3820,7 +3820,7 @@
               <div class="name">
                 star
               </div>
-              <div class="code-name">.icon-star
+              <div class="code-name">icon-star
               </div>
             </li>
 
@@ -3829,7 +3829,7 @@
               <div class="name">
                 star-outline
               </div>
-              <div class="code-name">.icon-star-outline
+              <div class="code-name">icon-star-outline
               </div>
             </li>
 
@@ -3838,7 +3838,7 @@
               <div class="name">
                 stop-circle-outline
               </div>
-              <div class="code-name">.icon-stop-circle-outline
+              <div class="code-name">icon-stop-circle-outline
               </div>
             </li>
 
@@ -3847,7 +3847,7 @@
               <div class="name">
                 sun-outline
               </div>
-              <div class="code-name">.icon-sun-outline
+              <div class="code-name">icon-sun-outline
               </div>
             </li>
 
@@ -3856,7 +3856,7 @@
               <div class="name">
                 sun
               </div>
-              <div class="code-name">.icon-sun
+              <div class="code-name">icon-sun
               </div>
             </li>
 
@@ -3865,7 +3865,7 @@
               <div class="name">
                 swap
               </div>
-              <div class="code-name">.icon-swap
+              <div class="code-name">icon-swap
               </div>
             </li>
 
@@ -3874,7 +3874,7 @@
               <div class="name">
                 swap-outline
               </div>
-              <div class="code-name">.icon-swap-outline
+              <div class="code-name">icon-swap-outline
               </div>
             </li>
 
@@ -3883,7 +3883,7 @@
               <div class="name">
                 sync
               </div>
-              <div class="code-name">.icon-sync
+              <div class="code-name">icon-sync
               </div>
             </li>
 
@@ -3892,7 +3892,7 @@
               <div class="name">
                 sync-outline
               </div>
-              <div class="code-name">.icon-sync-outline
+              <div class="code-name">icon-sync-outline
               </div>
             </li>
 
@@ -3901,7 +3901,7 @@
               <div class="name">
                 text
               </div>
-              <div class="code-name">.icon-text
+              <div class="code-name">icon-text
               </div>
             </li>
 
@@ -3910,7 +3910,7 @@
               <div class="name">
                 text-outline
               </div>
-              <div class="code-name">.icon-text-outline
+              <div class="code-name">icon-text-outline
               </div>
             </li>
 
@@ -3919,7 +3919,7 @@
               <div class="name">
                 thermometer
               </div>
-              <div class="code-name">.icon-thermometer
+              <div class="code-name">icon-thermometer
               </div>
             </li>
 
@@ -3928,7 +3928,7 @@
               <div class="name">
                 thermometer-minus
               </div>
-              <div class="code-name">.icon-thermometer-minus
+              <div class="code-name">icon-thermometer-minus
               </div>
             </li>
 
@@ -3937,7 +3937,7 @@
               <div class="name">
                 thermometer-minus-ou
               </div>
-              <div class="code-name">.icon-thermometer-minus-ou
+              <div class="code-name">icon-thermometer-minus-ou
               </div>
             </li>
 
@@ -3946,7 +3946,7 @@
               <div class="name">
                 thermometer-outline
               </div>
-              <div class="code-name">.icon-thermometer-outline
+              <div class="code-name">icon-thermometer-outline
               </div>
             </li>
 
@@ -3955,7 +3955,7 @@
               <div class="name">
                 thermometer-plus
               </div>
-              <div class="code-name">.icon-thermometer-plus
+              <div class="code-name">icon-thermometer-plus
               </div>
             </li>
 
@@ -3964,7 +3964,7 @@
               <div class="name">
                 thermometer-plus-out
               </div>
-              <div class="code-name">.icon-thermometer-plus-out
+              <div class="code-name">icon-thermometer-plus-out
               </div>
             </li>
 
@@ -3973,7 +3973,7 @@
               <div class="name">
                 toggle-left
               </div>
-              <div class="code-name">.icon-toggle-left
+              <div class="code-name">icon-toggle-left
               </div>
             </li>
 
@@ -3982,7 +3982,7 @@
               <div class="name">
                 toggle-right
               </div>
-              <div class="code-name">.icon-toggle-right
+              <div class="code-name">icon-toggle-right
               </div>
             </li>
 
@@ -3991,7 +3991,7 @@
               <div class="name">
                 toggle-left-outline
               </div>
-              <div class="code-name">.icon-toggle-left-outline
+              <div class="code-name">icon-toggle-left-outline
               </div>
             </li>
 
@@ -4000,7 +4000,7 @@
               <div class="name">
                 toggle-right-outline
               </div>
-              <div class="code-name">.icon-toggle-right-outline
+              <div class="code-name">icon-toggle-right-outline
               </div>
             </li>
 
@@ -4009,7 +4009,7 @@
               <div class="name">
                 trash
               </div>
-              <div class="code-name">.icon-trash
+              <div class="code-name">icon-trash
               </div>
             </li>
 
@@ -4018,7 +4018,7 @@
               <div class="name">
                 trash-2
               </div>
-              <div class="code-name">.icon-trash-
+              <div class="code-name">icon-trash-
               </div>
             </li>
 
@@ -4027,7 +4027,7 @@
               <div class="name">
                 trending-down
               </div>
-              <div class="code-name">.icon-trending-down
+              <div class="code-name">icon-trending-down
               </div>
             </li>
 
@@ -4036,7 +4036,7 @@
               <div class="name">
                 trash-outline
               </div>
-              <div class="code-name">.icon-trash-outline
+              <div class="code-name">icon-trash-outline
               </div>
             </li>
 
@@ -4045,7 +4045,7 @@
               <div class="name">
                 trash-2-outline
               </div>
-              <div class="code-name">.icon-trash--outline
+              <div class="code-name">icon-trash--outline
               </div>
             </li>
 
@@ -4054,7 +4054,7 @@
               <div class="name">
                 trending-down-outlin
               </div>
-              <div class="code-name">.icon-trending-down-outlin
+              <div class="code-name">icon-trending-down-outlin
               </div>
             </li>
 
@@ -4063,7 +4063,7 @@
               <div class="name">
                 trending-up
               </div>
-              <div class="code-name">.icon-trending-up
+              <div class="code-name">icon-trending-up
               </div>
             </li>
 
@@ -4072,7 +4072,7 @@
               <div class="name">
                 trending-up-outline
               </div>
-              <div class="code-name">.icon-trending-up-outline
+              <div class="code-name">icon-trending-up-outline
               </div>
             </li>
 
@@ -4081,7 +4081,7 @@
               <div class="name">
                 tv
               </div>
-              <div class="code-name">.icon-tv
+              <div class="code-name">icon-tv
               </div>
             </li>
 
@@ -4090,7 +4090,7 @@
               <div class="name">
                 tv-outline
               </div>
-              <div class="code-name">.icon-tv-outline
+              <div class="code-name">icon-tv-outline
               </div>
             </li>
 
@@ -4099,7 +4099,7 @@
               <div class="name">
                 twitter
               </div>
-              <div class="code-name">.icon-twitter
+              <div class="code-name">icon-twitter
               </div>
             </li>
 
@@ -4108,7 +4108,7 @@
               <div class="name">
                 twitter-outline
               </div>
-              <div class="code-name">.icon-twitter-outline
+              <div class="code-name">icon-twitter-outline
               </div>
             </li>
 
@@ -4117,7 +4117,7 @@
               <div class="name">
                 umbrella
               </div>
-              <div class="code-name">.icon-umbrella
+              <div class="code-name">icon-umbrella
               </div>
             </li>
 
@@ -4126,7 +4126,7 @@
               <div class="name">
                 umbrella-outline
               </div>
-              <div class="code-name">.icon-umbrella-outline
+              <div class="code-name">icon-umbrella-outline
               </div>
             </li>
 
@@ -4135,7 +4135,7 @@
               <div class="name">
                 undo
               </div>
-              <div class="code-name">.icon-undo
+              <div class="code-name">icon-undo
               </div>
             </li>
 
@@ -4144,7 +4144,7 @@
               <div class="name">
                 undo-outline
               </div>
-              <div class="code-name">.icon-undo-outline
+              <div class="code-name">icon-undo-outline
               </div>
             </li>
 
@@ -4153,7 +4153,7 @@
               <div class="name">
                 unlock
               </div>
-              <div class="code-name">.icon-unlock
+              <div class="code-name">icon-unlock
               </div>
             </li>
 
@@ -4162,7 +4162,7 @@
               <div class="name">
                 unlock-outline
               </div>
-              <div class="code-name">.icon-unlock-outline
+              <div class="code-name">icon-unlock-outline
               </div>
             </li>
 
@@ -4171,7 +4171,7 @@
               <div class="name">
                 upload-outline
               </div>
-              <div class="code-name">.icon-upload-outline
+              <div class="code-name">icon-upload-outline
               </div>
             </li>
 
@@ -4180,7 +4180,7 @@
               <div class="name">
                 video
               </div>
-              <div class="code-name">.icon-video
+              <div class="code-name">icon-video
               </div>
             </li>
 
@@ -4189,7 +4189,7 @@
               <div class="name">
                 upload
               </div>
-              <div class="code-name">.icon-upload
+              <div class="code-name">icon-upload
               </div>
             </li>
 
@@ -4198,7 +4198,7 @@
               <div class="name">
                 video-off-outline
               </div>
-              <div class="code-name">.icon-video-off-outline
+              <div class="code-name">icon-video-off-outline
               </div>
             </li>
 
@@ -4207,7 +4207,7 @@
               <div class="name">
                 video-off
               </div>
-              <div class="code-name">.icon-video-off
+              <div class="code-name">icon-video-off
               </div>
             </li>
 
@@ -4216,7 +4216,7 @@
               <div class="name">
                 video-outline
               </div>
-              <div class="code-name">.icon-video-outline
+              <div class="code-name">icon-video-outline
               </div>
             </li>
 
@@ -4225,7 +4225,7 @@
               <div class="name">
                 volume-down
               </div>
-              <div class="code-name">.icon-volume-down
+              <div class="code-name">icon-volume-down
               </div>
             </li>
 
@@ -4234,7 +4234,7 @@
               <div class="name">
                 volume-down-outline
               </div>
-              <div class="code-name">.icon-volume-down-outline
+              <div class="code-name">icon-volume-down-outline
               </div>
             </li>
 
@@ -4243,7 +4243,7 @@
               <div class="name">
                 volume-mute
               </div>
-              <div class="code-name">.icon-volume-mute
+              <div class="code-name">icon-volume-mute
               </div>
             </li>
 
@@ -4252,7 +4252,7 @@
               <div class="name">
                 volume-mute-outline
               </div>
-              <div class="code-name">.icon-volume-mute-outline
+              <div class="code-name">icon-volume-mute-outline
               </div>
             </li>
 
@@ -4261,7 +4261,7 @@
               <div class="name">
                 volume-off
               </div>
-              <div class="code-name">.icon-volume-off
+              <div class="code-name">icon-volume-off
               </div>
             </li>
 
@@ -4270,7 +4270,7 @@
               <div class="name">
                 volume-up-outline
               </div>
-              <div class="code-name">.icon-volume-up-outline
+              <div class="code-name">icon-volume-up-outline
               </div>
             </li>
 
@@ -4279,7 +4279,7 @@
               <div class="name">
                 volume-up
               </div>
-              <div class="code-name">.icon-volume-up
+              <div class="code-name">icon-volume-up
               </div>
             </li>
 
@@ -4288,7 +4288,7 @@
               <div class="name">
                 wifi
               </div>
-              <div class="code-name">.icon-wifi
+              <div class="code-name">icon-wifi
               </div>
             </li>
 
@@ -4297,7 +4297,7 @@
               <div class="name">
                 wifi-off
               </div>
-              <div class="code-name">.icon-wifi-off
+              <div class="code-name">icon-wifi-off
               </div>
             </li>
 
@@ -4306,7 +4306,7 @@
               <div class="name">
                 activity-outline
               </div>
-              <div class="code-name">.icon-activity-outline
+              <div class="code-name">icon-activity-outline
               </div>
             </li>
 
@@ -4315,7 +4315,7 @@
               <div class="name">
                 wifi-outline
               </div>
-              <div class="code-name">.icon-wifi-outline
+              <div class="code-name">icon-wifi-outline
               </div>
             </li>
 
@@ -4324,7 +4324,7 @@
               <div class="name">
                 activity
               </div>
-              <div class="code-name">.icon-activity
+              <div class="code-name">icon-activity
               </div>
             </li>
 
@@ -4333,7 +4333,7 @@
               <div class="name">
                 alert-circle
               </div>
-              <div class="code-name">.icon-alert-circle
+              <div class="code-name">icon-alert-circle
               </div>
             </li>
 
@@ -4342,7 +4342,7 @@
               <div class="name">
                 alert-triangle
               </div>
-              <div class="code-name">.icon-alert-triangle
+              <div class="code-name">icon-alert-triangle
               </div>
             </li>
 
@@ -4351,7 +4351,7 @@
               <div class="name">
                 alert-circle-outline
               </div>
-              <div class="code-name">.icon-alert-circle-outline
+              <div class="code-name">icon-alert-circle-outline
               </div>
             </li>
 
@@ -4360,7 +4360,7 @@
               <div class="name">
                 alert-triangle-outli
               </div>
-              <div class="code-name">.icon-alert-triangle-outli
+              <div class="code-name">icon-alert-triangle-outli
               </div>
             </li>
 
@@ -4369,7 +4369,7 @@
               <div class="name">
                 wifi-off-outline
               </div>
-              <div class="code-name">.icon-wifi-off-outline
+              <div class="code-name">icon-wifi-off-outline
               </div>
             </li>
 
@@ -4378,7 +4378,7 @@
               <div class="name">
                 archive-outline
               </div>
-              <div class="code-name">.icon-archive-outline
+              <div class="code-name">icon-archive-outline
               </div>
             </li>
 
@@ -4387,7 +4387,7 @@
               <div class="name">
                 archive
               </div>
-              <div class="code-name">.icon-archive
+              <div class="code-name">icon-archive
               </div>
             </li>
 
@@ -4396,7 +4396,7 @@
               <div class="name">
                 volume-off-outline
               </div>
-              <div class="code-name">.icon-volume-off-outline
+              <div class="code-name">icon-volume-off-outline
               </div>
             </li>
           </ul>
@@ -4503,11 +4503,19 @@
     outline: 1px dotted
   }
 
+  ul.icon_lists.dib-box {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
 
-  .dib {
-    display: inline-block;
-    *display: inline;
-    *zoom: 1
+  li.dib {
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    min-width: 100px;
   }
 
   .dib-box {

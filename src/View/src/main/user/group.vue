@@ -1,4 +1,9 @@
-<style></style>
+<style>
+  .group-table {
+    padding-bottom: 30px;
+  }
+
+</style>
 <template>
   <div>
     <div class="view-title float-clear">
@@ -20,28 +25,39 @@
     </div>
     <fieldset>
       <legend>{{title}}</legend>
-      <aside v-loading="ml_listsLoading">
-        <el-table
-          @selection-change="handleSelectionChange"
-          :data="ml_data"
-          style="width: 100%"
-          size="mini"
-        >
-          <el-table-column :selectable="selectable" type="selection" width="55"></el-table-column>
-          <el-table-column label="标题">
+      <aside v-loading="ml_listsLoading" class="group-table">
+        <el-table :data="ml_data" style="width: 100%" size="mini">
+          <el-table-column prop="id" label="ID" width="50"></el-table-column>
+          <el-table-column show-overflow-tooltip label="角色名称" min-width="120">
             <template slot-scope="scope">
               <div v-if="scope.row._isEdit">
-                <el-input v-model="scope.row.title" placeholder size="mini"></el-input>
+                <el-input v-model="scope.row.name" placeholder="角色名称" size="mini"></el-input>
               </div>
-              <div v-else class="text-nowrap" :title="scope.row.title">{{scope.row.title}}</div>
+              <div v-else class="text-nowrap" :title="scope.row.name">{{scope.row.name}}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="date" label="日期"></el-table-column>
-          <el-table-column label="操作" width="200">
+          <el-table-column show-overflow-tooltip label="角色简介" min-width="120">
+            <template slot-scope="scope">
+              <div v-if="scope.row._isEdit">
+                <el-input v-model="scope.row.remark" placeholder="角色简介" size="mini"></el-input>
+              </div>
+              <div v-else class="text-nowrap" :title="scope.row.remark">{{scope.row.remark}}</div>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" width="350">
             <template slot-scope="scope">
               <div class="btns-operating">
                 <el-button
-                  :loading="scope.row._loading"
+                  :disabled="scope.row._isEdit"
+                  @click="openRuleView(scope)"
+                  slot="reference"
+                  size="mini"
+                  type="success"
+                  title="查看规则"
+                  icon="icon-person-done"
+                >角色规则
+                </el-button>
+                <el-button
                   v-bind="getEditBtnAttrs(scope)"
                   size="mini"
                   @click="editRow(scope)"
@@ -52,7 +68,6 @@
                   title="放 弃"
                   @click="quitRow(scope)"
                   size="mini"
-                  :loading="scope.row._loading"
                   icon="el-icon-close"
                 >放 弃
                 </el-button>
@@ -76,7 +91,7 @@
                       type="danger"
                       icon="el-icon-delete"
                       title="删 除"
-                    >删 除
+                    >删除
                     </el-button>
                   </el-popover>
                 </template>
@@ -84,34 +99,25 @@
             </template>
           </el-table-column>
         </el-table>
-        <div class="tip-page" v-if="!!ml_pagetotal">
-          <div class="panel-left" v-show="showColumnBtn">
-            <el-button
-              @click="deleteSelection"
-              size="mini"
-              type="danger"
-              icon="el-icon-delete"
-              title="删除选中"
-            ></el-button>
-          </div>
-          <el-pagination
-            :current-page.sync="ml_page"
-            @size-change="ml_sizeChange"
-            @current-change="ml_currentChange"
-            background
-            layout="prev, pager, next, sizes, total"
-            :total="ml_pagetotal"
-            :page-size.sync="ml_pagesize"
-          ></el-pagination>
-        </div>
       </aside>
     </fieldset>
+
+    <!-- <el-dialog
+      class="dialog-view"
+      title="权限编辑"
+      :visible.sync="viewDialogVisible"
+      :close-on-press-escape="false"
+      :close-on-click-modal="false"
+      center
+    >
+      <components_rule-view  @submit=""></components_rule-view>
+    </el-dialog>-->
   </div>
 </template>
 <script>
-  var that,
-    dataFormat = { title: '', date: '', id: 0 },
-    title = '列表示例';
+  var dataFormat = { title: '', date: '', id: 0 },
+    that,
+    title = '角色设置';
   Spa.define(
     {
       mixins: [mixinLists],
@@ -120,34 +126,23 @@
           title: title,
           SpaTitle: title + ' - %s',
           tmpData: [],
-          selectIds: [],
-          isAddRow: false
+          isAddRow: false,
+          viewDialogVisible: true
         };
       },
       created: function () {
         that = this;
       },
-      computed: {
-        showColumnBtn: function () {
-          return that.selectIds.length > 0;
-        }
-      },
+      computed: {},
       init: function (query, search) {
         that.ml_pagesize = 10;
+        // debugger
       },
       mounted: function () {
       },
       methods: {
-        handleSelectionChange: function (e) {
-          that.selectIds = e.map(function (e) {
-            return e.id;
-          });
-        },
-        selectable: function (row, index) {
-          return true;
-        },
-        deleteSelection: function () {
-          console.log('删除选中', that.selectIds);
+        openRuleView: function (e) {
+          that.$go('user/rules/@' + e.row.id);
         },
         addRowStatus: function () {
           that.isAddRow = true;
@@ -173,7 +168,7 @@
         },
         deleteRow: function (e) {
           that
-          .$api(undefined, e.row)
+          .$api(apis.sysDeleteGroup, { id: e.row })
           .then(function () {
             that.ml_data.splice(e.$index, 1);
             that.ml_pagetotal--;
@@ -186,23 +181,16 @@
           });
         },
         addRow: function (e) {
-          e.row._loading = true;
           that
-          .$api(undefined, e.row)
+          .$api(apis.sysCreateGroup, e.row)
           .then(function (v) {
-            // todo test 接口地址undefined是不会真实发起请求所以这里 e 是不会有数据
-            v = { data: {} };
             e.row._isEdit = false;
             e.row._isAdd = false;
-            e.row._loading = false;
             that.isAddRow = false;
             that.$set(that.ml_data, e.$index, Object.assign({}, e.row, v.data));
           })
-          .catch(function (err) {
-            e.row._loading = false;
-            that.$warMsg(err);
-          })
-          .finally(function () {
+          .catch(function (e) {
+            that.$warMsg(e);
           });
         },
         editRow: function (e) {
@@ -212,9 +200,8 @@
           }
           if (e.row._isEdit) {
             that
-            .$api(undefined, e.row)
+            .$api(apis.sysUpdateGroup, e.row)
             .then(function (v) {
-              v = { data: {} };
               e.row._isEdit = false;
               that.$set(
                 that.ml_data,
@@ -250,28 +237,13 @@
           }
           that.isAddRow = false;
           that.ml_listsLoading = true;
-          this.$api(undefined, data)
+          this.$api(apis.sysGroupLists, data)
               .then(function (v) {
-                // todo test 接口地址undefined是不会真实发起请求所以这里 v 是不会有数据
-                v = {
-                  data: {
-                    items: [
-                      { id: 1, title: 'demo1', date: '2020-01-01' },
-                      { id: 2, title: 'demo2', date: '2020-01-01' },
-                      { id: 3, title: 'demo3', date: '2020-01-01' }
-                    ],
-                    page: { total: 40 }
-                  }
-                };
-                // test end
-                var data = v.data.items;
-                data.map(function (e) {
+                that.ml_data = v.data.map(function (e) {
                   e._isEdit = false;
                   e._isPopover = false;
                   return e;
                 });
-                var page = v.data.page;
-                that.ml_getLists(data, page);
               })
               .catch(function (e) {
                 that.$warMsg(e);
@@ -282,7 +254,7 @@
         }
       }
     },
-    [],
+    ['/components/rule-view'],
     '/index'
   );
 </script>

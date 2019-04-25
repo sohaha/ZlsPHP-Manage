@@ -3,6 +3,7 @@
 namespace Business\ZlsManage;
 
 use Dao\ZlsManage\LogsDao;
+use Dao\ZlsManage\UserDao;
 use z;
 
 /**
@@ -83,22 +84,27 @@ class AssistBusiness extends \Zls_Business
      * @param int $type
      * @return array
      */
-    public function getLogs($page, $pagesize, $unread = 0, $type = 0)
+    public function getLogs($page, $pagesize, $unread = 0, $type = 0, $userid = null)
     {
         $dao   = new LogsDao();
         $where = $unread ? ['status' => $dao::STATUS_NOT] : [];
         if ($type) {
             $where['type'] = $type;
         }
-        $lists = $dao->getPage($page, $pagesize, '{page}', '*', $where, ['id' => 'desc']);
-        // if ($notReadLists = z::arrayFilter($lists['items'], function ($v) use ($dao) {
-        //     return $v['status'] === $dao::STATUS_NOT;
-        // })) {
-        //     $dao->updateBatch(z::arrayMap(array_values($notReadLists), function ($v) use ($dao) {
-        //
-        //         return ['id' => $v['id'], 'status' => $dao::STATUS_READ];
-        //     }));
-        // }
+        if ($userid) {
+            $where['userid'] = $userid;
+        }
+        $table     = $dao->getTable();
+        $userTable = (new UserDao())->getTable();
+        $lists     = $dao->getPage($page, $pagesize, '{page}', "{$table}.*,{$userTable}.username as username", function ($db) use ($where, $table, $userTable) {
+            $newWhere = [];
+            foreach ($where as $key => $value) {
+                $newWhere[$table . '.' . $key] = $value;
+            }
+            $db->where($newWhere);
+            $db->join($userTable, $userTable . '.id=' . $table . '.operate_id', 'left');
+        }, [$table . '.id' => 'desc']);
+
         return $lists;
     }
 
@@ -127,8 +133,8 @@ class AssistBusiness extends \Zls_Business
         $logsDao = new LogsDao();
 
         return $logsDao->updateBatch(z::arrayMap($ids, function ($v) use ($logsDao) {
-            return ['id' => $v['id'], 'status' => $logsDao::STATUS_READ];
-        }));
+            return ['id' => $v, 'status' => $logsDao::STATUS_READ];
+        }), 'id');
     }
 
     /**
@@ -140,7 +146,9 @@ class AssistBusiness extends \Zls_Business
         $config = z::config('ini', true, []);
         // 根据实际情况过滤只返回需要显示的
         $data = [
-            // 'wxjs'      => z::arrayGet($config, 'swoole.domain', ''),
+            'debug'        => !!z::arrayGet($config, 'base.debug', true),
+            'maintainMode' => !!z::arrayGet($config, 'base.maintainMode', true),
+            'ipWhitelist'  => join(',', z::arrayGet($config, 'base.ipWhitelist', [])),
         ];
 
         return $data;
@@ -155,7 +163,9 @@ class AssistBusiness extends \Zls_Business
     {
         $config = z::config('ini', true, []);
         // 根据实际情况从$data读取需要的数据
-        // $config['swoole']['domain'] = z::arrayGet($data, 'wxjs');
+        $config['base']['debug']        = z::arrayGet($data, 'debug');
+        $config['base']['maintainMode'] = z::arrayGet($data, 'maintainMode');
+        $config['base']['ipWhitelist']  = explode(';', z::arrayGet($data, 'ipWhitelist', ''));
         /**
          * @var \Zls\Action\Ini $Ini
          */
@@ -163,5 +173,38 @@ class AssistBusiness extends \Zls_Business
         $path = z::realPath('zls.ini', false, false);
 
         return !!@file_put_contents($path, $Ini->extended($config));
+    }
+
+    /**
+     * 读取系统信息
+     * @return array
+     */
+    public function getSystemInfo()
+    {
+        /** @noinspection PhpComposerExtensionStubsInspection */
+        $data = [
+            'hostname'          => z::hostname(),
+            'zls_version'       => IN_ZLS,
+            'os'                => strtolower(PHP_OS),
+            'php_version'       => PHP_VERSION,
+            'software'          => z::server('SERVER_SOFTWARE'),
+            'extensions'        => join(' ', get_loaded_extensions()),
+            'disable_functions' => join(' ', explode(',', ini_get('disable_functions'))),
+            'free_space'        => z::convertRam(disk_free_space(z::realPath('.', true, false))),
+            'composer'          => z::tap(json_decode(@file_get_contents(z::realPath('composer.lock', false, false)), true), function (&$composer) {
+                $composer = z::arrayGet($composer, 'packages', []);
+                $composer = z::arrayFilter(z::arrayValues($composer, ['name', 'version']), function ($v) {
+                    return $v['name'] !== 'zls/framework';
+                });
+                $composer = z::arrayMap($composer, function ($v) {
+                    $v['version'] = z::strBeginsWith($v['version'], 'v') ? strstr($v['version'], 1) : $v['version'];
+
+                    return $v;
+                });
+                $composer = array_values($composer);
+            }),
+        ];
+
+        return $data;
     }
 }

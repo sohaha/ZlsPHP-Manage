@@ -1,0 +1,99 @@
+<?php
+
+namespace Business\ZlsManage;
+
+use z;
+
+/**
+ * Zls
+ * @author        影浅
+ * @email         seekwe@gmail.com
+ * @copyright     Copyright (c) 2015 - 2017, 影浅, Inc.
+ * @link          ---
+ * @since         v0.0.1
+ * @updatetime    2018-11-08 17:55
+ */
+class AuthBusiness extends \Zls_Business
+{
+    /**
+     * 验证指定用户是否有指定路由权限
+     * @param int|obj $id
+     * @param string  $router
+     * @return bool 如果通过返回true,否则返回禁止的规则详情
+     */
+    public function userAuth($user_id, $router = '')
+    {
+        if (!$user = is_object($user_id) ? $user_id : (new UserBusiness())->info($user_id)) {
+            return false;
+        }
+        list($rules, $banRules) = $this->getGroupRules($user['group_id']);
+        $adopt = false;
+        $ban   = ['title' => '没有找到匹配规则', 'router' => '*'];
+        foreach ($rules as $rule) {
+            if ($this->verify($router, $rule['router'], $rule['condition'], $user)) {
+                $adopt = $rule;
+                break;
+            }
+        }
+        if ($adopt) {
+            foreach ($banRules as $rule) {
+                if ($this->verify($router, $rule['router'], $router['condition'], $user)) {
+                    $adopt = false;
+                    $ban   = $rule;
+                    break;
+                }
+            }
+        }
+
+        return !!$adopt ?: $ban;
+    }
+
+    private function verify($router, $rule, $condition, $user)
+    {
+        $rs       = false; //extract
+        $ruleData = explode('::', strtolower($rule));
+        $rule     = $ruleData[0];
+        $type     = z::arrayGet($ruleData, 1);
+        if (!!$type && (strtolower(Z::server('REQUEST_METHOD', '')) !== $type)) {
+
+            return $rs;
+        }
+        if ($rule !== $router) {
+            $matches = str_replace('*', '(.*)', $rule);
+            $matches = str_replace('/', '\/', $matches);
+            $rs      = preg_match('/' . $matches . '/i', $router);
+        } else {
+            $rs = true;
+        }
+        // todo 待完成
+        if (false || $rs && $condition) {
+            if (preg_match_all('/\{(\w*?):(.*?):(.*?)\}/', $condition, $command)) {
+                $len = count($command[0]);
+                for ($i = 0; $i < $len; $i++) {
+                    $k = $command[1][$i];
+                    if (z::arrayKeyExists($k, $user)) {
+                        switch (trim($command[2][$i])) {
+                            case '>':
+                                break;
+                            default:
+                        }
+                    }
+                }
+            }
+        }
+
+        return $rs;
+    }
+
+    private function getGroupRules($group_id)
+    {
+        $GroupBusiness = new GroupBusiness();
+        $group         = $GroupBusiness->find($group_id);
+        $group         = $GroupBusiness->integration($group);
+        $RulesBusiness = new RulesBusiness();
+        $rules         = $RulesBusiness->findRows(z::arrayGet($group, 'rule_ids', []));
+        $banRules      = $RulesBusiness->findRows(z::arrayGet($group, 'ban_rule_ids', []));
+
+        return [$rules, $banRules];
+    }
+}

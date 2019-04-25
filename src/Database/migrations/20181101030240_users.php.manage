@@ -27,19 +27,32 @@ class Users extends M
         $table->addIndex(['username', 'status'], ['name' => 'username_status']);
         $table->create();
         /** @var \Zls\Action\StrUtils $StrUtils */
-        $StrUtils    = z::extension('Action\StrUtils');
-        $key         = $StrUtils->randString();
-        $defaultPass = 'seekwe';// 默认密码
-        $singleRow   = [
+        $StrUtils = z::extension('Action\StrUtils');
+        $key      = $StrUtils->randString();
+        $time     = date('Y-m-d H:i:s');
+        $rows[]   = [
             'username'    => 'seekwe',
             'key'         => $key,
             'status'      => 1,
+            'group_id'    => 1,
             'email'       => 'seekwe@gmail.com',
-            'password'    => md5(Z::encrypt($defaultPass, '', $key)),
-            'create_time' => date('Y-m-d H:i:s'),
-            'update_time' => date('Y-m-d H:i:s'),
+            'password'    => md5(Z::encrypt('seekwe', '', $key)),// 密码
+            'create_time' => $time,
+            'update_time' => $time,
+            'remark'      => '一名超级管理员',
         ];
-        $table->insert($singleRow);
+        $key      = $StrUtils->randString();
+        $rows[]   = [
+            'username'    => 'admin',
+            'key'         => $key,
+            'status'      => 1,
+            'group_id'    => 1,
+            'email'       => 'admin@qq.com',
+            'password'    => md5(Z::encrypt('123456', '', $key)),// 密码
+            'create_time' => $time,
+            'update_time' => $time,
+        ];
+        $table->insert($rows);
         $table->saveData();
     }
 }

@@ -5,7 +5,7 @@
       <div class="view-title-right">
         <el-form @submit.prevent.stop.native inline class="tip-top">
           <el-form-item>
-            <el-button type="info" size="small" @click="ml_reloadLists" icon="el-icon-refresh">刷新</el-button>
+            <el-button type="info" size="mini" @click="ml_reloadLists" icon="el-icon-refresh">刷新</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -15,14 +15,14 @@
       <legend>{{title}}</legend>
       <aside v-loading="ml_listsLoading">
         <el-table :data="ml_data" style="width: 100%" size="mini">
-          <el-table-column label="标题">
+          <el-table-column show-overflow-tooltip label="标题" width="170">
             <template slot-scope="scope">
-              <div class="text-nowrap" :title="scope.row.title">{{ scope.row.title }}</div>
+              <div>{{ scope.row.title || ' - ' }}</div>
             </template>
           </el-table-column>
           <el-table-column prop="date" label="日期"></el-table-column>
-          <el-table-column label="操作" width="250">
-            <template slot-scope="scope">{{scope.row.__||''}}</template>
+          <el-table-column label="操作" width="200">
+            <template slot-scope="scope">{{scope.row.__||'--'}}</template>
           </el-table-column>
         </el-table>
         <div class="tip-page" v-if="!!ml_pagetotal">

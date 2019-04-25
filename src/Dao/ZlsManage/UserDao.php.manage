@@ -130,7 +130,6 @@ class UserDao extends \Zls_Dao
         return 'auth_user';
     }
 
-
     /**
      * 加密密码
      * @param $password

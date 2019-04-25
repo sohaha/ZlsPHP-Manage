@@ -1,0 +1,77 @@
+<?php
+
+namespace Dao\ZlsManage;
+
+use Z;
+
+class RulesDao extends \Zls_Dao
+{
+    public function getColumns()
+    {
+        return [
+            'id',//主键
+            'title',//规则名称
+            'create_time',//创建时间
+            'update_time',//更新时间
+            'status',//状态:1正常，2禁止
+            'router',//路由地址
+            'remark',//备注
+            'condition',//附加条件
+            'sort',//排序
+        ];
+    }
+
+    public function getHideColumns()
+    {
+        return [];
+    }
+
+    public function getPrimaryKey()
+    {
+        return 'id';
+    }
+
+    public function getTable()
+    {
+        return 'auth_user_rules';
+    }
+
+
+    public function find($values, $isRows = false, array $orderBy = [], $fields = null)
+    {
+        $this->cache(3);
+
+        return parent::find($values, $isRows, $orderBy, $fields);
+    }
+
+    public function verifyRules($columns = [])
+    {
+        if (!$columns) {
+            $columns = $this->getColumns();
+        }
+        $verifyrules           = [];
+        $verifyrules['title']  = [
+            'required' => '名称不能为空',
+        ];
+        $verifyrules['router'] = [
+            'required' => '路由不能为空',
+            'function' => function ($key, $value, $data, $args, &$returnValue, &$break, &$db) {
+                $row          = (!!$id = z::arrayGet($data, 'id')) ? $this->find($id) : [];
+                $verifyRouter = $row ? $data['router'] !== $row['router'] : true;
+                if ($verifyRouter && (!z::checkValue($value, ['unique[' . $this->getTable() . '.router]']))) {
+                    return '规则路由已存在';
+                }
+            },
+        ];
+        $rule                  = [];
+        foreach ($columns as $column) {
+            if (Z::arrayKeyExists($column, $verifyrules)) {
+                $rule[$column] = $verifyrules[$column];
+            }
+        }
+
+        return $rule;
+    }
+
+
+}

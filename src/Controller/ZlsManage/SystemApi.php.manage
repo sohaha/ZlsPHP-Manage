@@ -1,0 +1,99 @@
+<?php
+
+namespace Controller\ZlsManage;
+
+use Business\ZlsManage\AssistBusiness;
+use Business\ZlsManage\SysLogBusiness;
+use Z;
+
+/**
+ * 后台-系统接口
+ * @author        影浅 seekwe@gmail.com
+ * @desc          需要传递Token
+ */
+class SystemApi extends UserApi
+{
+    /**
+     * 查看用户日志
+     * @time 2018-12-13 19:15:42
+     * @param int page 页码 GET 1 n
+     * @param int pagesize 条数 GET 10
+     * @param int unread 是否只查询未读 GET 0 N 1只查询未读
+     * @return mixed|string
+     */
+    public function GETzLogs()
+    {
+        $assist = new AssistBusiness();
+        $type   = Z::get('type');
+        $unread = z::get('unread', 0);
+        $userid = $this->getInfo('id');
+
+        return [200, '用户日志', $assist->getLogs(Z::get('page', 1), z::get('pagesize', 10), $unread, $type, $userid)];
+    }
+
+    /**
+     * 未读日志总数
+     */
+    public function GETzUnreadMessageCount()
+    {
+        $assist = new AssistBusiness();
+        $lastId = z::get('id', 0);
+        $userid = $this->getInfo('id');
+
+        // 可以在这里做token时间更新
+        return [200, '未读日志', ['count' => $assist->getUnreadMessageCount($lastId, $userid)]];
+    }
+
+    /**
+     * 更新日志状态
+     */
+    public function PUTzMessageStatus()
+    {
+        $assist = new AssistBusiness();
+        $uid    = $this->getInfo('id');
+        $ids    = z::postText('ids');
+
+        return [200, '日志标记已读', $assist->updateMessageStatus($ids, $uid)];
+    }
+
+    /**
+     * 查看系统日志文件（高危接口）
+     */
+    public function GETzSystemLogs()
+    {
+        $name        = z::getPost('name');
+        $type        = z::getPost('type');
+        $currentLine = z::getPost('currentLine', 0);
+        $data        = (new SysLogBusiness)->exportData($type, $name, $currentLine);
+
+        return [200, '系统日志', $data];
+    }
+
+    /**
+     * 删除系统日志文件（高危接口）
+     */
+    public function DELETEzSystemLogs()
+    {
+        $name = z::postText('name');
+        $type = z::postText('type');
+        $data = $name && $type ? (new SysLogBusiness)->delete($type, $name) : false;
+
+        return [200, '删除系统日志', $data];
+    }
+
+    /**
+     * 读取系统配置（高危接口）
+     */
+    public function GETzSystemConfig()
+    {
+        return [200, '读取系统配置', (new AssistBusiness)->getSystemConfig()];
+    }
+
+    /**
+     * 更新系统配置（高危接口）
+     */
+    public function PUTzSystemConfig()
+    {
+        return [200, '更新系统配置', (new AssistBusiness)->updateSystemConfig(z::postText())];
+    }
+}

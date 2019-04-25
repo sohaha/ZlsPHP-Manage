@@ -35,11 +35,11 @@ class UserBusiness extends \Zls_Business
     /**
      * 过滤用户密码等敏感字段
      * @param $user
-     * @return array[]
+     * @return array
      */
     public function filterField($user)
     {
-        /*** @var \Dao\ZlsManage\UserDao $Dao */
+        /** @var \Dao\ZlsManage\UserDao $Dao */
         $Dao = z::dao('ZlsManage\UserDao', true);
 
         return z::readData($Dao->getReversalColumns(), $user);
@@ -73,13 +73,15 @@ class UserBusiness extends \Zls_Business
         $ActionId = z::extension('Action\Id');
         $id       = $ActionId->decode($idEncode);
 
-        return z::tap(Z::encrypt($id . '_' . date('y-m-d H:i:s') . '_' . $ActionId->uniqueId(4)),
+        return z::tap(
+            Z::encrypt($id . '_' . date('y-m-d H:i:s') . '_' . $ActionId->uniqueId(4)),
             function ($token) use ($id) {
                 $tokenDao = new TokenDao();
                 $tokenDao->saveToken($id, $token);
                 $dao = new LogsDao();
                 $dao->createOperationLog($id, null, '登录成功，欢迎回来！', $id, $dao::TYPE_NORMAL, $dao::STATUS_READ);
-            });
+            }
+        );
     }
 
     /**
@@ -94,12 +96,12 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 清除指定用户全部token
-     * @param $adminid
+     * @param $userid
      * @return bool
      */
-    public function clearAllToken($adminid)
+    public function clearAllToken($userid)
     {
-        return (new TokenDao())->update(['status' => 2], ['status' => 1, 'userid' => $adminid]);
+        return (new TokenDao())->update(['status' => 2], ['status' => 1, 'userid' => $userid]);
     }
 
     /**
@@ -148,28 +150,45 @@ class UserBusiness extends \Zls_Business
      * @param int $uid
      * @return int|string
      */
-    public function update($id, $data, $uid = 0)
+    public function update($id, $data, $operationUser = 0)
     {
         $dao = new UserDao();
-        if ($id == $uid && 1 != z::arrayGet($data, 'status')) {
-            return '不能禁止自己';
+        if (!$user = $dao->find($id, false, [], 'key,id,email')) {
+            return '用户不存在';
         }
-        $rule    = $dao->verifyRules(['status', 'remark', 'avatar', 'email']);
+        $userid    = $user['id'];
+        $veriField = ['status', 'remark', 'avatar'];
+        $email     = z::arrayGet($data, 'email');
+        if ($email && $user['email'] !== $email) {
+            $veriField[] = 'email';
+        }
+        if (z::arrayKeyExists('password', $data)) {
+            $veriField[] = 'password';
+        }
+        $rule    = $dao->verifyRules($veriField);
         $retData = $errorMsg = $errorKey = null;
         if (z::checkData($data, $rule, $retData, $errorMsg, $errorKey, $dao->getDb())) {
-            $map                    = ['status', 'avatar', 'remark', 'email'];
-            $retData                = z::readData($map, $retData);
+            $map                    = $dao->getColumns();
+            $retData                = z::readData($map, $retData, false);
             $retData['update_time'] = date('Y-m-d H:i:s');
             if ($retData['avatar']) {
                 /**
                  * @var \Business\ZlsManage\AssistBusiness $AssistBusiness
                  */
                 $AssistBusiness    = z::business('ZlsManage\AssistBusiness');
-                $avatarFilename    = 'user_' . md5($id).'.png';
+                $avatarFilename    = 'user_' . md5($id) . '.png';
                 $retData['avatar'] = $AssistBusiness->mvAvatar($retData['avatar'], $avatarFilename);
             }
+            $updatePassState = in_array('password', $veriField, true);
+            if ($updatePassState) {
+                $retData['password'] = $dao->encryptPassword($retData['password'], $user['key']);
+            }
 
-            return $dao->update($retData, $id);
+            return z::tap($dao->update($retData, $id), function ($res) use ($userid, $operationUser, $updatePassState) {
+                if ($res && $updatePassState) {
+                    $this->updatePasswordTip($userid, $operationUser);
+                }
+            });
         } else {
             return $errorMsg;
         }
@@ -195,6 +214,7 @@ class UserBusiness extends \Zls_Business
             $key                 = $StrUtils->randString();
             $retData['key']      = $key;
             $retData['password'] = $dao->encryptPassword($retData['password'], $key);
+            $retData['group_id'] = Z::arrayGet($retData, 'group_id') ?: 0;
 
             return (int)$dao->insert($retData);
         } else {
@@ -260,7 +280,7 @@ class UserBusiness extends \Zls_Business
      * @param $newPassword
      * @return string|int
      */
-    public function editPassword($userid, $oldPassword, $newPassword)
+    public function editPassword($userid, $oldPassword, $newPassword, $operationUser)
     {
         $UserDao = new UserDao();
         $where   = ['id' => $userid];
@@ -271,11 +291,76 @@ class UserBusiness extends \Zls_Business
             return '原密码错误';
         } else {
             /** @var \Zls\Action\StrUtils $StrUtils */
-            $StrUtils          = z::extension('Action\StrUtils');
-            $data['key']       = $StrUtils->randString();
-            $data ['password'] = $UserDao->encryptPassword($newPassword, $data['key']);
+            $StrUtils         = z::extension('Action\StrUtils');
+            $data['key']      = $StrUtils->randString();
+            $data['password'] = $UserDao->encryptPassword($newPassword, $data['key']);
 
-            return $UserDao->update($data, $where);
+            return z::tap($UserDao->update($data, $where), function ($res) use ($userid, $operationUser) {
+                if ($res) {
+                    $this->updatePasswordTip($userid, $operationUser);
+                }
+            });
         }
+    }
+
+    public function updatePasswordTip($userid, $operationId)
+    {
+        // 非自己修改了用户密码之后需要记录日志 修改密码之后要重置用户token
+        if ($userid == $operationId) {
+            $tip    = '修改密码成功';
+            $level  = LogsDao::TYPE_NORMAL;
+            $status = LogsDao::STATUS_READ;
+        } else {
+            $username = (new UserDao)->findCol('username', $operationId) ?: '未知用户';
+            $tip      = "您的密码被【{$username}】修改！";
+            $level    = LogsDao::TYPE_WARN;
+            $status   = LogsDao::TYPE_NORMAL;
+        }
+        (new LogsDao())->createOperationLog($userid, null, $tip, $operationId, $level, $status);
+        $this->clearAllToken($userid);
+    }
+
+    /**
+     * 获取用户上次登录信息
+     * @return array
+     */
+    public function getLast($userid, $token)
+    {
+        $tokenDao = new TokenDao();
+        $field    = ['ip', 'ua', 'create_time'];
+        $last     = $tokenDao->find(['userid' => $userid, 'token !=' => $token], false, ['id' => 'desc'], $field);
+
+        return z::readData($field, $last);
+    }
+
+    public function getTokenLists($userid, $showToken = false)
+    {
+        $tokenDao = new TokenDao();
+        $field    = ['ip', 'ua', 'create_time'];
+        if ($showToken) {
+            $field[] = 'token';
+        }
+        $last = $tokenDao->findAll(['userid' => $userid, 'status' => $tokenDao::STATUS_OPEN], ['id' => 'desc'], null, $field);
+
+        return z::readData($field, $last);
+    }
+
+    /**
+     * 是否超级管理员
+     * @return boolean
+     */
+    public function isSuperAdmin($userid)
+    {
+        $superAdminIds = z::config('ini.manage.superAdmin', true, [1]);
+
+        return in_array($userid, $superAdminIds);
+    }
+
+    public function info($userid)
+    {
+        $UserDao = new UserDao();
+        $where   = ['id' => $userid];
+
+        return $UserDao->find($where, false, [], '*');
     }
 }
