@@ -12,13 +12,6 @@ use Z;
  */
 class ZlsManage extends \Zls_Controller
 {
-    public function __construct()
-    {
-        $cfg = Z::config();
-        $cfg->setHttpMiddleware($cfg->getHttpMiddleware() + ['Middleware\ZlsManage\Manage']);
-        $cfg->setDatabaseMiddleware($cfg->getDatabaseMiddleware() + ['Middleware\ZlsManage\Database']);
-    }
-
     public function zIndex()
     {
         Z::redirect('/ZlsManage/index.html');
