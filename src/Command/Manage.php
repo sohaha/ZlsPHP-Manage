@@ -39,6 +39,12 @@ class Manage extends \Zls\Command\Command
                     '--force, -F' => ' Overwrite old file',
                 ],
             ],
+            ' initView' => [
+                'Initialize view resources',
+                [
+                    '--force, -F' => ' Overwrite old file',
+                ],
+            ],
         ];
     }
 
@@ -58,7 +64,7 @@ class Manage extends \Zls\Command\Command
 
     private function initView()
     {
-        $dest   = Z::realPathMkdir('./ZlsManage', true, false, true);
+        $dest = Z::realPathMkdir('./zls_manage', true, false, true);
         $source = Z::realPath(__DIR__ . '/../View', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
@@ -68,7 +74,7 @@ class Manage extends \Zls\Command\Command
 
     private function initBusiness()
     {
-        $dest   = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBusinessDirName(), true);
+        $dest = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBusinessDirName(), true);
         $source = Z::realPath(__DIR__ . '/../Business', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
@@ -78,7 +84,7 @@ class Manage extends \Zls\Command\Command
 
     private function initController()
     {
-        $dest   = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getControllerDirName(), true);
+        $dest = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getControllerDirName(), true);
         $source = Z::realPath(__DIR__ . '/../Controller', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
@@ -88,7 +94,7 @@ class Manage extends \Zls\Command\Command
 
     private function initDao()
     {
-        $dest   = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getDaoDirName(), true);
+        $dest = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getDaoDirName(), true);
         $source = Z::realPath(__DIR__ . '/../Dao', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
@@ -98,7 +104,7 @@ class Manage extends \Zls\Command\Command
 
     private function initBean()
     {
-        $dest   = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBeanDirName(), true);
+        $dest = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBeanDirName(), true);
         $source = Z::realPath(__DIR__ . '/../Bean', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
@@ -108,7 +114,7 @@ class Manage extends \Zls\Command\Command
 
     private function initDatabase()
     {
-        $dest   = Z::realPathMkdir('./database', true, false, false);
+        $dest = Z::realPathMkdir('./database', true, false, false);
         $source = Z::realPath(__DIR__ . '/../Database', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
@@ -126,7 +132,7 @@ class Manage extends \Zls\Command\Command
         $this->initDao();
         $this->initBean();
         die;
-        $file       = ZLS_APP_PATH . 'config/default/swoole.php';
+        $file = ZLS_APP_PATH . 'config/default/swoole.php';
         $originFile = Z::realPath(__DIR__ . '/../Config/swoole.php', false, false);
         $this->copyFile(
             $originFile,
@@ -147,7 +153,7 @@ class Manage extends \Zls\Command\Command
     private function destPathProcess($dest, $file)
     {
         $dest = str_replace('php.manage', 'php', $dest);
-        
+
         return $dest;
     }
 }

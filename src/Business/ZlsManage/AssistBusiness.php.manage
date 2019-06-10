@@ -197,7 +197,7 @@ class AssistBusiness extends \Zls_Business
                     return $v['name'] !== 'zls/framework';
                 });
                 $composer = z::arrayMap($composer, function ($v) {
-                    $v['version'] = z::strBeginsWith($v['version'], 'v') ? strstr($v['version'], 1) : $v['version'];
+                    $v['version'] = z::strBeginsWith($v['version'], 'v') ? substr($v['version'], 1) : $v['version'];
 
                     return $v;
                 });

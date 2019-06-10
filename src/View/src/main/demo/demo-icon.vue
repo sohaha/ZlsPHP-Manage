@@ -5,7 +5,6 @@
     <fieldset>
       <legend>{{title}}</legend>
       <aside>
-
         <div class=" text">
           <ul class="icon_lists dib-box">
             <li class="dib">

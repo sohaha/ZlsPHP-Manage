@@ -129,27 +129,27 @@
       },
       watch: {
         logType: function () {
-          that.ml_reloadLists();
+          this.ml_reloadLists();
         }
       },
       computed: {
         tabTitle: function () {
-          return that.tabs[that['activeName']];
+          return this.tabs[this['activeName']];
         },
         showColumnBtn: function () {
-          return that.selectIds.length > 0;
+          return this.selectIds.length > 0;
         }
       },
       init: function (query, search) {
-        that.ml_reloadLists();
+        this.ml_reloadLists();
       },
       methods: {
         getTagAttrs: function (i) {
-          for (let j = 0, length = that.logTypes.length; j < length; j++) {
-            if (that.logTypes[j]['value'] === i) {
+          for (let j = 0, length = this.logTypes.length; j < length; j++) {
+            if (this.logTypes[j]['value'] === i) {
               return {
-                title: that.logTypes[j].label,
-                type: that.logTypes[j].type
+                title: this.logTypes[j].label,
+                type: this.logTypes[j].type
               };
             }
           }
@@ -174,7 +174,7 @@
           });
         },
         handleSelectionChange: function (e) {
-          that.selectIds = e.map(function (e) {
+          this.selectIds = e.map(function (e) {
             return e.id;
           });
         },
@@ -182,23 +182,24 @@
           return row.status === 1;
         },
         handleClick: function (tab, event) {
-          that.ml_page = 1;
-          that.$nextTick(function () {
+          this.ml_page = 1;
+          var that = this;
+          this.$nextTick(function () {
             that.getLists();
           });
         },
         getLists: function () {
-          if (that.ml_listsLoading) {
+          if (this.ml_listsLoading) {
             return;
           }
-          var data = {
+          var that = this,data = {
             page: this.ml_page,
             pagesize: this.ml_pagesize,
             unread: +(this.activeName === 'unreadMessage'),
             type: this.logType
           };
-          that.ml_listsLoading = true;
-          that
+          this.ml_listsLoading = true;
+          this
           .$api(apis.sysUserLogs, data)
           .then(function (e) {
             var items = e.data.items.map(function (v) {
