@@ -2,7 +2,7 @@
 /* .content-box {
  position: relative;
   margin: 0 20px;
-  padding: 20px 0 0; 
+  padding: 20px 0 0;
 }
 
 .content-main {
@@ -10,69 +10,77 @@
   width: 100%;
 } */
 .main_scrollbar {
-  min-height: calc(100vh - 60px);
+  min-height : calc(100vh - 60px);
 }
 .nav-collapse-icon i {
-  padding: 2px 5px;
-  position: absolute;
-  z-index: 1;
-  left: 0px;
-  background: rgba(234, 241, 247, 0.2);
-  text-align: center;
-  -webkit-animation: opacity 2s infinite;
-  animation: opacity 2s infinite;
+  display : none;
+  padding : 2px 5px;
+  position : absolute;
+  z-index : 1;
+  left : 0px;
+  background : rgba(234, 241, 247, .2);
+  text-align : center;
+  -webkit-animation : opacity 2s infinite;
+  animation : opacity 2s infinite;
 }
 @-webkit-keyframes opacity {
-  0%,
-  100% {
-    opacity: 0.1;
+  0%, 100% {
+    opacity : .1;
   }
   50% {
-    opacity: 0.9;
+    opacity : .9;
   }
 }
 @keyframes opacity {
-  0%,
-  100% {
-    opacity: 0.1;
+  0%, 100% {
+    opacity : .1;
   }
   50% {
-    opacity: 0.9;
+    opacity : .9;
   }
 }
-.backup_icon {
-  background: #2c6eb1;
-  border-radius: 100%;
-  width: 30px;
-  height: 30px;
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  text-align: center;
-  color: #fff;
-  line-height: 30px;
-  font-size: 20px;
-  -webkit-animation: opacity 2s infinite;
-  animation: opacity 2s infinite;
+.nav-left.is-collapse {
+  width : 84px !important;
 }
+.nav-left.not-collapse {
+  width : 220px !important;
+}
+.mask-layer {
+  width : 100%;
+  position : fixed;
+  left : 0;
+  right : 0;
+  top : 0;
+  bottom : 0;
+  background : rgba(0, 0, 0, .3);
+  z-index : 9000;
+  display : none !important;
+}
+
 </style>
 <template>
   <el-container id="main">
     <el-header class="header" height="60px">
-      <components_nav-top aria-label="顶部导航" @handle="handleNav" @click="clickTopNav"></components_nav-top>
+      <components_nav-top
+        aria-label="顶部导航"
+        :is-collapse="isCollapse"
+        @handle="handleNav"
+        @click="clickTopNav"
+      ></components_nav-top>
     </el-header>
     <el-container class="content">
-      <el-aside class="nav-left" :style="asideStyle">
+      <div class="mask-layer" :class="asideClass" @click="handleNav"></div>
+      <el-aside class="nav-left" :class="asideClass">
+        <components_nav aria-label="页面导航" @handle="handleNav" :is-collapse="isCollapse"></components_nav>
         <div class="nav-collapse-icon">
           <i v-if="isCollapse" @click="handleNav" class="icon-arrowhead-right-outl tap"></i>
           <i v-else @click="handleNav" class="icon-arrowhead-left-outli tap"></i>
         </div>
-        <components_nav aria-label="页面导航" @handle="handleNav" :is-collapse="isCollapse"></components_nav>
       </el-aside>
       <el-container class="content-container">
-        <el-main ref="content-box" class="content-box" aria-label="页面内容">
+        <el-main ref="content-box" class="content-box content-view-main" aria-label="页面内容">
           <components_breadcrumb></components_breadcrumb>
-          <!--包含list关键字的页面进行缓存-->
+          <!--包含lists关键字的页面进行缓存-->
           <keep-alive :max="3" :include="/lists/">
             <component class="content-main" v-bind:is="childView"></component>
           </keep-alive>
@@ -91,7 +99,7 @@
     >
       <components_edit-password @success="editPassSuccess"></components_edit-password>
     </el-dialog>
-    <i v-show="scrollTopIcon" @click="goUp" class="backup_icon icon-arrow-upward tap"></i>
+    <el-backtop target=".content-view-main"></el-backtop>
   </el-container>
 </template>
 <script>
@@ -101,7 +109,6 @@ Spa.define(
     data: function() {
       return {
         isCollapse: window.innerWidth <= 850,
-        scrollTopIcon: false,
         editPassViewDialogtitle: "修改密码",
         editPassViewDialogVisible: false
       };
@@ -114,6 +121,9 @@ Spa.define(
             Spa.replace("main/main");
           } else {
             this.setBreadcrumbBr();
+          }
+          if (window.innerWidth <= 640) {
+            this.isCollapse = true;
           }
         },
         deep: true,
@@ -130,8 +140,8 @@ Spa.define(
       view: function() {
         return this.childView === "index" ? "main_main" : this.childView;
       },
-      asideStyle: function() {
-        return (this.isCollapse ? "width:84px" : "width:220px") + ";";
+      asideClass: function() {
+        return this.isCollapse ? "is-collapse" : "not-collapse";
       }
     },
     created: function() {
@@ -150,14 +160,6 @@ Spa.define(
           }, 100);
         }
       };
-      document
-        .querySelector(".el-main.content-box")
-        .addEventListener("scroll", function(e) {
-          clearTimeout(scrollTimer);
-          scrollTimer = setTimeout(function() {
-            that.scrollTopIcon = e.target.scrollTop > 10;
-          }, 100);
-        });
       that.onResize();
     },
     methods: {
@@ -210,9 +212,6 @@ Spa.define(
       },
       handleClose: function(key, keyPath) {
         console.log(key, keyPath);
-      },
-      goUp: function() {
-        window['scrollSmoothTo'](that.$refs["content-box"].$el,0);
       }
     }
   },

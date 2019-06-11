@@ -1,19 +1,18 @@
 <style>
-  .list-avatar {
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    border: 1px solid rgb(228, 232, 235);
-  }
+.list-avatar {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid rgb(228, 232, 235);
+}
 
-  .list-avatar-tooltip {
-    width: 120px;
-  }
+.list-avatar-tooltip {
+  width: 120px;
+}
 
-  .list-avatar-tooltip img {
-    width: 120px;
-  }
-
+.list-avatar-tooltip img {
+  width: 120px;
+}
 </style>
 <template>
   <div>
@@ -57,9 +56,11 @@
                 <div slot="content" class="list-avatar-tooltip">
                   <img :src="scope.row.avatar||$store.state.defaultData.avatar">
                 </div>
-                <div class="list-avatar">
-                  <img :src="scope.row.avatar||$store.state.defaultData.avatar">
-                </div>
+                <el-image
+                  fit="cover"
+                  class="list-avatar"
+                  :src="scope.row.avatar||$store.state.defaultData.avatar"
+                ></el-image>
               </el-tooltip>
             </template>
           </el-table-column>
@@ -74,8 +75,7 @@
             </template>
           </el-table-column>
           <el-table-column show-overflow-tooltip prop="update_time" label="更新时间" max-width="170"></el-table-column>
-          <el-table-column show-overflow-tooltip label="角色" prop="group_name" width="100">
-          </el-table-column>
+          <el-table-column show-overflow-tooltip label="角色" prop="group_name" width="100"></el-table-column>
           <el-table-column label="状态" width="100">
             <template slot-scope="scope">
               <el-tag v-if="scope.row.status===1" size="mini" type="success">正常</el-tag>
@@ -92,11 +92,12 @@
                   @click="editRow(scope)"
                   icon="el-icon-edit"
                   title="编辑用户"
-                >编 辑
-                </el-button>
+                >编 辑</el-button>
                 <el-popover placement="top" width="160" v-model="scope.row.popover">
                   <p>
-                    确定删除？ <br> {{ scope.row.username }}
+                    确定删除？
+                    <br>
+                    {{ scope.row.username }}
                   </p>
                   <div>
                     <el-button size="mini" @click="scope.row.popover = false" type="info" plain>取 消</el-button>
@@ -109,8 +110,7 @@
                     type="danger"
                     icon="el-icon-delete"
                     title="删除用户"
-                  >删 除
-                  </el-button>
+                  >删 除</el-button>
                 </el-popover>
               </div>
             </template>
@@ -142,108 +142,107 @@
   </div>
 </template>
 <script>
-  var title = '用户列表',
-    that;
-  Spa.define(
-    {
-      mixins: [mixinLists],
-      data: function () {
-        return {
-          title: title,
-          SpaTitle: title + ' - %s',
-          viewDialogVisible: false,
-          info: {},
-          search: '',
-          listsLoading: true
-        };
+var title = "用户列表",
+  that;
+Spa.define(
+  {
+    mixins: [mixinLists],
+    data: function() {
+      return {
+        title: title,
+        SpaTitle: title + " - %s",
+        viewDialogVisible: false,
+        info: {},
+        search: "",
+        listsLoading: true
+      };
+    },
+    created: function() {
+      that = this;
+    },
+    mounted: function() {},
+    computed: {
+      groups: function() {
+        return this.$store.getters.groups;
       },
-      created: function () {
-        that = this;
-      },
-      mounted: function () {
-      },
-      computed: {
-        groups: function () {
-          return this.$store.getters.groups;
-        },
-        viewDialogtitle: function () {
-          return !!this.info.id ? '编辑用户' : '添加用户';
+      viewDialogtitle: function() {
+        return !!this.info.id ? "编辑用户" : "添加用户";
+      }
+    },
+    init: function(query, search) {
+      console.log("user", search, that.__isShow, this.__isShow, this);
+      if (!!search[0]) {
+        this.ml_listsLoading = true;
+        this.ml_data = [];
+        this.ml_searchKey = search[0];
+        this.getLists();
+      }
+    },
+    methods: {
+      userSubmitSucceed: function(id) {
+        this.viewDialogVisible = false;
+        this.ml_reloadLists();
+        if (+id === +this.$store.state.user.id) {
+          this.$root.getInfo();
         }
       },
-      init: function (query, search) {
-        console.log('user', search, that.__isShow, this.__isShow, this);
-        if (!!search[0]) {
-          this.ml_listsLoading = true;
-          this.ml_data = [];
-          this.ml_searchKey = search[0];
-          this.getLists();
-        }
+      create: function() {
+        this.viewDialogVisible = true;
+        this.info = {};
       },
-      methods: {
-        userSubmitSucceed: function (id) {
-          this.viewDialogVisible = false;
-          this.ml_reloadLists();
-          if (+id === +this.$store.state.user.id) {
-            this.$root.getInfo();
-          }
-        },
-        create: function () {
-          this.viewDialogVisible = true;
-          this.info = {};
-        },
-        editRow: function (e) {
-          this.info = e.row;
-          this.viewDialogVisible = !this.viewDialogVisible;
-        },
-        deleteRow: function (v) {
-          this.$api(apis.sysDeleteUser, { id: v.row.id })
-              .then(function (e) {
-                that.ml_data.splice(v.$index, 1);
-                if (that.ml_data.length <= 0) {
-                  that.ml_reloadLists();
-                }
-              })
-              .catch(function (msg) {
-                that.$warMsg(msg);
-              })
-              .finally(function () {
-                v.row.popover = false;
-              });
-        },
-        isMe: function (name) {
-          return name === this.$store.getters.nickname;
-        },
-        getLists: function () {
-          var data = { page: this.ml_page, pagesize: this.ml_pagesize };
-          if (this.ml_searchKey) {
-            data['key'] = this.ml_searchKey;
-          }
-          that.ml_listsLoading = true;
-          that
+      editRow: function(e) {
+        this.info = e.row;
+        this.viewDialogVisible = !this.viewDialogVisible;
+      },
+      deleteRow: function(v) {
+        this.$api(apis.sysDeleteUser, { id: v.row.id })
+          .then(function(e) {
+            that.ml_data.splice(v.$index, 1);
+            if (that.ml_data.length <= 0) {
+              that.ml_reloadLists();
+            }
+          })
+          .catch(function(msg) {
+            that.$warMsg(msg);
+          })
+          .finally(function() {
+            v.row.popover = false;
+          });
+      },
+      isMe: function(name) {
+        return name === this.$store.getters.nickname;
+      },
+      getLists: function() {
+        var data = { page: this.ml_page, pagesize: this.ml_pagesize };
+        if (this.ml_searchKey) {
+          data["key"] = this.ml_searchKey;
+        }
+        that.ml_listsLoading = true;
+        that
           .$api(apis.sysUserLists, data)
-          .then(function (e) {
+          .then(function(e) {
             var data = e.data.items;
             var page = e.data.page;
-            data.map(function (e) {
+            data.map(function(e) {
               for (var i = 0, length = that.groups.length; i < length; i++) {
-                if (that.groups[i]['id'] === e.group_id) {
+                if (that.groups[i]["id"] === e.group_id) {
                   e.group_name = that.groups[i].name;
                   break;
                 }
-                e.group_name = '';
+                e.group_name = "";
               }
               e.popover = false;
               return e;
             });
             that.ml_getLists(data, page);
           })
-          .finally(function () {
+          .finally(function() {
             that.ml_listsLoading = false;
           });
-        }
       }
-    },
-    ['/components/user-view'],
-    '/index'
-  );
+    }
+  },
+  ["/components/user-view"],
+  "/index"
+);
 </script>

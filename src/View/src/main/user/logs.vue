@@ -1,14 +1,7 @@
 <style>
-  .page-sys-logs .view-title-right {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-  }
-
-  .page-sys-logs .el-form-item {
-    max-width: 120px;
-  }
+.page-sys-logs .el-form-item {
+  max-width : 120px;
+}
 
 </style>
 <template>
@@ -49,12 +42,12 @@
           <el-table-column :selectable="isUnreadMessageTab" type="selection" width="55"></el-table-column>
           <el-table-column prop="create_time" label="日期" width="150"></el-table-column>
           <el-table-column show-overflow-tooltip prop="username" label="触发用户" width="100"></el-table-column>
-          <el-table-column label="日志">
+          <el-table-column label="日志" min-width="220">
             <template slot-scope="scope">
-              <div class="text-nowrap" :title="scope.row.content">{{ scope.row.title }}</div>
+              <div class="text-nowrap" :title="scope.row.content">{{ scope.row.content }}</div>
             </template>
           </el-table-column>
-          <el-table-column label="类型" width="220">
+          <el-table-column label="类型">
             <template slot-scope="scope">
               <el-tag
                 size="mini"
@@ -63,7 +56,7 @@
               ></el-tag>
             </template>
           </el-table-column>
-          <el-table-column label="操作">
+          <el-table-column min-width="100" label="操作">
             <template slot-scope="scope">
               <div class="text-nowrap">
                 <el-button
@@ -72,8 +65,7 @@
                   title="标记已读"
                   size="mini"
                   @click="readSelection(scope.row.id)"
-                >标记已读
-                </el-button>
+                >标记已读</el-button>
                 <span v-else>--</span>
               </div>
             </template>
@@ -104,121 +96,122 @@
   </div>
 </template>
 <script>
-  var title = '站内消息',
-    that;
-  Spa.define(
-    {
-      mixins: [mixinLists],
-      data: function () {
-        return {
-          title: title,
-          SpaTitle: title + ' - %s',
-          activeName: 'unreadMessage',
-          tabs: {
-            unreadMessage: '未读消息',
-            allMessage: '全部消息'
-          },
-          logType: '',
-          logTypes: [
-            { label: '普通日志', value: 1, type: '' },
-            { label: '警告日志', value: 2, type: 'warning' },
-            { label: '错误日志', value: 3, type: 'danger' }
-          ],
-          selectIds: []
-        };
-      },
-      watch: {
-        logType: function () {
-          this.ml_reloadLists();
-        }
-      },
-      computed: {
-        tabTitle: function () {
-          return this.tabs[this['activeName']];
+var title = "站内消息",
+  that;
+Spa.define(
+  {
+    mixins: [mixinLists],
+    data: function() {
+      return {
+        title: title,
+        SpaTitle: title + " - %s",
+        activeName: "unreadMessage",
+        tabs: {
+          unreadMessage: "未读消息",
+          allMessage: "全部消息"
         },
-        showColumnBtn: function () {
-          return this.selectIds.length > 0;
-        }
-      },
-      init: function (query, search) {
+        logType: "",
+        logTypes: [
+          { label: "普通日志", value: 1, type: "" },
+          { label: "警告日志", value: 2, type: "warning" },
+          { label: "错误日志", value: 3, type: "danger" }
+        ],
+        selectIds: []
+      };
+    },
+    watch: {
+      logType: function() {
         this.ml_reloadLists();
+      }
+    },
+    computed: {
+      tabTitle: function() {
+        return this.tabs[this["activeName"]];
       },
-      methods: {
-        getTagAttrs: function (i) {
-          for (let j = 0, length = this.logTypes.length; j < length; j++) {
-            if (this.logTypes[j]['value'] === i) {
-              return {
-                title: this.logTypes[j].label,
-                type: this.logTypes[j].type
-              };
-            }
+      showColumnBtn: function() {
+        return this.selectIds.length > 0;
+      }
+    },
+    init: function(query, search) {
+      this.ml_reloadLists();
+    },
+    created: function() {
+      that = this;
+    },
+    methods: {
+      getTagAttrs: function(i) {
+        for (let j = 0, length = this.logTypes.length; j < length; j++) {
+          if (this.logTypes[j]["value"] === i) {
+            return {
+              title: this.logTypes[j].label,
+              type: this.logTypes[j].type
+            };
           }
-          return {};
-        },
-        readSelection: function (e) {
-          var data = { ids: [] };
-          if (!e) {
-            data.ids = that.selectIds;
-          } else {
-            data.ids = [e];
-          }
-          that
-          .$api(apis.sysUpdateMessageStatus, data)
-          .then(function (e) {
-            window['SysGetUnreadMessageCount'] &&
-            window['SysGetUnreadMessageCount']();
+        }
+        return {};
+      },
+      readSelection: function(e) {
+        var data = { ids: [] };
+        if (!e) {
+          data.ids = that.selectIds;
+        } else {
+          data.ids = [e];
+        }
+        this.$api(apis.sysUpdateMessageStatus, data)
+          .then(function(e) {
+            window["SysGetUnreadMessageCount"] &&
+              window["SysGetUnreadMessageCount"]();
             that.ml_reloadLists();
           })
-          .catch(function (e) {
+          .catch(function(e) {
             that.$warMsg(e);
           });
-        },
-        handleSelectionChange: function (e) {
-          this.selectIds = e.map(function (e) {
-            return e.id;
-          });
-        },
-        isUnreadMessageTab: function (row) {
-          return row.status === 1;
-        },
-        handleClick: function (tab, event) {
-          this.ml_page = 1;
-          var that = this;
-          this.$nextTick(function () {
-            that.getLists();
-          });
-        },
-        getLists: function () {
-          if (this.ml_listsLoading) {
-            return;
-          }
-          var that = this,data = {
+      },
+      handleSelectionChange: function(e) {
+        this.selectIds = e.map(function(e) {
+          return e.id;
+        });
+      },
+      isUnreadMessageTab: function(row) {
+        return row.status === 1;
+      },
+      handleClick: function(tab, event) {
+        this.ml_page = 1;
+        this.$nextTick(function() {
+          that.getLists();
+        });
+      },
+      getLists: function() {
+        if (this.ml_listsLoading) {
+          return;
+        }
+        var that = this,
+          data = {
             page: this.ml_page,
             pagesize: this.ml_pagesize,
-            unread: +(this.activeName === 'unreadMessage'),
+            unread: +(this.activeName === "unreadMessage"),
             type: this.logType
           };
-          this.ml_listsLoading = true;
-          this
-          .$api(apis.sysUserLogs, data)
-          .then(function (e) {
-            var items = e.data.items.map(function (v) {
-              v.username = !!v.username ? v.username : '游客';
+        this.ml_listsLoading = true;
+        this.$api(apis.sysUserLogs, data)
+          .then(function(e) {
+            var items = e.data.items.map(function(v) {
+              v.username = !!v.username ? v.username : "游客";
               return v;
             });
             that.ml_getLists(items, e.data.page);
           })
-          .catch(function (e) {
+          .catch(function(e) {
             that.$warMsg(e);
           })
-          .finally(function () {
+          .finally(function() {
             // that.$store.commit('setUnreadMessageCount', 0);
             that.ml_listsLoading = false;
           });
-        }
       }
-    },
-    [],
-    '/index'
-  );
+    }
+  },
+  [],
+  "/index"
+);
 </script>

@@ -64,7 +64,7 @@ class Manage extends \Zls\Command\Command
 
     private function initView()
     {
-        $dest = Z::realPathMkdir('./zls_manage', true, false, true);
+        $dest = Z::realPathMkdir('./zls-manage', true, false, true);
         $source = Z::realPath(__DIR__ . '/../View', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
