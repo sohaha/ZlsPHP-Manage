@@ -53,7 +53,7 @@
           SpaTitle: title + ' - %s'
         };
       },
-      created: function () {
+      beforeCreate: function () {
         that = this;
       },
       computed: {},

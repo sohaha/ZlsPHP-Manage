@@ -1,18 +1,19 @@
 <style>
 .list-avatar {
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  border: 1px solid rgb(228, 232, 235);
+  width : 40px;
+  height : 40px;
+  text-align : center;
+  border : 1px solid rgb(228, 232, 235);
 }
 
 .list-avatar-tooltip {
-  width: 120px;
+  width : 120px;
 }
 
 .list-avatar-tooltip img {
-  width: 120px;
+  width : 120px;
 }
+
 </style>
 <template>
   <div>
@@ -69,7 +70,7 @@
               <div class="text-nowrap" :title="scope.row.username">{{ scope.row.username }}</div>
             </template>
           </el-table-column>
-          <el-table-column show-overflow-tooltip label="Email" max-width="170">
+          <el-table-column show-overflow-tooltip label="邮箱" max-width="170">
             <template slot-scope="scope">
               <div>{{ scope.row.email || ' - ' }}</div>
             </template>
@@ -157,7 +158,7 @@ Spa.define(
         listsLoading: true
       };
     },
-    created: function() {
+    beforeCreate: function() {
       that = this;
     },
     mounted: function() {},

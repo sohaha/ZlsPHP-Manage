@@ -19,16 +19,16 @@ class UserRules extends M
         $table->create();
         $rows = [
             [
-                'title'       => '后台自带路由',
+                'title' => '后台自带路由',
                 'create_time' => date('Y-m-d H:i:s'),
                 'update_time' => date('Y-m-d H:i:s'),
-                'router'      => '/ZlsManage/*',
+                'router' => 'ZlsManage/*',
             ],
             [
-                'title'       => '用户列表',
+                'title' => '用户列表',
                 'create_time' => date('Y-m-d H:i:s'),
                 'update_time' => date('Y-m-d H:i:s'),
-                'router'      => '/ZlsManage/UserManageApi*',
+                'router' => 'ZlsManage/UserManageApi*',
             ],
         ];
         $table->insert($rows);

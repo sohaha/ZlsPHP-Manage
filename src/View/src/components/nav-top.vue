@@ -2,26 +2,28 @@
 .header {
   background-color : #FFFFFF;
   color : #333333;
-  line-height : 60px;
-  padding : 0 40px;
+  line-height : 40px;
+  padding : 0 10px;
   z-index : 9;
   box-shadow : 0 1px 4px 0 #C0C4CC;
 }
 
 .header-logo {
-  padding : 0;
-  font-size : 30px;
+  padding : 0 0 0 5px;
+  text-align : center;
+  color : #2C6EB1;
+  font-weight : bold;
+  letter-spacing : 2px;
 }
 
 .header-logo img {
-  vertical-align : middle;
-  height : 45px;
-  margin-bottom : 10px;
+  height : 38px;
+  vertical-align : top;
 }
 
 .header-nav {
   padding : 0;
-  height : 60px;
+  height : 40px;
   display : -webkit-box;
   display : -ms-flexbox;
   display : flex;
@@ -33,7 +35,7 @@
 }
 
 .header-nav > div {
-  width : 80px;
+  width : 60px;
   padding-top : 3px;
   text-align : center;
 }
@@ -45,7 +47,7 @@
 .tip-msg {
   font-size : 30px;
   line-height : 20px;
-  padding-bottom : 10px;
+  padding-bottom : 5px;
 }
 
 .el-dropdown-nav {
@@ -54,13 +56,13 @@
 }
 
 .header-avatar {
-  width : 45px;
-  height : 45px;
+  width : 30px;
+  height : 30px;
   overflow : hidden;
   vertical-align : middle;
   border-radius : 50%;
   box-shadow : 1px 0 3px;
-  margin : 5px 20px 0 5px;
+  margin : 2px 5px 0 5px;
 }
 
 .el-dropdown-menu.el-popper {
@@ -69,10 +71,10 @@
 }
 
 .header-nav .user-menu.el-dropdown {
-  height : 60px;
+  height : 40px;
   line-height : 25px;
   display : block;
-  width : 75px;
+  width : 65px;
   text-align : center;
   float : right;
   box-sizing : border-box;
@@ -81,8 +83,9 @@
 
 .header-nav .el-icon--right {
   position : absolute;
-  right : 5px;
-  top : 25px;
+  right : 4px;
+  top : 20px;
+  color : #9A9A9A;
 }
 
 .header-name {
@@ -95,9 +98,9 @@
   line-height : 12px;
 }
 .nav-top-collapse-icon {
-  height : 60px;
-  position : absolute;
-  left : 5px;
+  height : 40px;
+  /* position : absolute; */
+  /* left : 5px; */
   font-size : 25px;
   text-align : center;
   -webkit-animation : opacity 2s infinite;
@@ -108,7 +111,7 @@
 <template>
   <el-container>
     <el-aside width="auto" class="header-logo tap" @click.native.prevent="handleNav">
-      <img src="./src/images/logo.png" alt="Logo">
+      <img src="./src/images/logo.svg" alt="Logo">
     </el-aside>
     <el-aside width="50px" class="nav-top-collapse-icon">
       <i v-if="isCollapse" @click.prevent="handleNav" class="icon-arrowhead-right-outl tap"></i>

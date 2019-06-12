@@ -28,7 +28,7 @@ class AuthBusiness extends \Zls_Business
         }
         list($rules, $banRules) = $this->getGroupRules($user['group_id']);
         $adopt = false;
-        $ban   = ['title' => '没有找到匹配规则', 'router' => '*'];
+        $ban = ['title' => '没有找到匹配规则', 'router' => '*', '111' => $router];
         foreach ($rules as $rule) {
             if ($this->verify($router, $rule['router'], $rule['condition'], $user)) {
                 $adopt = $rule;
@@ -39,7 +39,7 @@ class AuthBusiness extends \Zls_Business
             foreach ($banRules as $rule) {
                 if ($this->verify($router, $rule['router'], $router['condition'], $user)) {
                     $adopt = false;
-                    $ban   = $rule;
+                    $ban = $rule;
                     break;
                 }
             }
@@ -50,10 +50,10 @@ class AuthBusiness extends \Zls_Business
 
     private function verify($router, $rule, $condition, $user)
     {
-        $rs       = false; //extract
+        $rs = false; //extract
         $ruleData = explode('::', strtolower($rule));
-        $rule     = $ruleData[0];
-        $type     = z::arrayGet($ruleData, 1);
+        $rule = $ruleData[0];
+        $type = z::arrayGet($ruleData, 1);
         if (!!$type && (strtolower(Z::server('REQUEST_METHOD', '')) !== $type)) {
 
             return $rs;
@@ -61,7 +61,7 @@ class AuthBusiness extends \Zls_Business
         if ($rule !== $router) {
             $matches = str_replace('*', '(.*)', $rule);
             $matches = str_replace('/', '\/', $matches);
-            $rs      = preg_match('/' . $matches . '/i', $router);
+            $rs = preg_match('/' . $matches . '/i', $router);
         } else {
             $rs = true;
         }
@@ -88,11 +88,11 @@ class AuthBusiness extends \Zls_Business
     private function getGroupRules($group_id)
     {
         $GroupBusiness = new GroupBusiness();
-        $group         = $GroupBusiness->find($group_id);
-        $group         = $GroupBusiness->integration($group);
+        $group = $GroupBusiness->find($group_id);
+        $group = $GroupBusiness->integration($group);
         $RulesBusiness = new RulesBusiness();
-        $rules         = $RulesBusiness->findRows(z::arrayGet($group, 'rule_ids', []));
-        $banRules      = $RulesBusiness->findRows(z::arrayGet($group, 'ban_rule_ids', []));
+        $rules = $RulesBusiness->findRows(z::arrayGet($group, 'rule_ids', []));
+        $banRules = $RulesBusiness->findRows(z::arrayGet($group, 'ban_rule_ids', []));
 
         return [$rules, $banRules];
     }

@@ -124,7 +124,7 @@
           isAddRow: false
         };
       },
-      created: function () {
+      beforeCreate: function () {
         that = this;
       },
       computed: {

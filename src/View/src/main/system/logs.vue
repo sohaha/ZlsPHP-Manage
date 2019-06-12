@@ -92,7 +92,7 @@ Spa.define(
         currentLine: 0
       };
     },
-    created: function() {
+    beforeCreate: function() {
       that = this;
     },
     beforeDestroy: function() {

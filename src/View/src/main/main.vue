@@ -101,7 +101,7 @@
           error: []
         };
       },
-      created: function () {
+      beforeCreate: function () {
         that = this;
       },
       computed: {

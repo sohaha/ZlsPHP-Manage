@@ -47,7 +47,7 @@ Spa.define(
         SpaTitle: title + " - %s"
       };
     },
-    created: function() {
+    beforeCreate: function() {
       that = this;
     },
     mounted: function() {},

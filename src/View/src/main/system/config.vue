@@ -60,7 +60,7 @@
           rules: {}
         };
       },
-      created: function () {
+      beforeCreate: function () {
         that = this;
       },
       mounted: function () {

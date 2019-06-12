@@ -214,7 +214,7 @@
         return this.$root.ProjectName;
       },
     },
-    created: function () {
+    beforeCreate: function () {
       that = this;
     },
     data: function () {

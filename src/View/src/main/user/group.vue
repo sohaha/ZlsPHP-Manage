@@ -130,7 +130,7 @@
           viewDialogVisible: true
         };
       },
-      created: function () {
+      beforeCreate: function () {
         that = this;
       },
       computed: {},

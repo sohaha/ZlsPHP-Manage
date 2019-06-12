@@ -135,7 +135,7 @@ Spa.define(
     init: function(query, search) {
       this.ml_reloadLists();
     },
-    created: function() {
+    beforeCreate: function() {
       that = this;
     },
     methods: {

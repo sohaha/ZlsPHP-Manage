@@ -243,7 +243,7 @@ img {
 
 .content-container {
   position : relative;
-  height : calc(100vh - 60px);
+  height : calc(100vh - 40px);
   -webkit-box-flex : 1;
   -ms-flex : auto;
   flex : auto;
@@ -329,7 +329,7 @@ span:not(.class) + .el-button {
 }
 
 .content-box {
-  padding : 20px 10px 20px 5px;
+  padding : 10px 20px 20px 5px;
   /* overflow-y: auto; */
   /* overflow: hidden; */
   position : relative;
@@ -383,7 +383,7 @@ span:not(.class) + .el-button {
 }
 
 .view-title-right.view-title-right__alone {
-  margin : 32px 0 5px;
+  margin : 30px 0 5px;
 }
 
 .view-title-right .el-form--inline .el-form-item__content {
@@ -578,11 +578,9 @@ legend {
     margin : auto;
     display : block;
   }
-
-  section.el-container.content-container {
-    padding-left : 10px;
+  main.el-main.content-box {
+    padding-right : 6px;
   }
-
   aside.el-aside.header-logo {
     display : none;
   }

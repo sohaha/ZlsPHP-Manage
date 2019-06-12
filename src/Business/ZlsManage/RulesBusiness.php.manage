@@ -40,18 +40,19 @@ class RulesBusiness extends \Zls_Business
      */
     public function updateUserRuleStatus($gid, $id, $status, $sort)
     {
+        $time = date('Y-m-d H:i:s');
         $RulesRelaDao = new RulesRelaDao();
-        $where        = ['group_id' => $gid, 'rule_id' => $id];
-        $data         = ['status' => $status, 'sort' => $sort, 'update_time' => $time];
-        $rules        = $RulesRelaDao->verifyRules(array_keys($data));
-        $retData      = $errorMsg = $errorKey = null;
+        $where = ['group_id' => $gid, 'rule_id' => $id];
+        $data = ['status' => $status, 'sort' => $sort, 'update_time' => $time];
+        $rules = $RulesRelaDao->verifyRules(array_keys($data));
+        $retData = $errorMsg = $errorKey = null;
         if (z::checkData($data, $rules, $retData, $errorMsg, $errorKey)) {
             $row = $RulesRelaDao->find($where);
             if ($row) {
                 $res = $RulesRelaDao->update($retData, $row['id']);
             } else {
                 $data = $where + $retData + ['create_time' => $time];
-                $res  = $RulesRelaDao->insert($data);
+                $res = $RulesRelaDao->insert($data);
             }
 
             // todo 更新缓存
@@ -70,9 +71,9 @@ class RulesBusiness extends \Zls_Business
      */
     public function addRules($title, $router, $remark)
     {
-        $data    = ['title' => $title, 'router' => $router, 'remark' => $remark];
-        $dao     = new RulesDao();
-        $rules   = $dao->verifyRules(array_keys($data));
+        $data = ['title' => $title, 'router' => $router, 'remark' => $remark];
+        $dao = new RulesDao();
+        $rules = $dao->verifyRules(array_keys($data));
         $retData = $errorMsg = $errorKey = null;
         if (z::checkData($data, $rules, $retData, $errorMsg, $errorKey)) {
             $id = $dao->insert($retData);
@@ -93,13 +94,13 @@ class RulesBusiness extends \Zls_Business
      */
     public function editRules($id, $title, $router, $remark)
     {
-        $data    = ['title' => $title, 'router' => $router, 'remark' => $remark, 'id' => $id];
-        $dao     = new RulesDao();
-        $rules   = $dao->verifyRules(array_keys($data));
+        $data = ['title' => $title, 'router' => $router, 'remark' => $remark, 'id' => $id];
+        $dao = new RulesDao();
+        $rules = $dao->verifyRules(array_keys($data));
         $retData = $errorMsg = $errorKey = null;
         if (z::checkData($data, $rules, $retData, $errorMsg, $errorKey)) {
             $retData = z::readData($dao->getReversalColumns('id'), $retData, false);
-            $rs      = $dao->update($retData, $id);
+            $rs = $dao->update($retData, $id);
 
             return $retData;
         } else {
