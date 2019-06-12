@@ -143,15 +143,12 @@
   </div>
 </template>
 <script>
-var title = "用户列表",
-  that;
+var that;
 Spa.define(
   {
-    mixins: [mixinLists],
+    mixins: [mixinLists, initTitle],
     data: function() {
       return {
-        title: title,
-        SpaTitle: title + " - %s",
         viewDialogVisible: false,
         info: {},
         search: "",

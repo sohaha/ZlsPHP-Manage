@@ -1,16 +1,17 @@
 <style>
 .logs-view .panel {
-  padding-top: 10px;
+  padding-top : 10px;
 }
 
 .logs-view .switch {
-  margin-bottom: 10px;
-  float: right;
+  margin-bottom : 10px;
+  float : right;
 }
 
 .logs-view .el-textarea__inner {
-  padding: 10px;
+  padding : 10px;
 }
+
 </style>
 <template>
   <div class="logs-view">
@@ -71,16 +72,12 @@
   </div>
 </template>
 <script>
-var title = "系统日志",
-  that,
-  timer;
+var that, timer;
 Spa.define(
   {
-    mixins: [mixinLists],
+    mixins: [mixinLists, initTitle],
     data: function() {
       return {
-        title: title,
-        SpaTitle: title + " - %s",
         lists: [],
         types: [],
         currentType: null,

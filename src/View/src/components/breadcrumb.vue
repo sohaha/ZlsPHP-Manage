@@ -77,6 +77,10 @@ Spa.define({
         return v.breadcrumb !== false;
       });
       this.$store.commit("setBreadcrumb", breadcrumb);
+      this.$store.commit(
+        "setViewTitle",
+        breadcrumb[breadcrumb.length - 1].title
+      );
       return breadcrumb;
     }
   },

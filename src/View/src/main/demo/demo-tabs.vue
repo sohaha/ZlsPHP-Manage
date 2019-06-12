@@ -12,38 +12,33 @@
   </div>
 </template>
 <script>
-  var title = '标签页示例',
-    that;
-  Spa.define(
-    {
-      mixins: [mixinLists],
-      data: function () {
-        return {
-          title: title,
-          SpaTitle: title + ' - %s',
-          activeName: 'key3',
-          tabs: {
-            key1: '标签页1',
-            key2: '标签页2',
-            key3: '标签页3'
-          }
-        };
-      },
-      beforeCreate: function () {
-        that = this;
-      },
-      mounted: function () {
-      },
-      computed: {},
-      init: function (query, search) {
-      },
-      methods: {
-        handleClick: function (tab, event) {
-          console.log(tab, event);
+var that;
+Spa.define(
+  {
+    mixins: [mixinLists, initTitle],
+    data: function() {
+      return {
+        activeName: "key3",
+        tabs: {
+          key1: "标签页1",
+          key2: "标签页2",
+          key3: "标签页3"
         }
-      }
+      };
     },
-    [],
-    '/index'
-  );
+    beforeCreate: function() {
+      that = this;
+    },
+    mounted: function() {},
+    computed: {},
+    init: function(query, search) {},
+    methods: {
+      handleClick: function(tab, event) {
+        console.log(tab, event);
+      }
+    }
+  },
+  [],
+  "/index"
+);
 </script>

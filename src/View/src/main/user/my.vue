@@ -4,7 +4,7 @@
   <div>
     <div class="view-title float-clear"></div>
     <fieldset>
-      <legend v-once v-text="title"></legend>
+      <legend v-text="title"></legend>
       <aside class="center" aria-label="开发说明">
         <el-container>
           <el-aside width="auto">
@@ -22,16 +22,12 @@
   </div>
 </template>
 <script>
-var title = "个人设置";
+var that;
 Spa.define(
   {
-    name: "Demo-View",
-    mixins: [mixinLists],
+    mixins: [mixinLists, initTitle],
     data: function() {
-      return {
-        title: title,
-        SpaTitle: title + " - %s"
-      };
+      return {};
     },
     beforeCreate: function() {
       that = this;

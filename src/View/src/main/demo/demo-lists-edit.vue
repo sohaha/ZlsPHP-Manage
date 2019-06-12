@@ -11,8 +11,7 @@
               @click="addRowStatus"
               icon="el-icon-plus"
               :disabled="isAddRow"
-            >添加
-            </el-button>
+            >添加</el-button>
             <el-button type="info" size="mini" @click="ml_reloadLists" icon="el-icon-refresh">刷新</el-button>
           </el-form-item>
         </el-form>
@@ -45,8 +44,7 @@
                   v-bind="getEditBtnAttrs(scope)"
                   size="mini"
                   @click="editRow(scope)"
-                >{{getEditBtnAttrs(scope).title}}
-                </el-button>
+                >{{getEditBtnAttrs(scope).title}}</el-button>
                 <el-button
                   v-if="scope.row._isEdit"
                   title="放 弃"
@@ -54,8 +52,7 @@
                   size="mini"
                   :loading="scope.row._loading"
                   icon="el-icon-close"
-                >放 弃
-                </el-button>
+                >放 弃</el-button>
                 <template>
                   <el-popover placement="top" width="160" v-model="scope.row._isPopover">
                     <p>确定删除吗？</p>
@@ -65,8 +62,7 @@
                         @click="scope.row._isPopover = false"
                         type="info"
                         plain
-                      >取 消
-                      </el-button>
+                      >取 消</el-button>
                       <el-button type="danger" size="mini" @click="deleteRow(scope)" plain>确 定</el-button>
                     </div>
                     <el-button
@@ -76,8 +72,7 @@
                       type="danger"
                       icon="el-icon-delete"
                       title="删 除"
-                    >删 除
-                    </el-button>
+                    >删 除</el-button>
                   </el-popover>
                 </template>
               </div>
@@ -109,87 +104,83 @@
   </div>
 </template>
 <script>
-  var that,
-    dataFormat = { title: '', date: '', id: 0 },
-    title = '列表示例';
-  Spa.define(
-    {
-      mixins: [mixinLists],
-      data: function () {
-        return {
-          title: title,
-          SpaTitle: title + ' - %s',
-          tmpData: [],
-          selectIds: [],
-          isAddRow: false
-        };
+var that,
+  dataFormat = { title: "", date: "", id: 0 };
+Spa.define(
+  {
+    mixins: [mixinLists, initTitle],
+    data: function() {
+      return {
+        tmpData: [],
+        selectIds: [],
+        isAddRow: false
+      };
+    },
+    beforeCreate: function() {
+      that = this;
+    },
+    computed: {
+      showColumnBtn: function() {
+        return that.selectIds.length > 0;
+      }
+    },
+    init: function(query, search) {
+      that.ml_pagesize = 10;
+    },
+    mounted: function() {},
+    methods: {
+      handleSelectionChange: function(e) {
+        that.selectIds = e.map(function(e) {
+          return e.id;
+        });
       },
-      beforeCreate: function () {
-        that = this;
+      selectable: function(row, index) {
+        return true;
       },
-      computed: {
-        showColumnBtn: function () {
-          return that.selectIds.length > 0;
+      deleteSelection: function() {
+        console.log("删除选中", that.selectIds);
+      },
+      addRowStatus: function() {
+        that.isAddRow = true;
+        that.ml_data.unshift(
+          Object.assign(
+            { _isEdit: true, _isPopover: false, _isAdd: true },
+            dataFormat
+          )
+        );
+      },
+      quitRow: function(e) {
+        var index = e.$index;
+        if (!e.row._isAdd) {
+          that.$set(
+            this.ml_data,
+            e.$index,
+            Object.assign({}, this.tmpData[index])
+          );
+        } else {
+          that.isAddRow = false;
+          that.ml_data.splice(e.$index, 1);
         }
       },
-      init: function (query, search) {
-        that.ml_pagesize = 10;
-      },
-      mounted: function () {
-      },
-      methods: {
-        handleSelectionChange: function (e) {
-          that.selectIds = e.map(function (e) {
-            return e.id;
-          });
-        },
-        selectable: function (row, index) {
-          return true;
-        },
-        deleteSelection: function () {
-          console.log('删除选中', that.selectIds);
-        },
-        addRowStatus: function () {
-          that.isAddRow = true;
-          that.ml_data.unshift(
-            Object.assign(
-              { _isEdit: true, _isPopover: false, _isAdd: true },
-              dataFormat
-            )
-          );
-        },
-        quitRow: function (e) {
-          var index = e.$index;
-          if (!e.row._isAdd) {
-            that.$set(
-              this.ml_data,
-              e.$index,
-              Object.assign({}, this.tmpData[index])
-            );
-          } else {
-            that.isAddRow = false;
-            that.ml_data.splice(e.$index, 1);
-          }
-        },
-        deleteRow: function (e) {
-          that
+      deleteRow: function(e) {
+        that
           .$api(undefined, e.row)
-          .then(function () {
+          .then(function() {
             that.ml_data.splice(e.$index, 1);
             that.ml_pagetotal--;
-            that.$nextTick(function () {
+            that.$nextTick(function() {
               if (that.ml_data.length <= 0) that.getLists();
             });
           })
-          .catch(function (e) {
+          .catch(function(e) {
             that.$warMsg(e);
           });
-        },
-        addRow: function (e) {
-          e.row._loading = true;
-          that
+      },
+      addRow: function(e) {
+        e.row._loading = true;
+        that
           .$api(undefined, e.row)
-          .then(function (v) {
+          .then(function(v) {
             // todo test 接口地址undefined是不会真实发起请求所以这里 e 是不会有数据
             v = { data: {} };
             e.row._isEdit = false;
@@ -198,22 +189,21 @@
             that.isAddRow = false;
             that.$set(that.ml_data, e.$index, Object.assign({}, e.row, v.data));
           })
-          .catch(function (err) {
+          .catch(function(err) {
             e.row._loading = false;
             that.$warMsg(err);
           })
-          .finally(function () {
-          });
-        },
-        editRow: function (e) {
-          if (e.row._isAdd) {
-            this.addRow(e);
-            return;
-          }
-          if (e.row._isEdit) {
-            that
+          .finally(function() {});
+      },
+      editRow: function(e) {
+        if (e.row._isAdd) {
+          this.addRow(e);
+          return;
+        }
+        if (e.row._isEdit) {
+          that
             .$api(undefined, e.row)
-            .then(function (v) {
+            .then(function(v) {
               v = { data: {} };
               e.row._isEdit = false;
               that.$set(
@@ -222,67 +212,67 @@
                 Object.assign({}, e.row, v.data)
               );
             })
-            .catch(function (e) {
+            .catch(function(e) {
               that.$warMsg(e);
             });
-          } else {
-            this.$set(this.tmpData, e.$index, Object.assign({}, e.row));
-            e.row._isEdit = !e.row._isEdit;
-          }
-        },
-        getEditBtnAttrs: function (e) {
-          return e.row._isEdit
-            ? {
-              title: '提 交',
-              type: 'primary',
-              icon: 'el-icon-check'
-            }
-            : {
-              title: '编 辑',
-              type: 'info',
-              icon: 'el-icon-edit'
-            };
-        },
-        getLists: function () {
-          var data = { page: this.ml_page, pagesize: this.ml_pagesize };
-          if (this.ml_searchKey) {
-            data['key'] = this.ml_searchKey;
-          }
-          that.isAddRow = false;
-          that.ml_listsLoading = true;
-          this.$api(undefined, data)
-              .then(function (v) {
-                // todo test 接口地址undefined是不会真实发起请求所以这里 v 是不会有数据
-                v = {
-                  data: {
-                    items: [
-                      { id: 1, title: 'demo1', date: '2020-01-01' },
-                      { id: 2, title: 'demo2', date: '2020-01-01' },
-                      { id: 3, title: 'demo3', date: '2020-01-01' }
-                    ],
-                    page: { total: 40 }
-                  }
-                };
-                // test end
-                var data = v.data.items;
-                data.map(function (e) {
-                  e._isEdit = false;
-                  e._isPopover = false;
-                  return e;
-                });
-                var page = v.data.page;
-                that.ml_getLists(data, page);
-              })
-              .catch(function (e) {
-                that.$warMsg(e);
-              })
-              .finally(function () {
-                that.ml_listsLoading = false;
-              });
+        } else {
+          this.$set(this.tmpData, e.$index, Object.assign({}, e.row));
+          e.row._isEdit = !e.row._isEdit;
         }
+      },
+      getEditBtnAttrs: function(e) {
+        return e.row._isEdit
+          ? {
+              title: "提 交",
+              type: "primary",
+              icon: "el-icon-check"
+            }
+          : {
+              title: "编 辑",
+              type: "info",
+              icon: "el-icon-edit"
+            };
+      },
+      getLists: function() {
+        var data = { page: this.ml_page, pagesize: this.ml_pagesize };
+        if (this.ml_searchKey) {
+          data["key"] = this.ml_searchKey;
+        }
+        that.isAddRow = false;
+        that.ml_listsLoading = true;
+        this.$api(undefined, data)
+          .then(function(v) {
+            // todo test 接口地址undefined是不会真实发起请求所以这里 v 是不会有数据
+            v = {
+              data: {
+                items: [
+                  { id: 1, title: "demo1", date: "2020-01-01" },
+                  { id: 2, title: "demo2", date: "2020-01-01" },
+                  { id: 3, title: "demo3", date: "2020-01-01" }
+                ],
+                page: { total: 40 }
+              }
+            };
+            // test end
+            var data = v.data.items;
+            data.map(function(e) {
+              e._isEdit = false;
+              e._isPopover = false;
+              return e;
+            });
+            var page = v.data.page;
+            that.ml_getLists(data, page);
+          })
+          .catch(function(e) {
+            that.$warMsg(e);
+          })
+          .finally(function() {
+            that.ml_listsLoading = false;
+          });
       }
-    },
-    [],
-    '/index'
-  );
+    }
+  },
+  [],
+  "/index"
+);
 </script>

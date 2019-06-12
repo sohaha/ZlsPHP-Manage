@@ -1,7 +1,8 @@
 <style>
 .panel .panel {
-  margin-bottom: 10px;
+  margin-bottom : 10px;
 }
+
 </style>
 <template>
   <div>
@@ -19,21 +20,21 @@
     </fieldset>
     <div class="panel">
       更多自定义配置请参考
-      <a href="https://www.tiny.cloud/docs/advanced/events/#init" target="_blank">tinymce 文档</a>。
+      <a
+        href="https://www.tiny.cloud/docs/advanced/events/#init"
+        target="_blank"
+      >tinymce 文档</a>。
     </div>
   </div>
 </template>
 <script>
-var title = "富文本示例",
-  that;
+var that;
 Spa.define(
   {
     name: "Demo-View",
-    mixins: [mixinLists],
+    mixins: [mixinLists, initTitle],
     data: function() {
       return {
-        title: title,
-        SpaTitle: title + " - %s",
         content: "",
         tinymceConfig: {}, // 自定义
         tinymceHasInit: false

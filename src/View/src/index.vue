@@ -10,56 +10,57 @@
   width: 100%;
 } */
 .main_scrollbar {
-  min-height : calc(100vh - 40px);
+  min-height: calc(100vh - 40px);
 }
 .el-main.content-box.content-view-main {
-  padding : 20px 20px 20px 5px;
+  padding: 20px 20px 20px 5px;
 }
 .nav-collapse-icon i {
-  display : none;
-  padding : 2px 5px;
-  position : absolute;
-  z-index : 1;
-  left : 0px;
-  background : rgba(234, 241, 247, .2);
-  text-align : center;
-  -webkit-animation : opacity 2s infinite;
-  animation : opacity 2s infinite;
+  display: none;
+  padding: 2px 5px;
+  position: absolute;
+  z-index: 1;
+  left: 0px;
+  background: rgba(234, 241, 247, 0.2);
+  text-align: center;
+  -webkit-animation: opacity 2s infinite;
+  animation: opacity 2s infinite;
 }
 @-webkit-keyframes opacity {
-  0%, 100% {
-    opacity : .1;
+  0%,
+  100% {
+    opacity: 0.1;
   }
   50% {
-    opacity : .8;
+    opacity: 0.8;
   }
 }
 @keyframes opacity {
-  0%, 100% {
-    opacity : .1;
+  0%,
+  100% {
+    opacity: 0.1;
   }
   50% {
-    opacity : .8;
+    opacity: 0.8;
   }
 }
 .nav-left.is-collapse {
-  width : 64px !important;
+  width: 74px !important;
 }
 .nav-left.not-collapse {
-  width : 220px !important;
+  width: 220px !important;
 }
 .mask-layer {
-  width : 100%;
-  position : fixed;
-  left : 0;
-  right : 0;
-  top : 0;
-  bottom : 0;
-  background : rgba(0, 0, 0, .3);
-  z-index : 9000;
-  display : none !important;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 9000;
+  display: none !important;
 }
-
 </style>
 <template>
   <el-container id="main">

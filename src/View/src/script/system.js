@@ -38,6 +38,7 @@ var vstore = new Vuex.Store({
     token: localStorage.getItem("token"),
     user: userData || {},
     nav: [],
+    viewTitle: "",
     breadcrumb: [],
     unreadMessageCount: 0,
     defaultData: { avatar: defaultAvatar }
@@ -59,6 +60,9 @@ var vstore = new Vuex.Store({
     },
     setBreadcrumb: function(state, data) {
       state.breadcrumb = data;
+    },
+    setViewTitle: function(state, data) {
+      state.viewTitle = data;
     }
   },
   actions: {},

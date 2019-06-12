@@ -17,8 +17,8 @@
 }
 
 .header-logo img {
-  height : 38px;
-  vertical-align : top;
+  height : 34px;
+  vertical-align : middle;
 }
 
 .header-nav {
@@ -97,12 +97,10 @@
   padding-top : 2px;
   line-height : 12px;
 }
+
 .nav-top-collapse-icon {
   height : 40px;
-  /* position : absolute; */
-  /* left : 5px; */
   font-size : 25px;
-  text-align : center;
   -webkit-animation : opacity 2s infinite;
   animation : opacity 2s infinite;
 }
@@ -121,7 +119,7 @@
       <div class="tap">
         <el-dropdown trigger="click" class="user-menu" @command="clickMenu">
           <div>
-            <el-image fit="cover" class="header-avatar" :src="avatar" alt></el-image>
+            <img fit="cover" class="header-avatar" :src="avatar" alt>
             <i class="el-icon-caret-bottom el-icon--right"></i>
             <!-- <span class="header-name text-nowrap">{{ nickname }}</span> -->
           </div>

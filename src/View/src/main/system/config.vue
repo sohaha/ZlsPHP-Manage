@@ -1,14 +1,14 @@
 <style>
-  .el-switch + .el-switch {
-    margin-left: 10px;
-  }
+.el-switch + .el-switch {
+  margin-left : 10px;
+}
 
 </style>
 <template>
   <div>
     <div class="view-title float-clear"></div>
     <fieldset>
-      <legend v-once>{{title}}</legend>
+      <legend>{{title}}</legend>
       <aside>
         <el-form
           class="form-vertical"
@@ -46,57 +46,52 @@
   </div>
 </template>
 <script>
-  var title = '程序设置',
-    form = { ipWhitelist: '', maintainMode: false, debug: false },
-    that;
-  Spa.define(
-    {
-      mixins: [mixinLists],
-      data: function () {
-        return {
-          title: title,
-          SpaTitle: title + ' - %s',
-          form: Object.assign({}, form),
-          rules: {}
-        };
+var form = { ipWhitelist: "", maintainMode: false, debug: false },
+  that;
+Spa.define(
+  {
+    mixins: [mixinLists, initTitle],
+    data: function() {
+      return {
+        form: Object.assign({}, form),
+        rules: {}
+      };
+    },
+    beforeCreate: function() {
+      that = this;
+    },
+    mounted: function() {
+      this.getConfig();
+    },
+    computed: {},
+    init: function(query, search) {},
+    methods: {
+      getConfig: function() {
+        that.$api("sysGetSystemConfig").then(function(e) {
+          var data = Object.assign(form, e.data);
+          that.form = data;
+        });
       },
-      beforeCreate: function () {
-        that = this;
-      },
-      mounted: function () {
-        this.getConfig();
-      },
-      computed: {},
-      init: function (query, search) {
-      },
-      methods: {
-        getConfig: function () {
-          that.$api('sysGetSystemConfig')
-              .then(function (e) {
-                var data = Object.assign(form, e.data);
-                that.form = data;
-              });
-        },
-        submit: function () {
-          that.$refs['form'].validate(function (valid) {
-            if (valid) {
-              that
-              .$api('sysSetSystemConfig', that.form)
-              .then(function (e) {
+      submit: function() {
+        that.$refs["form"].validate(function(valid) {
+          if (valid) {
+            that
+              .$api("sysSetSystemConfig", that.form)
+              .then(function(e) {
                 console.log(e);
-                that.$tipMsg('更新成功');
+                that.$tipMsg("更新成功");
               })
-              .catch(function (err) {
+              .catch(function(err) {
                 that.$warMsg(err);
               });
-            } else {
-              return false;
-            }
-          });
-        }
+          } else {
+            return false;
+          }
+        });
       }
-    },
-    [],
-    '/index'
-  );
+    }
+  },
+  [],
+  "/index"
+);
 </script>

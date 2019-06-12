@@ -6,8 +6,8 @@
 .nav-left {
   background-color : #F5F7F9;
   overflow : hidden;
-  -webkit-transition : width .35s cubic-bezier(.37, 1.46, .61, 1.41);
-  transition : width .35s cubic-bezier(.37, 1.46, .61, 1.41);
+  -webkit-transition : width .35s cubic-bezier(.55, 1.03, .54, 1.33);
+  transition : width .35s cubic-bezier(.55, 1.03, .54, 1.33);
   margin-right : 5px;
 }
 
@@ -38,18 +38,11 @@
   background : none;
 }
 
-.el-menu--collapse .el-submenu__title, .el-menu-item > .el-tooltip {
-  padding : 0 15px !important;
-}
-
 .nav_scrollbar {
   padding : 20px 0 10px 10px;
   max-height : calc(100vh - 40px);
   box-sizing : border-box;
   margin-bottom : -10px !important;
-}
-ul.el-menu--collapse.el-menu {
-  width : 54px;
 }
 
 </style>

@@ -1,65 +1,42 @@
-<style>
-.page-user-menu .tree-placeholder {
-  display : inline-block;
-  width : 20px;
-  line-height : 20px;
-  height : 20px;
-  text-align : center;
-  margin-right : 3px;
-}
-
-</style>
+<style></style>
 <template>
-  <div class="page-user-menu">
+  <div>
     <div class="view-title float-clear">
       <div class="view-title-right">
         <el-form @submit.prevent.stop.native inline class="tip-top">
           <el-form-item>
-            <el-button type="primary" size="mini" icon="el-icon-plus">添加</el-button>
+            <el-button type="info" size="mini" @click="ml_reloadLists" icon="el-icon-refresh">刷新</el-button>
           </el-form-item>
         </el-form>
       </div>
     </div>
+    <div class="tip-area">温馨提示: 这个一个示例页面</div>
     <fieldset>
-      <legend v-text="title"></legend>
-      <aside class="center" :aria-label="title">
-        <el-table
-          :indent="0"
-          :tree-props="{children: 'child'}"
-          default-expand-all
-          row-key="id"
-          :data="ml_data"
-          style="width: 100%"
-          size="mini"
-        >
-          <el-table-column label="名称" min-width="150">
+      <legend>{{title}}</legend>
+      <aside v-loading="ml_listsLoading">
+        <el-table :data="ml_data" style="width: 100%" size="mini">
+          <el-table-column show-overflow-tooltip label="文件夹" width="170">
             <template slot-scope="scope">
-              <div v-if="!scope.row.child||scope.row.child.length<=0" class="tree-placeholder"></div>
-              <span>
-                <i :class="scope.row.icon"></i>
-                {{scope.row.title}}
-              </span>
+              <div>{{ scope.row.title || ' - ' }}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="index" label="路径" show-overflow-tooltip max-width="200"></el-table-column>
-          <el-table-column prop="date" label="类型"></el-table-column>
-          <el-table-column prop="date" label="更新"></el-table-column>
+          <el-table-column prop="date" label="密码"></el-table-column>
+          <el-table-column prop="date" label="日期"></el-table-column>
           <el-table-column label="操作" width="200">
             <template slot-scope="scope">{{scope.row.__||'--'}}</template>
           </el-table-column>
         </el-table>
-        <!-- <el-tree default-expand-all show-checkbox :data="data" :props="defaultProps">
-          <span class="custom-tree-node" slot-scope="{ node, data }">
-            <span>
-              {{ node.label }}
-              {{data.id}}
-            </span>
-            <span>
-              <el-button type="text" size="mini">添加</el-button>
-              <el-button type="text" size="mini">删除</el-button>
-            </span>
-          </span>
-        </el-tree>-->
+        <div class="tip-page" v-if="!!ml_pagetotal">
+          <el-pagination
+            :current-page.sync="ml_page"
+            @size-change="ml_sizeChange"
+            @current-change="ml_currentChange"
+            background
+            layout="prev, pager, next, sizes, total"
+            :total="ml_pagetotal"
+            :page-size.sync="ml_pagesize"
+          ></el-pagination>
+        </div>
       </aside>
     </fieldset>
   </div>
@@ -75,9 +52,11 @@ Spa.define(
     beforeCreate: function() {
       that = this;
     },
-    mounted: function() {},
     computed: {},
-    init: function(query, search) {},
+    init: function(query, search) {
+      that.ml_pagesize = 10;
+    },
+    mounted: function() {},
     methods: {
       getLists: function() {
         var data = { page: this.ml_page, pagesize: this.ml_pagesize };
@@ -90,7 +69,11 @@ Spa.define(
             // todo test 接口地址undefined是不会真实发起请求所以这里 v 是不会有数据
             v = {
               data: {
-                items: that.$store.getters.menus,
+                items: [
+                  { title: "demo1", date: "2020-01-01" },
+                  { title: "demo2", date: "2020-01-01" },
+                  { title: "demo3", date: "2020-01-01" }
+                ],
                 page: { total: 40 }
               }
             };
@@ -113,7 +96,7 @@ Spa.define(
       }
     }
   },
-  ["/components/demo"],
+  [],
   "/index"
 );
 </script>

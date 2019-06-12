@@ -41,67 +41,62 @@
   </div>
 </template>
 <script>
-  var title = '列表示例',
-    that;
-  Spa.define(
-    {
-      name: 'DemoViewLits',
-      mixins: [mixinLists],
-      data: function () {
-        return {
-          title: title,
-          SpaTitle: title + ' - %s'
-        };
-      },
-      beforeCreate: function () {
-        that = this;
-      },
-      computed: {},
-      init: function (query, search) {
-        that.ml_pagesize = 10;
-      },
-      mounted: function () {
-      },
-      methods: {
-        getLists: function () {
-          var data = { page: this.ml_page, pagesize: this.ml_pagesize };
-          if (this.ml_searchKey) {
-            data['key'] = this.ml_searchKey;
-          }
-          that.ml_listsLoading = true;
-          this.$api(undefined, data)
-              .then(function (v) {
-                // todo test 接口地址undefined是不会真实发起请求所以这里 v 是不会有数据
-                v = {
-                  data: {
-                    items: [
-                      { title: 'demo1', date: '2020-01-01' },
-                      { title: 'demo2', date: '2020-01-01' },
-                      { title: 'demo3', date: '2020-01-01' }
-                    ],
-                    page: { total: 40 }
-                  }
-                };
-                // test end
-                var data = v.data.items;
-                data.map(function (e) {
-                  e._isEdit = false;
-                  e._isPopover = false;
-                  return e;
-                });
-                var page = v.data.page;
-                that.ml_getLists(data, page);
-              })
-              .catch(function (e) {
-                that.$warMsg(e);
-              })
-              .finally(function () {
-                that.ml_listsLoading = false;
-              });
-        }
-      }
+var that;
+Spa.define(
+  {
+    name: "DemoViewLits",
+    mixins: [mixinLists, initTitle],
+    data: function() {
+      return {};
     },
-    [],
-    '/index'
-  );
+    beforeCreate: function() {
+      that = this;
+    },
+    computed: {},
+    init: function(query, search) {
+      that.ml_pagesize = 10;
+    },
+    mounted: function() {},
+    methods: {
+      getLists: function() {
+        var data = { page: this.ml_page, pagesize: this.ml_pagesize };
+        if (this.ml_searchKey) {
+          data["key"] = this.ml_searchKey;
+        }
+        that.ml_listsLoading = true;
+        this.$api(undefined, data)
+          .then(function(v) {
+            // todo test 接口地址undefined是不会真实发起请求所以这里 v 是不会有数据
+            v = {
+              data: {
+                items: [
+                  { title: "demo1", date: "2020-01-01" },
+                  { title: "demo2", date: "2020-01-01" },
+                  { title: "demo3", date: "2020-01-01" }
+                ],
+                page: { total: 40 }
+              }
+            };
+            // test end
+            var data = v.data.items;
+            data.map(function(e) {
+              e._isEdit = false;
+              e._isPopover = false;
+              return e;
+            });
+            var page = v.data.page;
+            that.ml_getLists(data, page);
+          })
+          .catch(function(e) {
+            that.$warMsg(e);
+          })
+          .finally(function() {
+            that.ml_listsLoading = false;
+          });
+      }
+    }
+  },
+  [],
+  "/index"
+);
 </script>

@@ -36,16 +36,15 @@
 </template>
 <script>
 var loadJs = ["//cdn.jsdelivr.net/npm/zls-manage/qriously/qriously.js"];
-var title = "Demo";
+// 加载外部js
+var title = "Demo",
+  that; // that不是完美的
 Spa.define(
   {
-    name: "Demo-View",
-    mixins: [mixinLists],
+    // name: "Demo-View",
+    mixins: [mixinLists, initTitle],
     data: function() {
-      return {
-        title: title,
-        SpaTitle: title + " - %s"
-      };
+      return {};
     },
     beforeCreate: function() {
       that = this;
