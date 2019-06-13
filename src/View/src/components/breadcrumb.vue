@@ -77,10 +77,14 @@ Spa.define({
         return v.breadcrumb !== false;
       });
       this.$store.commit("setBreadcrumb", breadcrumb);
-      this.$store.commit(
+     var lData = breadcrumb[breadcrumb.length - 1]
+      if(lData&&lData.title){
+   this.$store.commit(
         "setViewTitle",
-        breadcrumb[breadcrumb.length - 1].title
+       lData.title
       );
+      }
+   
       return breadcrumb;
     }
   },

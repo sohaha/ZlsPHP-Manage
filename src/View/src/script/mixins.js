@@ -9,12 +9,6 @@ var initTitle = {
     };
   },
   watch: {
-    title: function(v, d) {
-      console.log("title", v, d);
-    },
-    SpaTitle: function(v, d) {
-      console.log("SpaTitle", v, d);
-    }
   },
   mounted: function() {
     if (!this.title) {

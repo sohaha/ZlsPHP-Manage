@@ -477,11 +477,16 @@ span:not(.class) + .el-button {
 .form-vertical .el-form-item {
   margin-bottom : 10px;
 }
-
+.form-vertical .el-form-item__error{
+padding-top:0;
+}
 .form-vertical .el-form-item:last-child {
   margin-bottom : 0;
 }
 
+.form-vertical .el-form-item__content .el-select {
+  width: 100%;
+}
 /* 竖排表单 END */
 
 fieldset {

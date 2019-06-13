@@ -139,6 +139,7 @@ Spa.define({
             icon: "icon-edit",
             index: "demo/demo-lists-edit"
           },
+          { title: "表单示例", icon: "icon-checkmark-square-", index: "demo/demo-form" },
           {
             title: "标签示例",
             icon: "icon-pricetags",

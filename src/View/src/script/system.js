@@ -125,7 +125,7 @@ var _then = function(data) {
       throw msg;
     }
   }
-  if (Spa.debug) console.log("_then", page, data);
+  // if (Spa.debug) console.log("_then", page, data);
   return data;
 };
 var get = function(url, data, opt) {

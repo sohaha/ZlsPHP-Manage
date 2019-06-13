@@ -8,8 +8,8 @@
       <!--占位-->
     </div>
     <fieldset>
-      <legend>开发说明</legend>
-      <aside class="center" aria-label="开发说明">
+      <legend>{{title}}</legend>
+      <aside class="center" :aria-label="title">
         <qriously :size="160" value="https://docs.73zls.com/zls-php/#/packages-manage/started"></qriously>开发手册
         <a
           href="https://docs.73zls.com/zls-php/#/packages-manage/started"
@@ -37,8 +37,7 @@
 <script>
 var loadJs = ["//cdn.jsdelivr.net/npm/zls-manage/qriously/qriously.js"];
 // 加载外部js
-var title = "Demo",
-  that; // that不是完美的
+var that; // that不是完美的
 Spa.define(
   {
     // name: "Demo-View",
