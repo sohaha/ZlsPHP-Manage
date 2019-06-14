@@ -10,7 +10,7 @@
   width: 100%;
 } */
 .main_scrollbar {
-  min-height: calc(100vh - 40px);
+  min-height: calc(100vh - 50px);
 }
 .el-main.content-box.content-view-main {
   padding: 20px 20px 20px 5px;
@@ -64,7 +64,7 @@
 </style>
 <template>
   <el-container id="main">
-    <el-header class="header" height="40px">
+    <el-header class="header" height="50px">
       <components_nav-top
         aria-label="顶部导航"
         :is-collapse="isCollapse"

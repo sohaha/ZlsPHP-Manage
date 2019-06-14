@@ -9,6 +9,20 @@ var initTitle = {
     };
   },
   watch: {
+    title: function(v, o) {
+      var breadcrumb = this.$store.state.breadcrumb;
+      var current = breadcrumb[breadcrumb.length - 1];
+      if (
+        current &&
+        current.title &&
+        app.router.page.indexOf(current.index) === 5
+      ) {
+        current.title = v;
+        this.$store.commit("setBreadcrumb", breadcrumb);
+      }
+      this.SpaTitle = v + " - %s";
+      this.$SpaSetTitle();
+    }
   },
   mounted: function() {
     if (!this.title) {
@@ -19,6 +33,7 @@ var initTitle = {
     }
   }
 };
+
 var mixinLists = {
   data: function() {
     return {

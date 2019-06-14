@@ -2,7 +2,7 @@
 .header {
   background-color : #FFFFFF;
   color : #333333;
-  line-height : 40px;
+  line-height : 50px;
   padding : 0 10px;
   z-index : 9;
   box-shadow : 0 1px 4px 0 #C0C4CC;
@@ -17,13 +17,13 @@
 }
 
 .header-logo img {
-  height : 34px;
+  height : 38px;
   vertical-align : middle;
 }
 
 .header-nav {
   padding : 0;
-  height : 40px;
+  height : 50px;
   display : -webkit-box;
   display : -ms-flexbox;
   display : flex;
@@ -36,7 +36,6 @@
 
 .header-nav > div {
   width : 60px;
-  padding-top : 3px;
   text-align : center;
 }
 
@@ -47,7 +46,6 @@
 .tip-msg {
   font-size : 30px;
   line-height : 20px;
-  padding-bottom : 5px;
 }
 
 .el-dropdown-nav {
@@ -56,8 +54,8 @@
 }
 
 .header-avatar {
-  width : 30px;
-  height : 30px;
+  width : 40px;
+  height : 40px;
   overflow : hidden;
   vertical-align : middle;
   border-radius : 50%;
@@ -71,7 +69,7 @@
 }
 
 .header-nav .user-menu.el-dropdown {
-  height : 40px;
+  height : 50px;
   line-height : 25px;
   display : block;
   width : 65px;
@@ -83,9 +81,9 @@
 
 .header-nav .el-icon--right {
   position : absolute;
-  right : 4px;
-  top : 20px;
-  color : #9A9A9A;
+  right : 0;
+  top : 32px;
+  color : #E3E4E4;
 }
 
 .header-name {
@@ -99,7 +97,7 @@
 }
 
 .nav-top-collapse-icon {
-  height : 40px;
+  height : 50px;
   font-size : 25px;
   -webkit-animation : opacity 2s infinite;
   animation : opacity 2s infinite;

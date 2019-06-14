@@ -40,7 +40,7 @@
 
 .nav_scrollbar {
   padding : 20px 0 10px 10px;
-  max-height : calc(100vh - 40px);
+  max-height : calc(100vh - 50px);
   box-sizing : border-box;
   margin-bottom : -10px !important;
 }
