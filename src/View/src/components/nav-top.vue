@@ -60,7 +60,7 @@
   vertical-align : middle;
   border-radius : 50%;
   box-shadow : 1px 0 3px;
-  margin : 2px 5px 0 5px;
+  margin : 5px 5px 0 7px;
 }
 
 .el-dropdown-menu.el-popper {

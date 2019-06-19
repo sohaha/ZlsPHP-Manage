@@ -121,9 +121,9 @@ var _then = function(data) {
         Spa.go("/login");
         // throw null;
       }
-    } else {
-      throw msg;
+      msg = null;
     }
+    throw msg;
   }
   // if (Spa.debug) console.log("_then", page, data);
   return data;

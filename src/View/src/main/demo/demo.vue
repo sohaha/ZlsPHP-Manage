@@ -8,7 +8,7 @@
       <!--占位-->
     </div>
     <fieldset>
-      <legend>{{title}}</legend>
+      <legend @click="demoClick">{{title}}</legend>
       <aside class="center" :aria-label="title">
         <qriously :size="160" value="https://docs.73zls.com/zls-php/#/packages-manage/started"></qriously>开发手册
         <a
@@ -31,13 +31,13 @@
     </fieldset>
     <div>
       <components_demo></components_demo>
+      <components_demo></components_demo>
     </div>
   </div>
 </template>
 <script>
 var loadJs = ["//cdn.jsdelivr.net/npm/zls-manage/qriously/qriously.js"];
 // 加载外部js
-var that; // that不是完美的
 Spa.define(
   {
     // name: "Demo-View",
@@ -45,13 +45,16 @@ Spa.define(
     data: function() {
       return {};
     },
-    beforeCreate: function() {
-      that = this;
+    mounted: function() {
+      console.log($this);
     },
-    mounted: function() {},
     computed: {},
     init: function(query, search) {},
-    methods: {}
+    methods: {
+      demoClick: function() {
+        $this.title = "示例" + +new Date();
+      }
+    }
   },
   ["/components/demo"],
   "/index"

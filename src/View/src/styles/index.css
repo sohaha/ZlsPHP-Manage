@@ -286,7 +286,7 @@ img {
   text-align : left;
 }
 
-span:not(.class) + .el-button {
+.tip-top.el-form--inline .el-button + span:not(.class) {
   margin-left : 10px;
 }
 
@@ -318,6 +318,10 @@ span:not(.class) + .el-button {
 
 .el-tooltip__popper.is-light {
   border-color : rgb(228, 232, 235);
+}
+
+.el-message-box {
+  margin-top : -10%;
 }
 
 /*UI END*/
@@ -449,7 +453,11 @@ span:not(.class) + .el-button {
 }
 
 .btns-operating .el-button {
-  margin-right : 10px;
+  margin-right : 6px;
+}
+
+.btns-operating .el-button + span:not(.class) {
+  display : inline-block;
 }
 
 .center {
@@ -546,7 +554,7 @@ legend {
   box-shadow : 0 1px 2px 0 rgba(0, 0, 0, .1);
 }
 
-/* mo */
+/* Mobile phone */
 @media (min-device-width: 320px) and (max-device-width: 640px) {
   aside.el-aside.nav-left {
     position : fixed;
@@ -590,8 +598,11 @@ legend {
     margin : auto;
     display : block;
   }
-  main.el-main.content-box {
-    padding-right : 6px;
+  .breadcrumb {
+    top : 15px !important;
+  }
+  main.el-main.content-box.content-view-main {
+    padding : 10px 5px 0 5px;
   }
   aside.el-aside.header-logo {
     display : none;
@@ -604,5 +615,8 @@ legend {
   }
   .mask-layer.not-collapse {
     display : block !important;
+  }
+  .el-message-box {
+    width : 320px;
   }
 }

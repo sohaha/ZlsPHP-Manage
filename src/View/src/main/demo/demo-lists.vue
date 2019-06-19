@@ -78,7 +78,7 @@ Spa.define(
               }
             };
             // test end
-            var data = v.data.items;
+            var data = v.data.items || [];
             data.map(function(e) {
               e._isEdit = false;
               e._isPopover = false;

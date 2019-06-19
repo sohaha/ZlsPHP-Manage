@@ -30,25 +30,27 @@
             </el-select>
           </el-form-item>
           <el-form-item label>
-            <el-button type="info" size="mini" @click="reloadDate" icon="el-icon-refresh">刷 新</el-button>
-            <el-popover placement="top" width="160" v-model="stateTip">
-              <p>
-                确定删除吗？
-                <br>（操作无法逆转）
-              </p>
-              <div>
-                <el-button size="mini" @click="stateTip = false" type="info" plain>取 消</el-button>
-                <el-button @click="deleteLog" type="danger" size="mini" plain>确 定</el-button>
-              </div>
-              <el-button
-                :disabled="stateDel"
-                slot="reference"
-                size="mini"
-                type="danger"
-                icon="el-icon-delete"
-                title="删 除"
-              >删 除</el-button>
-            </el-popover>
+            <div class="btns-operating">
+              <el-button type="info" size="mini" @click="reloadDate" icon="el-icon-refresh">刷 新</el-button>
+              <el-popover placement="top" width="160" v-model="stateTip">
+                <p>
+                  确定删除吗？
+                  <br>（操作无法逆转）
+                </p>
+                <div>
+                  <el-button size="mini" @click="stateTip = false" type="info" plain>取 消</el-button>
+                  <el-button @click="deleteLog" type="danger" size="mini" plain>确 定</el-button>
+                </div>
+                <el-button
+                  :disabled="stateDel"
+                  slot="reference"
+                  size="mini"
+                  type="danger"
+                  icon="el-icon-delete"
+                  title="删 除"
+                >删 除</el-button>
+              </el-popover>
+            </div>
           </el-form-item>
         </el-form>
       </div>
