@@ -41,7 +41,7 @@ var loadJs = ["//cdn.jsdelivr.net/npm/zls-manage/qriously/qriously.js"];
 Spa.define(
   {
     // name: "Demo-View",
-    mixins: [mixinLists, initTitle],
+    mixins: [initTitle],
     data: function() {
       return {};
     },

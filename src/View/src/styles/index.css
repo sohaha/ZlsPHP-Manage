@@ -468,7 +468,7 @@ img {
   color : #C0C4CC;
 }
 
-/* 竖排表单 */
+/* 竖排表单 移除 */
 .form-vertical {
   padding : 10px 10px 0;
 }
@@ -489,7 +489,7 @@ img {
   padding-top : 0;
   top : 99%;
 }
-.form-vertical .el-form-item:last-child {
+.form-vertical > .el-form-item:last-child {
   margin-bottom : 0;
 }
 .form-vertical .el-textarea {
@@ -497,6 +497,26 @@ img {
 }
 .form-vertical .el-form-item__content .el-select {
   width : 100%;
+}
+
+.form-create-mini .el-col:last-child {
+  text-align : center;
+}
+.form-create-mini .el-col:last-child > .el-col {
+  text-align : center;
+  display : inline-block;
+  width : auto;
+  float : none;
+}
+.form-create-mini {
+  overflow : auto;
+}
+.form-create-mini .el-col:last-child > .el-col:last-child {
+  left : 0;
+  margin-left : 10px;
+}
+.form-create-mini .el-col:last-child > .el-col:first-child {
+  margin-right : 10px;
 }
 /* 竖排表单 END */
 

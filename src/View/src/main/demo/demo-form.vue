@@ -9,6 +9,7 @@
       <legend>{{title}}</legend>
       <aside :aria-label="title">
         <el-form
+          size="mini"
           class="form-vertical"
           v-loading="formState"
           :model="ruleForm"

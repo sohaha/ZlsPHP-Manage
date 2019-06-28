@@ -15,7 +15,7 @@
 var that;
 Spa.define(
   {
-    mixins: [mixinLists, initTitle],
+    mixins: [initTitle],
     data: function() {
       return {
         activeName: "key3",

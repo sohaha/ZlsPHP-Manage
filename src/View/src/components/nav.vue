@@ -1,50 +1,51 @@
 <style>
 .el-menu {
-  border : 0;
+  border: 0;
 }
 
 .nav-left {
-  background-color : #F5F7F9;
-  overflow : hidden;
-  -webkit-transition : width .35s cubic-bezier(.55, 1.03, .54, 1.33);
-  transition : width .35s cubic-bezier(.55, 1.03, .54, 1.33);
-  margin-right : 5px;
+  background-color: #f5f7f9;
+  overflow: hidden;
+  -webkit-transition: width 0.35s cubic-bezier(0.55, 1.03, 0.54, 1.33);
+  transition: width 0.35s cubic-bezier(0.55, 1.03, 0.54, 1.33);
+  margin-right: 5px;
 }
 
 .nav-left .menu_title {
-  font-size : 16px;
-  margin-left : 10px;
+  font-size: 16px;
+  margin-left: 10px;
 }
 
 .nav-left .el-scrollbar__wrap {
-  overflow-x : hidden;
+  overflow-x: hidden;
 }
 
 .nav-left .el-menu {
-  background : #F6F8F9;
+  background: #f6f8f9;
 }
 
-.nav-left .el-menu-item, .nav-left .el-submenu__title {
-  margin-bottom : 5px;
+.nav-left .el-menu-item,
+.nav-left .el-submenu__title {
+  margin-bottom: 5px;
 }
 
-.el-menu--collapse .el-submenu__title i, .el-menu-item > .el-tooltip > i {
+.el-menu--collapse .el-submenu__title i,
+.el-menu-item > .el-tooltip > i {
   /* font-size : 35px;
   width : 34px; */
-  margin-right : 0;
+  margin-right: 0;
 }
 
 .nav-left .el-menu-item:focus {
-  background : none;
+  background: none;
 }
 
 .nav_scrollbar {
-  padding : 20px 0 10px 10px;
-  max-height : calc(100vh - 50px);
-  box-sizing : border-box;
-  margin-bottom : -10px !important;
+  padding: 20px 0 10px 10px;
+  max-height: calc(100vh - 50px);
+  box-sizing: border-box;
+  margin-bottom: -10px !important;
 }
-
 </style>
 <template>
   <el-scrollbar
@@ -139,7 +140,16 @@ Spa.define({
             icon: "icon-edit",
             index: "demo/demo-lists-edit"
           },
-          { title: "表单示例", icon: "icon-checkmark-square-", index: "demo/demo-form" },
+          {
+            title: "表单示例",
+            icon: "icon-checkmark-square-",
+            index: "demo/demo-form"
+          },
+          {
+            title: "动态表单",
+            icon: "icon-layout",
+            index: "demo/demo-form2"
+          },
           {
             title: "标签示例",
             icon: "icon-pricetags",

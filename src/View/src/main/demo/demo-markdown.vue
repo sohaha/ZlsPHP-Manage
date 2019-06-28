@@ -1,8 +1,7 @@
 <style>
 .panel .panel {
-  margin-bottom : 10px;
+  margin-bottom: 10px;
 }
-
 </style>
 <template>
   <div>
@@ -42,7 +41,7 @@ var that;
 Spa.define(
   {
     name: "Demo-View",
-    mixins: [mixinLists, initTitle],
+    mixins: [initTitle],
     data: function() {
       return {
         content: "> 一个 **markdown** *编辑器*",

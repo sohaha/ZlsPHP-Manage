@@ -11,7 +11,7 @@
       <legend>{{title}}</legend>
       <aside>
         <el-form
-          class="form-vertical"
+          size="mini"
           label-position="top"
           :rules="rules"
           ref="form"

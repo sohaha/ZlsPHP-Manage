@@ -45,7 +45,7 @@ var that;
 Spa.define(
   {
     name: "DemoViewLits",
-    mixins: [mixinLists, initTitle],
+    mixins: [mixinLists, initTitle], // mixinLists 内置的列表加载
     data: function() {
       return {};
     },

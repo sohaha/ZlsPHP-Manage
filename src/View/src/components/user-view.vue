@@ -1,37 +1,39 @@
 <style>
 .avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
+  border : 1px dashed #D9D9D9;
+  border-radius : 6px;
+  cursor : pointer;
+  position : relative;
+  overflow : hidden;
 }
 
 .avatar-uploader .el-upload:hover {
-  border-color: #409eff;
+  border-color : #409EFF;
 }
 
 .avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 120px;
-  height: 120px;
-  line-height: 120px;
-  text-align: center;
+  font-size : 28px;
+  color : #8C939D;
+  width : 120px;
+  height : 120px;
+  line-height : 120px;
+  text-align : center;
 }
 
 .avatar {
-  width: 120px;
-  height: 120px;
-  display: block;
+  width : 120px;
+  height : 120px;
+  display : block;
 }
 
 .user-view .el-form-item__content .el-select {
-  width: 100%;
+  width : 100%;
 }
+
 </style>
 <template>
   <el-form
+    size="mini"
     class="user-view"
     v-loading="formState"
     :model="ruleForm"
