@@ -485,16 +485,20 @@ img {
 .form-vertical .el-form-item {
   margin-bottom : 10px;
 }
+
 .form-vertical .el-form-item__error {
   padding-top : 0;
   top : 99%;
 }
+
 .form-vertical > .el-form-item:last-child {
   margin-bottom : 0;
 }
+
 .form-vertical .el-textarea {
   padding : 5px 0;
 }
+
 .form-vertical .el-form-item__content .el-select {
   width : 100%;
 }
@@ -502,19 +506,32 @@ img {
 .form-create-mini .el-col:last-child {
   text-align : center;
 }
+
 .form-create-mini .el-col:last-child > .el-col {
   text-align : center;
   display : inline-block;
   width : auto;
   float : none;
 }
+
 .form-create-mini {
   overflow : auto;
 }
+
+.form-create-mini .el-date-editor.el-input {
+  display : block;
+  width : 100%;
+}
+
+.form-create-mini .el-select {
+  width : 100%;
+}
+
 .form-create-mini .el-col:last-child > .el-col:last-child {
   left : 0;
   margin-left : 10px;
 }
+
 .form-create-mini .el-col:last-child > .el-col:first-child {
   margin-right : 10px;
 }

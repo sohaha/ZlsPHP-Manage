@@ -2,7 +2,7 @@
  * @Author: seekwe
  * @Date:   2019-06-28 13:07:10
  * @Last Modified by:   seekwe
- * @Last Modified time: 2019-06-28 15:49:41
+ * @Last Modified time: 2019-06-28 16:03:25
  */
 
 <style>
@@ -47,7 +47,7 @@ Spa.define(
           {
             type: "input",
             field: "text",
-            title: "文本",
+            title: "文本：",
             validate: [
               { required: true, message: "请输入文本", trigger: "blur" }
             ]
@@ -55,12 +55,12 @@ Spa.define(
           {
             type: "datePicker",
             field: "created_at",
-            title: "时间"
+            title: "时间："
           },
           {
             type: "select",
             field: "cate_id",
-            title: "分类",
+            title: "分类：",
             value: ["104", "105"],
             options: [
               { value: "104", label: "生态", disabled: false },
@@ -73,7 +73,7 @@ Spa.define(
           },
           {
             type: "switch",
-            title: "开启",
+            title: "开启：",
             field: "status",
             className: "className",
             value: 1,
@@ -87,7 +87,7 @@ Spa.define(
           form: {
             className: "hi",
             hideRequiredAsterisk: true,
-            labelWidth: "110px",
+            labelWidth: "100px",
             showMessage: true,
             size: "mini"
           },
