@@ -26,6 +26,21 @@ var navs = {
       ]
     },
     {
+      title: "站点管理",
+      icon: "icon-pantone",
+      index: "site/lists",
+      real: true,
+      child: [
+        {
+          title: "编辑站点",
+          index: "site/info",
+          show: false,
+          icon: "icon-settings-"
+        },
+
+      ]
+    },
+    {
       title: "日志查看",
       icon: "icon-alert-circle",
       index: "system/logs"

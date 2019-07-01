@@ -617,7 +617,7 @@
         title: '登录后台',
         ProjectName: this.$root.ProjectName,
         userTypes: [
-          { label: '会员端', value: 'user', disabled: false }, { label: '管理端', value: 'sys' },
+          // { label: '会员端', value: 'user', disabled: false }, { label: '管理端', value: 'sys' },
         ],
         activeName: 'username',
         formApi: {},

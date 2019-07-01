@@ -11,7 +11,7 @@
     <!-- <link rel="preload" as="font" href="//cdn.jsdelivr.net/npm/zls-manage/fonts/element-icons.woff" crossorigin="anonymous" /> -->
     <link
       rel="stylesheet"
-      href="//cdn.jsdelivr.net/npm/zls-manage/element.css"
+      href="//cdn.jsdelivr.net/npm/zls-manage@0.0.15/element.css"
     />
     <link rel="stylesheet" href="src/styles/index.css" />
     <link
@@ -24,20 +24,21 @@
     <!--[if lte IE 10]>
       <style>
         body > :not(.browsehappy) {
-          display: none;
+          display : none;
         }
 
         .browsehappy {
-          text-align: center;
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          background-color: #ffffff;
-          z-index: 99;
-          font-size: 20px;
-          padding-top: 100px;
-          box-sizing: border-box;
+          text-align : center;
+          position : absolute;
+          width : 100%;
+          height : 100%;
+          background-color : #FFFFFF;
+          z-index : 99;
+          font-size : 20px;
+          padding-top : 100px;
+          box-sizing : border-box;
         }
+
       </style>
       <p class="browsehappy">
         你正在使用<strong>过时</strong>的浏览器。 请<a
@@ -68,15 +69,19 @@
         </noscript>
       </div>
     </div>
-    <script src="//cdn.jsdelivr.net/npm/zls-manage/vue.min.js"></script>
+    <!-- <script src="//cdn.jsdelivr.net/npm/zls-manage/vue.min.js"></script> -->
     <script>
-      // var debug = true;
+      var debug = true;
       // var cache = false;
     </script>
-    <!-- <script src="//cdn.jsdelivr.net/npm/zls-manage/vue.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/zls-manage/vue.js"></script>
     <script src="//cdn.jsdelivr.net/npm/zls-manage/vuex.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/zls-manage/element.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/zls-manage/zls-vue-spa.js"></script>
+    <script
+      src="//cdn.jsdelivr.net/npm/zls-manage@0.0.15/element.js"
+      defer
+    ></script>
+    <script src="//cdn.jsdelivr.net/npm/zls-manage@0.0.15/zls-vue-spa.js"></script>
+
     <script src="src/script/mixins.js"></script>
     <script src="src/script/config.js"></script>
     <script src="src/script/system.js"></script>

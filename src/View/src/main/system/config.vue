@@ -18,6 +18,9 @@
           :model="form"
           label-width="90px"
         >
+          <el-form-item label="资源域名">
+            <el-input v-model="form.cdnHost" size="mini" placeholder="资源域名，如 http://baidu.com/"></el-input>
+          </el-form-item>
           <el-form-item label="IP白名单">
             <el-input v-model="form.ipWhitelist" size="mini" placeholder="IP白名单，多个使用;分隔"></el-input>
           </el-form-item>
@@ -46,7 +49,7 @@
   </div>
 </template>
 <script>
-var form = { ipWhitelist: "", maintainMode: false, debug: false },
+var form = { ipWhitelist: "", maintainMode: false, debug: false, cdnHost: "" },
   that;
 Spa.define(
   {
