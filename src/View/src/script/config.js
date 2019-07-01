@@ -2,7 +2,7 @@
  * Created by 影浅-seekwe@gmail.com on 2018-11-19
  */
 var apiUrl = '';
-var title = '系统管理后台';
+var title = '后台管理系统';
 var apis = {
   login: ['post', '/ZlsManage/UserApi/GetToken.go'],
   logout: ['post', '/ZlsManage/UserApi/ClearToken.go'],

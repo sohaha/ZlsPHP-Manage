@@ -65,15 +65,13 @@
   </div>
 </template>
 <script>
-var that;
 Spa.define(
   {
     mixins: [mixinLists, initTitle],
     data: function() {
-      return {};
-    },
-    beforeCreate: function() {
-      that = this;
+      return {
+        title:'菜单管理(开发中)'
+      };
     },
     mounted: function() {},
     computed: {},
@@ -84,13 +82,14 @@ Spa.define(
         if (this.ml_searchKey) {
           data["key"] = this.ml_searchKey;
         }
-        that.ml_listsLoading = true;
-        this.$api(undefined, data)
+        $this.ml_listsLoading = true;
+        this.$api(apis.sysMenu, data)
           .then(function(v) {
+            console.log(v)
             // todo test 接口地址undefined是不会真实发起请求所以这里 v 是不会有数据
             v = {
               data: {
-                items: that.$store.getters.menus,
+                items: $this.$store.getters.menus,
                 page: { total: 40 }
               }
             };
@@ -102,13 +101,13 @@ Spa.define(
               return e;
             });
             var page = v.data.page;
-            that.ml_getLists(data, page);
+            $this.ml_getLists(data, page);
           })
           .catch(function(e) {
-            that.$warMsg(e);
+            $this.$warMsg(e);
           })
           .finally(function() {
-            that.ml_listsLoading = false;
+            $this.ml_listsLoading = false;
           });
       }
     }
