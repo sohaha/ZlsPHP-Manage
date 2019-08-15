@@ -1,4 +1,5 @@
 <?php
+declare (strict_types=1);
 
 namespace Business\ZlsManage;
 
@@ -8,7 +9,6 @@ use Dao\ZlsManage\UserDao;
 use Z;
 use Zls\Action\Id;
 use Zls\Action\StrUtils;
-use Zls_Exception_Database;
 
 /**
  * Class UserBusiness
@@ -16,6 +16,8 @@ use Zls_Exception_Database;
  */
 class UserBusiness extends \Zls_Business
 {
+    const USER_CACHE_KEY = 'USER_CACHE_KEY_';
+
     /**
      * 根据token获取用户信息
      *
@@ -29,9 +31,13 @@ class UserBusiness extends \Zls_Business
         $tokenDao = new TokenDao();
         $user     = [];
         if ($tokenInfo = $tokenDao->find(['token' => $token, 'status' => 1], false, [])) {
-            /** @var UserDao $dao */
-            $dao  = z::dao('ZlsManage\UserDao');
-            $user = $dao->find($tokenInfo['userid']);
+            $user            = $this->info((int)$tokenInfo['userid']);
+            $GroupBusiness   = new GroupBusiness;
+            $groupid         = explode(',', (string)$user['group_id']);
+            $user['groups']  = $GroupBusiness->all();
+            $user['menus']   = $GroupBusiness->getMenu($groupid);
+            $user['marks']   = $GroupBusiness->getMarks($groupid);
+            $user['routers'] = $GroupBusiness->getRouter($groupid);
         }
 
         return $user;
@@ -86,7 +92,7 @@ class UserBusiness extends \Zls_Business
 
         return z::tap(
             Z::encrypt($id . '_' . date('y-m-d H:i:s') . '_' . $ActionId->uniqueId(4)),
-            static function ($token) use ($id) {
+            function ($token) use ($id) {
                 $tokenDao = new TokenDao();
                 $tokenDao->saveToken($id, $token);
                 $dao = new LogsDao();
@@ -130,32 +136,38 @@ class UserBusiness extends \Zls_Business
      */
     public function lists($page, $pagesize = 10, $key = '')
     {
+
         $dao  = new UserDao();
         $data = [];
-        if ($key) {
-            $dao->getDb()->where(['username like' => "%{$key}%"]);
+        try {
+            if ($key) {
+                $dao->getDb()->where(['username like' => "%{$key}%"]);
+            }
+            $fields = $dao->getReversalColumns(null, true);
+            $dao->getDb()->select('count(*) as total')
+                ->from($dao->getTable());
+            $total = $dao->getDb()->execute()->value('total');
+            if ($key) {
+                $dao->getDb()->where(['username like' => "%{$key}%"]);
+            }
+            if ($page < 1) {
+                $page = 1;
+            }
+            if ($pagesize < 1) {
+                $pagesize = 1;
+            }
+            $dao->getDb()
+                ->select($fields)
+                ->limit(($page - 1) * $pagesize, $pagesize)
+                ->from($dao->getTable())
+                ->orderBy('id', 'desc');
+            $result        = $dao->getDb()->execute()->rows();
+            $result        = $dao->beans($result);
+            $data['items'] = $result;
+            $data['page']  = Z::page($total, $page, $pagesize, '{page}');
+        } catch (\Zls_Exception_Database $e) {
+            $data = ['items' => [], 'page' => Z::page(0, $page, $pagesize, '{page}')];
         }
-        $fields = $dao->getReversalColumns(null, true);
-        $dao->getDb()->select('count(*) as total')
-            ->from($dao->getTable());
-        $total = $dao->getDb()->execute()->value('total');
-        if ($key) {
-            $dao->getDb()->where(['username like' => "%{$key}%"]);
-        }
-        if ($page < 1) {
-            $page = 1;
-        }
-        if ($pagesize < 1) {
-            $pagesize = 1;
-        }
-        $dao->getDb()
-            ->select($fields)
-            ->limit(($page - 1) * $pagesize, $pagesize)
-            ->from($dao->getTable())
-            ->orderBy('id', 'desc');
-        $result        = $dao->getDb()->execute()->rows();
-        $data['items'] = $result;
-        $data['page']  = Z::page($total, $page, $pagesize, '{page}');
 
         return $data;
     }
@@ -192,7 +204,7 @@ class UserBusiness extends \Zls_Business
             $retData['update_time'] = date('Y-m-d H:i:s');
             if ($retData['avatar']) {
                 /**
-                 * @var AssistBusiness $AssistBusiness
+                 * @var \Business\ZlsManage\AssistBusiness $AssistBusiness
                  */
                 $AssistBusiness    = z::business('ZlsManage\AssistBusiness');
                 $avatarFilename    = 'user_' . md5($id) . '.png';
@@ -304,7 +316,6 @@ class UserBusiness extends \Zls_Business
      * @param $userid
      * @param $oldPassword
      * @param $newPassword
-     * @param $operationUser
      *
      * @return string|int
      */
@@ -365,14 +376,6 @@ class UserBusiness extends \Zls_Business
         return z::readData($field, $last);
     }
 
-    /**
-     * 获取token列表
-     *
-     * @param      $userid
-     * @param bool $showToken
-     *
-     * @return array[]
-     */
     public function getTokenLists($userid, $showToken = false)
     {
         $tokenDao = new TokenDao();
@@ -388,22 +391,27 @@ class UserBusiness extends \Zls_Business
     /**
      * 是否超级管理员
      *
-     * @param $userid
+     * @param int $userid
      *
-     * @return bool
+     * @return boolean
      */
-    public function isSuperAdmin($userid)
+    public function isSuperAdmin(int $userid)
     {
         $superAdminIds = z::config('ini.manage.superAdmin', true, [1]);
 
         return in_array($userid, $superAdminIds);
     }
 
-    public function info($userid)
+    public function info($userid): array
     {
-        $UserDao = new UserDao();
-        $where   = ['id' => $userid];
+        return Z::cacheDate(self::USER_CACHE_KEY . $userid, function () use ($userid) {
+            $UserDao = new UserDao();
+            $where   = ['id' => $userid];
+            if ($user = $UserDao->find($where, false, [], '*')) {
+                return $user;
+            }
 
-        return $UserDao->find($where, false, [], '*');
+            return null;
+        }) ?: [];
     }
 }

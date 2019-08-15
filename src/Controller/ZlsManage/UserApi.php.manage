@@ -1,9 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Controller\ZlsManage;
 
 use Business\ZlsManage\AssistBusiness;
 use Business\ZlsManage\GroupBusiness;
+use Business\ZlsManage\PermissionsBusiness;
 use Controller\ZlsManage;
 use Z;
 
@@ -16,48 +18,58 @@ class UserApi extends ZlsManage
 {
     /**
      * 获取用户Token
-     * @time 2018-11-1 13:46:28
+     * @time       2018-11-1 13:46:28
      * @return array
+     * @api-ignore 忽略权限控制
+     * @api-desc   游客权限
      * @return string data.token 鉴权token
      */
     public function POSTzGetToken()
     {
-        $user = z::postGet('user');
-        $pass = z::postGet('pass');
-        $user = $this->UserBusiness->nameToInfo($user);
+        $user   = z::postGet('user');
+        $pass   = z::postGet('pass');
+        $user   = $this->UserBusiness->nameToInfo($user);
         $status = $this->UserBusiness->checkPass($user, $pass);
         if (is_string($status)) {
             return [211, $status];
-        } else {
-            $user = $this->UserBusiness->filterField($user);
-            $user['token'] = $this->UserBusiness->createToken($user['id']);
-
-            return [200, '登录成功', $user];
         }
+        $user          = $this->UserBusiness->filterField($user);
+        $user['token'] = $this->UserBusiness->createToken($user['id']);
+
+        return [200, '登录成功', $user];
     }
 
     /**
      * 用户详情
+     * @api-permission("not_visitor")
+     * @return array data.marks 权限标识列表
      * @time 2018-11-8 17:57:48
      */
     public function GETzUseriInfo()
     {
-        $GroupBusiness = new GroupBusiness;
-        $user = $this->getInfo();
+        $user = Z::arrayFilter($this->getInfo(), function ($v, $k) {
+            return in_array($k, ['id', 'group_id', 'avatar', 'email', 'nickname', 'username', 'status', 'marks', 'system', 'last', 'groups', 'menus']);
+        });
+
         // 注意控制某些用户不显示系统信息
-        $user['system'] = (new AssistBusiness())->getSystemInfo();
-        $user['last'] = $this->UserBusiness->getLast($user['id'], $this->getToken());
-        $user['groups'] = $GroupBusiness->all();
-        $user['menus'] = $GroupBusiness->getMenu($user['group_id']);
+        if($this->hasPermission('system')){
+            z::dump(33);
+            z::end();
+        }
+        $user['system']  = (new AssistBusiness())->getSystemInfo();
+        $user['last']    = $this->UserBusiness->getLast($user['id'], $this->getToken());
+
         return [200, '用户详情', $user];
     }
 
     /**
      * 修改用户密码
+     *
      * @param string userid 要修改的用户id PUT 当前用户id n
      * @param string oldPass 当前密码 PUT '' y
      * @param string pass 新密码 PUT '' y
      * @param string pass 确认密码 PUT '' y
+     *
      * @time 2018-12-12 17:06:25
      * @return array|string
      */
@@ -65,8 +77,8 @@ class UserApi extends ZlsManage
     {
         $oldPassword = z::postText('oldPass');
         $newPassword = z::postText('pass');
-        $userid = $this->getInfo('id');
-        $upUid = z::postText('userid') ?: $userid;
+        $userid      = $this->getInfo('id');
+        $upUid       = z::postText('userid') ?: $userid;
         if ($userid == $upUid) {
             $rs = $this->UserBusiness->editPassword($upUid, $oldPassword, $newPassword, $userid);
         } else {
@@ -78,22 +90,26 @@ class UserApi extends ZlsManage
 
     /**
      * 更新用户资料
+     *
      * @param int id 用户ID PUT '' y 注意：如果空表示更新自己
+     *
      * @time 2019-3-4 19:30:56
      * @return array|string
      */
     public function PUTzUpdate()
     {
-        $uid = $this->getInfo('id');
-        $userid = z::postText('id') ?: $uid;
-        $post = z::postText();
+        $uid     = $this->getInfo('id');
+        $userid  = z::postText('id') ?: $uid;
+        $post    = z::postText();
         $isSuper = $this->getInfo('isSuper');
-        $userIsSuper = $this->UserBusiness->isSuperAdmin($userid);
-        $status = z::arrayGet($post, 'status');
-        $isMe = $userid == $uid;
+        // 被修改的用户是否超级管理员
+        $userIsSuper = $this->UserBusiness->isSuperAdmin((int)$userid);
+        $status      = z::arrayGet($post, 'status');
+        $isMe        = $userid == $uid;
         if ($isMe && 1 != $status) {
             return '不能禁止自己';
-        } elseif (($userid != $uid) && $userIsSuper && !is_null($status)) {
+        }
+        if (($userid != $uid) && $userIsSuper && !is_null($status)) {
             return '不能更新该账户状态';
         }
         // 如果是超级管理员有权限更新用户密码
@@ -106,7 +122,7 @@ class UserApi extends ZlsManage
             $map[] = 'group_id';
         }
         $data = z::readData($map, $post);
-        $rs = $this->UserBusiness->update($userid, $data, $uid);
+        $rs   = $this->UserBusiness->update($userid, $data, $uid);
 
         return is_string($rs) ? $rs : [200, '处理成功', ['id' => $rs]];
     }
@@ -119,7 +135,7 @@ class UserApi extends ZlsManage
     public function POSTzUploadAvatar()
     {
         $AssistBusiness = new AssistBusiness();
-        $result = $AssistBusiness->uploadAvatar();
+        $result         = $AssistBusiness->uploadAvatar();
         if (is_string($result)) {
             return [211, $result];
         }
@@ -129,11 +145,13 @@ class UserApi extends ZlsManage
 
     /**
      * 清除用户Token
-     * @time 2018-11-7 17:57:31
+     * @ignore 忽略权限控制
+     * @permission("not_visitor")
+     * @time   2018-11-7 17:57:31
      */
     public function POSTzClearToken()
     {
-        $token = $this->getToken();
+        $token  = $this->getToken();
         $result = $this->UserBusiness->clearToken($token);
 
         return [200, '清除用户Token', $result];

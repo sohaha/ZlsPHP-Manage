@@ -1,0 +1,24 @@
+<?php
+
+use Zls\Migration\AbstractMigration as M;
+use Zls\Migration\MysqlAdapter;
+
+class CreateSite extends M
+{
+    public function change()
+    {
+        $table = $this->table('sites');
+        $table->comment('站点');
+        $table->addColumn('path', 'text', ['comment' => '路径']);
+        $table->addColumn('password', 'text', ['comment' => '管理密码']);
+        $table->addColumn('back_url', 'text', ['comment' => '返回链接']);
+        $table->addColumn('forge_url', 'text', ['comment' => '返回链接']);
+        $table->addColumn('custom', 'text', ['comment' => '自定义数据', M::OPTIONS_LIMIT => MysqlAdapter::TEXT_REGULAR]);
+        $table->addColumn('statistical_code', 'text', ['comment' => '统计代码']);
+        $table->addColumn('title', 'string', ['default' => '', 'comment' => '标题', 'limit' => 100]);
+        $table->addColumn('create_time', 'timestamp', ['default' => null, 'null' => true, 'comment' => '创建时间']);
+        $table->addColumn('update_time', 'timestamp', ['default' => null, 'null' => true, 'comment' => '更新时间']);
+        $table->addColumn('status', 'integer', ['default' => 1, 'limit' => 255, 'comment' => '类型:1正常，0禁止']);
+        $table->create();
+    }
+}

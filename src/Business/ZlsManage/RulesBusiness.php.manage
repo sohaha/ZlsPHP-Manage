@@ -1,4 +1,5 @@
 <?php
+declare (strict_types=1);
 
 namespace Business\ZlsManage;
 
@@ -8,8 +9,6 @@ use Z;
 
 /**
  * 规则业务
- * Class RulesBusiness
- * @package Business\ZlsManage
  */
 class RulesBusiness extends \Zls_Business
 {
@@ -22,9 +21,10 @@ class RulesBusiness extends \Zls_Business
      */
     public function lists($where = [])
     {
-        $dao = new RulesDao();
+        $dao    = new RulesDao();
+        $fields = ['mark', 'id', 'status', 'title', 'type', 'remark'];
 
-        return $dao->findAll($where, ['id' => 'desc']);
+        return $dao->findAll($where, ['sort' => 'desc', 'id' => 'desc'], null, $fields);
     }
 
     public function findRows(array $ids)
@@ -72,14 +72,14 @@ class RulesBusiness extends \Zls_Business
      * 添加规则
      *
      * @param string $title
-     * @param string $router
+     * @param        $mark
      * @param        $remark
      *
      * @return null|array|string
      */
-    public function addRules($title, $router, $remark)
+    public function addRules($title, $mark, $type, $remark)
     {
-        $data    = ['title' => $title, 'router' => $router, 'remark' => $remark];
+        $data    = ['title' => $title, 'mark' => $mark, 'remark' => $remark, 'type' => $type];
         $dao     = new RulesDao();
         $rules   = $dao->verifyRules(array_keys($data));
         $retData = $errorMsg = $errorKey = null;
@@ -102,17 +102,17 @@ class RulesBusiness extends \Zls_Business
      *
      * @return null|array[]
      */
-    public function editRules($id, $title, $router, $remark)
+    public function editRules($id, $title, $mark, $remark)
     {
-        $data    = ['title' => $title, 'router' => $router, 'remark' => $remark, 'id' => $id];
+        $data    = ['title' => $title, 'mark' => $mark, 'remark' => $remark, 'id' => $id];
         $dao     = new RulesDao();
         $rules   = $dao->verifyRules(array_keys($data));
         $retData = $errorMsg = $errorKey = null;
         if (z::checkData($data, $rules, $retData, $errorMsg, $errorKey)) {
             $retData = z::readData($dao->getReversalColumns('id'), $retData, false);
-            $dao->update($retData, $id);
+            $rs      = $dao->update($retData, $id);
 
-            return $retData;
+            return $retData + ['res' => $rs];
         } else {
             return $errorMsg;
         }

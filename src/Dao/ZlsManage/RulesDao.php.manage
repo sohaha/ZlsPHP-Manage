@@ -6,18 +6,22 @@ use Z;
 
 class RulesDao extends \Zls_Dao
 {
+    const TYPE_ROUTER = 1;//路由
+    const TYPE_MARK = 2;//标识码
+
     public function getColumns()
     {
         return [
-            'id', //主键
-            'title', //规则名称
-            'create_time', //创建时间
-            'update_time', //更新时间
-            'status', //状态:1正常，2禁止
-            'router', //路由地址
-            'remark', //备注
-            'condition', //附加条件
-            'sort', //排序
+            'id',//主键
+            'title',//规则名称
+            'create_time',//创建时间
+            'update_time',//更新时间
+            'status',//状态：1正常，2禁止；标识码不支持禁止
+            'type',//类型：1路由，2标识码
+            'mark',//标识码（唯一）
+            'remark',//备注
+            'condition',//附加条件
+            'sort',//排序
         ];
     }
 
@@ -36,6 +40,27 @@ class RulesDao extends \Zls_Dao
         return 'auth_user_rules';
     }
 
+    public static function findBefore(\Zls_Database_ActiveRecord $db, $method)
+    {
+
+    }
+
+    public static function deleteBefore(\Zls_Database_ActiveRecord $db, $method)
+    {
+
+    }
+
+    public static function insertBefore(\Zls_Database_ActiveRecord $db, $method, &$data)
+    {
+
+    }
+
+    public static function updateBefore(\Zls_Database_ActiveRecord $db, $method, &$data)
+    {
+
+    }
+
+
     public function find($values, $isRows = false, array $orderBy = [], $fields = null)
     {
         $this->cache(3);
@@ -48,22 +73,24 @@ class RulesDao extends \Zls_Dao
         if (!$columns) {
             $columns = $this->getColumns();
         }
-        $verifyrules = [];
+        $verifyrules          = [];
         $verifyrules['title'] = [
             'required' => '名称不能为空',
         ];
-        $verifyrules['router'] = [
-            'required' => '路由不能为空',
+        $verifyrules['mark']  = [
+            'required' => '标识不能为空',
             'function' => function ($key, $value, $data, $args, &$returnValue, &$break, &$db) {
-                $id = z::arrayGet($data, 'id');
-                $row = (!!$id) ? $this->find($id) : [];
-                $verifyRouter = $row ? $data['router'] !== $row['router'] && $data['id'] : true;
-                if ($verifyRouter && ($r = $this->find(['router' => $data['router']])) && ($r['id'] != $id)) {
-                    return '规则路由已存在';
+                $id           = z::arrayGet($data, 'id');
+                $row          = (!!$id) ? $this->find($id) : [];
+                $verifyRouter = $row ? $data['mark'] !== $row['mark'] && $data['id'] : true;
+                if ($verifyRouter && ($r = $this->find(['mark' => $data['mark']])) && ($r['id'] != $id)) {
+                    return '标识规则已存在';
                 }
+
+                return null;
             },
         ];
-        $rule = [];
+        $rule                 = [];
         foreach ($columns as $column) {
             if (Z::arrayKeyExists($column, $verifyrules)) {
                 $rule[$column] = $verifyrules[$column];

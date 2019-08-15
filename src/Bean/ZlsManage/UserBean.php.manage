@@ -2,43 +2,47 @@
 
 namespace Bean\ZlsManage;
 
+use Business\ZlsManage\GroupBusiness;
+use Business\ZlsManage\UserBusiness;
 use Z;
+use Zls\Action\Id as IdAlias;
 
 class UserBean extends \Zls_Bean
 {
     //id
     protected $id;
-
-    //用户名
-    protected $username;
-
-    //用户密码
-    protected $password;
-
-    //密码盐
-    protected $key;
-
-    //用户昵称
-    protected $nickname;
-
-    //头像
-    protected $avatar;
-
-    //状态:0待激活,1正常,2禁止
-    protected $status;
-
-    //创建时间
-    protected $create_time;
-
-    //更新时间
-    protected $update_time;
+    protected $group_id;
 
 
     public function getId()
     {
-        /** @var \Zls\Action\Id $ActionId */
+        /** @var IdAlias $ActionId */
         $ActionId = z::extension('Action\Id');
 
-        return $this->id ? $ActionId->encode($this->id) : '';
+        return $this->id ? $ActionId->encode($this->id) : 0;
     }
+
+
+    public function getGroups()
+    {
+        $groupids = Z::arrayMap(explode(',', $this->group_id), function ($v) {
+            return (int)$v;
+        });
+        $groups   = (new GroupBusiness())->all();
+        $names    = [];
+        foreach ($groups as $group) {
+            if (in_array($group['id'], $groupids)) {
+                $names[$group['id']] = $group['name'];
+            }
+        }
+        /** @var UserBusiness $UserBusiness */
+        $UserBusiness = Z::business('ZlsManage\UserBusiness');
+        if ($UserBusiness->isSuperAdmin($this->id)) {
+            $names[0] = '超级管理员';
+        }
+
+        return $names;
+    }
+
+
 }

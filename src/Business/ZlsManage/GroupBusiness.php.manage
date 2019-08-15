@@ -3,26 +3,28 @@
 namespace Business\ZlsManage;
 
 use Dao\ZlsManage\GroupDao;
+use Dao\ZlsManage\RulesDao;
 use Dao\ZlsManage\RulesRelaDao;
 use Dao\ZlsManage\UserDao;
 use Z;
 
 /**
  * 角色业务
+ * @author seekwe <seekwe@gmail.com>
  */
 class GroupBusiness extends \Zls_Business
 {
     /**
      * 角色列表
      *
-     * @param array $where
+     * @param array $where 查询条件
      *
      * @return array
      */
     public function all($where = [])
     {
-        $dao = new GroupDao();
-        // $table = $dao->getTable();
+        $dao    = new GroupDao();
+        $table  = $dao->getTable();
         $fields = $dao->getReversalColumns('rule_ids,ban_rule_ids,create_time');
 
         return $dao->findAll($where, ['id' => 'desc'], null, $fields);
@@ -43,9 +45,9 @@ class GroupBusiness extends \Zls_Business
     /**
      * 创建/更新角色
      *
-     * @param int    $id
-     * @param        $name
-     * @param string $remark
+     * @param int    $id     角色ID
+     * @param string $name   角色名称
+     * @param string $remark 角色备注
      *
      * @return array|string
      */
@@ -89,27 +91,37 @@ class GroupBusiness extends \Zls_Business
         // todo 做缓存处理
         $gid          = $info['id'];
         $RulesRelaDao = new RulesRelaDao();
-        $lists        = $RulesRelaDao->findAll(['group_id' => $gid], ['id' => 'desc'], null, 'status,rule_id');
+        $lists        = $RulesRelaDao->findAll(
+            ['group_id' => $gid], ['id' => 'desc'], null, 'status,rule_id'
+        );
         $rows         = [];
         foreach ($lists as $row) {
             $rows[$row['status']][] = $row;
         }
-        $info['rule_ids']     = z::arrayValues(z::arrayGet($rows, '1', []), 'rule_id');
-        $info['ban_rule_ids'] = z::arrayValues(z::arrayGet($rows, '2', []), 'rule_id');
+        $info['rule_ids']     = z::arrayValues(
+            z::arrayGet($rows, '1', []), 'rule_id'
+        );
+        $info['ban_rule_ids'] = z::arrayValues(
+            z::arrayGet($rows, '2', []), 'rule_id'
+        );
         // $info['rules_count'] = count($info['rule_ids'])+count($info['ban_rule_ids']);
-        $info['user_count'] = z::arrayGet((new UserDao)->find(['group_id' => $info['id']], false, [], 'count(*) as count'), 'count', 0);
+        $info['user_count'] = z::arrayGet(
+            (new UserDao)->find(
+                ['group_id' => $info['id']], false, [], 'count(*) as count'
+            ), 'count', 0
+        );
 
         return $info;
     }
 
     /**
-     * 获取角色菜单
+     * 获取菜单
      *
-     * @param $groupid
+     * @param int $userid
      *
      * @return array
      */
-    public function getMenu($groupid)
+    public function getMenu($userid = 0)
     {
         $menu = [
             [
@@ -143,10 +155,67 @@ class GroupBusiness extends \Zls_Business
                         "index" => "user/group",
                         "icon"  => "icon-people",
                     ],
+                    [
+                        "id"    => 13,
+                        "title" => "菜单设置",
+                        "index" => "user/menu",
+                        "icon"  => "icon-pricetags",
+                    ],
                 ],
             ],
         ];
 
         return $menu;
+    }
+
+    /**
+     * 获取权限标识列表
+     *
+     * @param $groupid
+     *
+     * @return array
+     */
+    public function getMarks(array $groupid)
+    {
+        $rulesDao = new RulesDao();
+
+        return array_values(Z::arrayValues($this->getRules($groupid, $rulesDao::TYPE_MARK), 'mark'));
+    }
+
+    public function getRouter(array $groupid)
+    {
+        $rulesDao = new RulesDao();
+
+        return Z::arrayValues($this->getRules($groupid, $rulesDao::TYPE_ROUTER), ['mark', 'status', 'condition']);
+    }
+
+    /**
+     * 获取角色权限信息
+     *
+     * @param      $groupid
+     * @param null $type
+     *
+     * @return array
+     */
+    public function getRules($groupid, $type = null)
+    {
+        $dao      = new RulesDao();
+        $relasDao = new RulesRelaDao();
+        $db       = $dao->getDb()->join([$relasDao->getTable() => 're'], 're.rule_id=r.id')->from($dao->getTable(), 'r');
+        $db->where(['re.group_id' => $groupid, 're.status !=' => $relasDao::STATUS_IGNORE]);
+        $db->select('*,re.status as status');
+        try {
+            $rules = $db->execute()->rows();
+        } catch (\Zls_Exception_Database $e) {
+            $rules = [];
+        }
+        if (is_null($type)) {
+            return $rules;
+        }
+        $rules = Z::arrayFilter($rules, function ($v) use ($type) {
+            return $v['type'] == $type;
+        });
+
+        return $rules;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+declare (strict_types=1);
 
 namespace Business\ZlsManage;
 
@@ -18,9 +19,11 @@ class SysLogBusiness extends \Zls_Business
 
     /**
      * 统一输入格式
+     *
      * @param     $name
      * @param     $file
      * @param int $line
+     *
      * @return array
      */
     public function exportData($name, $file, $line = 0)
@@ -61,21 +64,25 @@ class SysLogBusiness extends \Zls_Business
 
     /**
      * 日志排序
+     *
      * @param $dirs
+     *
      * @return array
      */
     private function listsReverse($dirs)
     {
-        return array_reverse(z::arrayMap($dirs,  static function ($v, $k) {
+        return array_reverse(z::arrayMap($dirs, function ($v, $k) {
             return $k;
         }, false));
     }
 
     /**
      * 读取日志
+     *
      * @param          $file
      * @param int|bool $start 开始读取行数，true表示从头开始,false表示从底部开始
      * @param int|bool $sum   读取行数，true表示读取整个文件
+     *
      * @return array|bool
      */
     public function tail($file, $start = null, $sum = 10)
@@ -114,6 +121,7 @@ class SysLogBusiness extends \Zls_Business
 
     /**
      * 读取日志文件
+     *
      * @param        $dir
      * @param        $arr
      * @param string $Subfix

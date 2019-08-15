@@ -1,10 +1,13 @@
 <?php
+declare (strict_types=1);
 
 namespace Controller;
 
 use Business\ZlsManage\AuthBusiness;
+use Business\ZlsManage\PermissionsBusiness;
 use Business\ZlsManage\UserBusiness;
 use Z;
+use Zls\Action\ApiDoc;
 
 /**
  * Class ZlsManage
@@ -12,59 +15,163 @@ use Z;
  */
 class ZlsManage extends \Zls_Controller
 {
+    /**
+     * 跳转到静态页面
+     */
     public function zIndex()
     {
-        Z::redirect('/ZlsManage/index.html');
+        Z::redirect('/zls-manage/index.html');
     }
 
     protected $USER;
-    /** @var \Business\ZlsManage\UserBusiness $UserBusiness */
+    /** @var UserBusiness $UserBusiness */
     protected $UserBusiness;
 
-    public function before($method, $controllerShort, $args, $controller)
+    /**
+     * @param $method
+     * @param $controllerShort
+     * @param $args
+     * @param $methodFull
+     * @param $controller
+     *
+     * @return null|array|void
+     */
+    public function before($method, $controllerShort, $args, $methodFull, $controller)
     {
         $AuthBusiness       = new AuthBusiness();
         $router             = str_replace('_', '/', z::strCamel2Snake(str_replace('\\', '/', $controllerShort) . '/' . $method, ''));
         $this->UserBusiness = new UserBusiness;
-        if (!in_array($router, ['zlsmanage/userapi/gettoken'])) {
+        try {
+            $comment    = ApiDoc::getMethodComment($this, $methodFull);
+            $permission = $comment('permission');
+            if (!is_null($comment('ignore')) && is_null($permission)) {
+                return;
+            }
             $token      = $this->getToken();
             $this->USER = $this->UserBusiness->tokenToInfo($token);
             if (!$this->USER) {
                 return [401, '请先登录'];
             }
-            // 是否超级管理员
             $this->USER['isSuper'] = $this->UserBusiness->isSuperAdmin($this->USER['id']);
-            // 只要登录就就要开放的权限
-            $noVerification = ['zlsmanage/userapi/useriinfo', 'zlsmanage/systemapi/unreadmessagecount', 'zlsmanage/userapi/cleartoken'];
-            // 'ZlsManage/UserApi/UseriInfo/
+            $noVerification        = [];
             if (!$this->USER['isSuper'] && !in_array($router, $noVerification)) {
-                $auth = $AuthBusiness->userAuth($this->USER['group_id'], $router);
+                $condition = [
+                    'router'     => $router,
+                    'permission' => array_reduce($permission ?: [], 'array_merge', []),
+                ];
+                $regular   = [
+                    'marks'   => $this->USER['marks'],
+                    'routers' => $this->USER['routers'],
+                ];
+                $auth      = $AuthBusiness->userAuth($this->USER['id'], $condition, $regular);
                 if ($auth !== true) {
                     return [403, '对不起，权限不足', $auth];
                 }
             }
+        } catch (\ReflectionException $e) {
+            return $this->call($method, $controllerShort, $args, $methodFull, $controller);
         }
 
         return null;
     }
 
-    final protected function getToken()
+    /**
+     * 获取token
+     * @return string
+     */
+    final protected function getToken(): string
     {
-        return z::server('HTTP_TOKEN') ?: z::getPost('token');
+        return z::server('HTTP_TOKEN') ?: z::getPost('token', '');
     }
 
+    /**
+     * 获取用户信息
+     *
+     * @param null|string $key
+     *
+     * @return array|string
+     */
     final public function getInfo($key = null)
     {
         return $key ? z::arrayGet($this->USER, $key) : $this->USER;
     }
 
-    public function after($contents, $methodName, $controllerShort, $args, $controller)
+
+    /**
+     * 判断用户是否有对应权限
+     *
+     * @param array $permissions
+     * @param null  $userid
+     *
+     * @return bool
+     */
+    final public function hasPermissions(array $permissions, $userid = null): bool
+    {
+        foreach ($permissions as $permission) {
+            if ($this->hasPermission($permission, $userid)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * 判断用户是否有对应权限
+     *
+     * @param string $permissions
+     * @param null   $userid 用户ID 默认当前用户
+     *
+     * @return bool
+     */
+    final public function hasPermission(string $permissions, $userid = null): bool
+    {
+        if (is_null($userid)) {
+            $groupid = $this->getInfo('group_id');
+        } else {
+            if (!$info = (new UserBusiness())->info($userid)) {
+                return false;
+            }
+            $groupid = Z::arrayGet($info, 'group_id');
+        }
+        /** @var PermissionsBusiness $business */
+        $business = Z::business('ZlsManage\PermissionsBusiness');
+        $groupids = explode(',', $groupid);
+        foreach ($groupids as $groupid) {
+            if ($business->has($permissions, (int)$groupid)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $contents
+     * @param $methodName
+     * @param $controllerShort
+     * @param $args
+     * @param $methodFull
+     * @param $class
+     *
+     * @return string
+     */
+    public function after($contents, $methodName, $controllerShort, $args, $methodFull, $class)
     {
         return is_array($contents) ? Z::json($contents) : Z::json(211, $contents);
     }
 
-    public function call($method, $controllerShort, $args, $controller)
+    /**
+     * @param $method
+     * @param $controllerShort
+     * @param $args
+     * @param $methodFull
+     * @param $controller
+     *
+     * @return array
+     */
+    public function call($method, $controllerShort, $args, $methodFull, $controller)
     {
-        return [404, '此路不通'];
+        return [404, 'HTTP/1.1 404 Not Found'];
     }
 }
