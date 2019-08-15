@@ -6,9 +6,9 @@ use Z;
 
 class RulesRelaDao extends \Zls_Dao
 {
-    const STATUS_NORMAL = 1;
-    const STATUS_BAN = 2;
-    const STATUS_IGNORE = 3;
+    public const STATUS_NORMAL = 1;
+    public const STATUS_BAN = 2;
+    public const STATUS_IGNORE = 3;
 
     public function getColumns()
     {

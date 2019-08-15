@@ -76,9 +76,6 @@
                 { value: '105', label: '天然', disabled: false }
               ],
               validate: [{ required: true, message: '请选择', trigger: 'blur' }],
-              props: {
-                // multiple: true
-              }
             },
             {
               type: 'switch',

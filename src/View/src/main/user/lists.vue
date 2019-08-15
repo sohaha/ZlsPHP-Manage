@@ -168,7 +168,6 @@ Spa.define(
       }
     },
     init: function(query, search) {
-      console.log("user", search, that.__isShow, this.__isShow, this);
       if (!!search[0]) {
         this.ml_listsLoading = true;
         this.ml_data = [];

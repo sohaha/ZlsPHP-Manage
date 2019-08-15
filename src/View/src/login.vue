@@ -575,11 +575,13 @@
 
   .maskLayer {
     width: 100%;
-    height: 50%;
+    height: 70%;
     position: absolute;
     bottom: 0;
     left: 0;
-    background-color: rgba(245, 247, 249, 0.08)
+    opacity: 0.5;
+    background-color: #080708;
+    background-image: linear-gradient(0deg, #7f7f7f 0%, #000 100%);
   }
 </style>
 <template>

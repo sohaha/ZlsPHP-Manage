@@ -6,11 +6,11 @@ use Z;
 
 class LogsDao extends \Zls_Dao
 {
-    const TYPE_NORMAL = 1;
-    const TYPE_WARN = 2;
-    const TYPE_ERROR = 3;
-    const STATUS_NOT = 1;
-    const STATUS_READ = 2;
+    public const TYPE_NORMAL = 1;
+    public const TYPE_WARN = 2;
+    public const TYPE_ERROR = 3;
+    public const STATUS_NOT = 1;
+    public const STATUS_READ = 2;
 
     public function getColumns()
     {

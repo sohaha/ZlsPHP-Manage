@@ -5,20 +5,17 @@ namespace Business\ZlsManage;
 use Dao\ZlsManage\LogsDao;
 use Dao\ZlsManage\UserDao;
 use z;
+use Zls\Action\FileUp;
+use Zls\Action\Ini;
 
 /**
- * Zls
- * @author        影浅
- * @email         seekwe@gmail.com
- * @copyright     Copyright (c) 2015 - 2017, 影浅, Inc.
- * @link          ---
- * @since         v0.0.1
- * @updatetime    2018-11-08 17:55
+ * Class AssistBusiness
+ * @package Business\ZlsManage
  */
 class AssistBusiness extends \Zls_Business
 {
-    const AVATAR_PATH = 'static/avatar';
-    const AVATAR_TMP_PATH = 'static/avatar/tmp';
+    public const AVATAR_PATH = 'static/avatar';
+    public const AVATAR_TMP_PATH = 'static/avatar/tmp';
 
     /**
      * 上传头像图片至临时目录
@@ -32,8 +29,10 @@ class AssistBusiness extends \Zls_Business
     /**
      * 移动头像图片
      * @desc 把头像图片从临时目录移动至最终目录并且返回路径
+     *
      * @param string $path     头像路径
      * @param null   $filename 文件名,不包含后缀
+     *
      * @return string
      */
     public function mvAvatar($path, $filename = null)
@@ -54,16 +53,18 @@ class AssistBusiness extends \Zls_Business
 
     /**
      * 上传文件
+     *
      * @param        $dir
      * @param string $name
      * @param array  $ext
      * @param string $formfield
      * @param int    $size
+     *
      * @return array|string
      */
     public function upload($dir, $name = '', $ext = ['jpg', 'png'], $formfield = 'file', $size = 2048)
     {
-        /** @var \Zls\Action\FileUp $fileUpload */
+        /** @var FileUp $fileUpload */
         $fileUpload = z::extension('Action\FileUp');
         $fileUpload->setFormField($formfield);
         $fileUpload->setMaxSize($size);
@@ -78,15 +79,18 @@ class AssistBusiness extends \Zls_Business
 
     /**
      * 获取日志列表
-     * @param     $page
-     * @param     $pagesize
-     * @param int $unread
-     * @param int $type
+     *
+     * @param      $page
+     * @param      $pagesize
+     * @param int  $unread
+     * @param int  $type
+     * @param null $userid
+     *
      * @return array
      */
     public function getLogs($page, $pagesize, $unread = 0, $type = 0, $userid = null)
     {
-        $dao = new LogsDao();
+        $dao   = new LogsDao();
         $where = $unread ? ['status' => $dao::STATUS_NOT] : [];
         if ($type) {
             $where['type'] = $type;
@@ -94,9 +98,9 @@ class AssistBusiness extends \Zls_Business
         if ($userid) {
             $where['userid'] = $userid;
         }
-        $table = $dao->getTable();
+        $table     = $dao->getTable();
         $userTable = (new UserDao())->getTable();
-        $lists = $dao->getPage($page, $pagesize, '{page}', "{$table}.*,{$userTable}.username as username", function ($db) use ($where, $table, $userTable) {
+        $lists     = $dao->getPage($page, $pagesize, '{page}', "{$table}.*,{$userTable}.username as username",static function (\Zls_Database_ActiveRecord $db) use ($where, $table, $userTable) {
             $newWhere = [];
             foreach ($where as $key => $value) {
                 $newWhere[$table . '.' . $key] = $value;
@@ -110,8 +114,10 @@ class AssistBusiness extends \Zls_Business
 
     /**
      * 获取未读日志总数
+     *
      * @param int $lastid
      * @param int $userid
+     *
      * @return int
      */
     public function getUnreadMessageCount($lastid = 0, $userid = 0)
@@ -123,15 +129,17 @@ class AssistBusiness extends \Zls_Business
 
     /**
      * 更新日志状态
+     *
      * @param     $ids
      * @param int $uid
+     *
      * @return bool
      */
     public function updateMessageStatus($ids, $uid = 0)
     {
         $logsDao = new LogsDao();
 
-        return $logsDao->updateBatch(z::arrayMap($ids, function ($v) use ($logsDao) {
+        return $logsDao->updateBatch(z::arrayMap($ids,static function ($v) use ($logsDao) {
             return ['id' => $v, 'status' => $logsDao::STATUS_READ];
         }), 'id');
     }
@@ -145,10 +153,9 @@ class AssistBusiness extends \Zls_Business
         $config = z::config('ini', true, []);
         // 根据实际情况过滤只返回需要显示的
         $data = [
-            'debug' => !!z::arrayGet($config, 'base.debug', true),
-            'cdnHost' => z::arrayGet($config, 'project.cdnHost', ''),
+            'debug'        => !!z::arrayGet($config, 'base.debug', true),
             'maintainMode' => !!z::arrayGet($config, 'base.maintainMode', true),
-            'ipWhitelist' => join(',', z::arrayGet($config, 'base.ipWhitelist', [])),
+            'ipWhitelist'  => join(',', z::arrayGet($config, 'base.ipWhitelist', [])),
         ];
 
         return $data;
@@ -156,21 +163,22 @@ class AssistBusiness extends \Zls_Business
 
     /**
      * 更新系统配置
+     *
      * @param array $data
+     *
      * @return bool
      */
     public function updateSystemConfig(array $data)
     {
         $config = z::config('ini', true, []);
         // 根据实际情况从$data读取需要的数据
-        $config['base']['debug'] = z::arrayGet($data, 'debug');
-        $config['project']['cdnHost'] = z::arrayGet($data, 'cdnHost');
+        $config['base']['debug']        = z::arrayGet($data, 'debug');
         $config['base']['maintainMode'] = z::arrayGet($data, 'maintainMode');
-        $config['base']['ipWhitelist'] = explode(';', z::arrayGet($data, 'ipWhitelist', ''));
+        $config['base']['ipWhitelist']  = explode(';', z::arrayGet($data, 'ipWhitelist', ''));
         /**
-         * @var \Zls\Action\Ini $Ini
+         * @var Ini $Ini
          */
-        $Ini = z::extension('Action\Ini');
+        $Ini  = z::extension('Action\Ini');
         $path = z::realPath('zls.ini', false, false);
 
         return !!@file_put_contents($path, $Ini->extended($config));
@@ -184,20 +192,20 @@ class AssistBusiness extends \Zls_Business
     {
         /** @noinspection PhpComposerExtensionStubsInspection */
         $data = [
-            'hostname' => z::hostname(),
-            'zls_version' => IN_ZLS,
-            'os' => strtolower(PHP_OS),
-            'php_version' => PHP_VERSION,
-            'software' => z::server('SERVER_SOFTWARE'),
-            'extensions' => join(' ', get_loaded_extensions()),
+            'hostname'          => z::hostname(),
+            'zls_version'       => IN_ZLS,
+            'os'                => strtolower(PHP_OS),
+            'php_version'       => PHP_VERSION,
+            'software'          => z::server('SERVER_SOFTWARE'),
+            'extensions'        => join(' ', get_loaded_extensions()),
             'disable_functions' => join(' ', explode(',', ini_get('disable_functions'))),
-            'free_space' => z::convertRam(disk_free_space(z::realPath('.', true, false))),
-            'composer' => z::tap(json_decode(@file_get_contents(z::realPath('composer.lock', false, false)), true), function (&$composer) {
+            'free_space'        => z::convertRam(disk_free_space(z::realPath('.', true, false))),
+            'composer'          => z::tap(json_decode(@file_get_contents(z::realPath('composer.lock', false, false)), true), static function (&$composer) {
                 $composer = z::arrayGet($composer, 'packages', []);
-                $composer = z::arrayFilter(z::arrayValues($composer, ['name', 'version']), function ($v) {
+                $composer = z::arrayFilter(z::arrayValues($composer, ['name', 'version']), static function ($v) {
                     return $v['name'] !== 'zls/framework';
                 });
-                $composer = z::arrayMap($composer, function ($v) {
+                $composer = z::arrayMap($composer, static function ($v) {
                     $v['version'] = z::strBeginsWith($v['version'], 'v') ? substr($v['version'], 1) : $v['version'];
 
                     return $v;

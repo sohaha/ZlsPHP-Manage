@@ -1,7 +1,7 @@
 <style>
-.group-table {
-  padding-bottom : 30px;
-}
+  .group-table {
+    padding-bottom: 30px;
+  }
 
 </style>
 <template>
@@ -10,13 +10,7 @@
       <div class="view-title-right">
         <el-form @submit.prevent.stop.native inline class="tip-top">
           <el-form-item>
-            <el-button
-              type="primary"
-              size="mini"
-              @click="addRowStatus"
-              icon="el-icon-plus"
-              :disabled="isAddRow"
-            >添加</el-button>
+            <el-button type="primary" size="mini" @click="addRowStatus" icon="el-icon-plus" :disabled="isAddRow">添加</el-button>
             <el-button type="info" size="mini" @click="ml_reloadLists" icon="el-icon-refresh">刷新</el-button>
           </el-form-item>
         </el-form>
@@ -46,47 +40,17 @@
           <el-table-column label="操作" width="350">
             <template slot-scope="scope">
               <div class="btns-operating">
-                <el-button
-                  :disabled="scope.row._isEdit"
-                  @click="openRuleView(scope)"
-                  slot="reference"
-                  size="mini"
-                  type="success"
-                  title="查看规则"
-                  icon="icon-person-done"
-                >角色规则</el-button>
-                <el-button
-                  v-bind="getEditBtnAttrs(scope)"
-                  size="mini"
-                  @click="editRow(scope)"
-                >{{getEditBtnAttrs(scope).title}}</el-button>
-                <el-button
-                  v-if="scope.row._isEdit"
-                  title="放 弃"
-                  @click="quitRow(scope)"
-                  size="mini"
-                  icon="el-icon-close"
-                >放 弃</el-button>
+                <el-button :disabled="scope.row._isEdit" @click="openRuleView(scope)" slot="reference" size="mini" type="success" title="查看规则" icon="icon-person-done">角色规则</el-button>
+                <el-button v-bind="getEditBtnAttrs(scope)" size="mini" @click="editRow(scope)">{{getEditBtnAttrs(scope).title}}</el-button>
+                <el-button v-if="scope.row._isEdit" title="放 弃" @click="quitRow(scope)" size="mini" icon="el-icon-close">放 弃</el-button>
                 <template>
                   <el-popover placement="top" width="160" v-model="scope.row._isPopover">
                     <p>确定删除吗？</p>
                     <div>
-                      <el-button
-                        size="mini"
-                        @click="scope.row._isPopover = false"
-                        type="info"
-                        plain
-                      >取 消</el-button>
+                      <el-button size="mini" @click="scope.row._isPopover = false" type="info" plain>取 消</el-button>
                       <el-button type="danger" size="mini" @click="deleteRow(scope)" plain>确 定</el-button>
                     </div>
-                    <el-button
-                      v-show="!scope.row._isEdit"
-                      slot="reference"
-                      size="mini"
-                      type="danger"
-                      icon="el-icon-delete"
-                      title="删 除"
-                    >删除</el-button>
+                    <el-button v-show="!scope.row._isEdit" slot="reference" size="mini" type="danger" icon="el-icon-delete" title="删 除">删除</el-button>
                   </el-popover>
                 </template>
               </div>
@@ -109,89 +73,89 @@
   </div>
 </template>
 <script>
-var dataFormat = { title: "", date: "", id: 0 },
-  that;
-Spa.define(
-  {
-    mixins: [mixinLists, initTitle],
-    data: function() {
-      return {
-        tmpData: [],
-        isAddRow: false,
-        viewDialogVisible: true
-      };
-    },
-    beforeCreate: function() {
-      that = this;
-    },
-    computed: {},
-    init: function(query, search) {
-      that.ml_pagesize = 10;
-      // debugger
-    },
-    mounted: function() {},
-    methods: {
-      openRuleView: function(e) {
-        that.$go("user/rules/@" + e.row.id);
+  var dataFormat = { title: '', date: '', id: 0 },
+    that;
+  Spa.define(
+    {
+      mixins: [mixinLists, initTitle],
+      data: function () {
+        return {
+          tmpData: [],
+          isAddRow: false,
+          viewDialogVisible: true
+        };
       },
-      addRowStatus: function() {
-        that.isAddRow = true;
-        that.ml_data.unshift(
-          Object.assign(
-            { _isEdit: true, _isPopover: false, _isAdd: true },
-            dataFormat
-          )
-        );
+      beforeCreate: function () {
+        that = this;
       },
-      quitRow: function(e) {
-        var index = e.$index;
-        if (!e.row._isAdd) {
-          that.$set(
-            this.ml_data,
-            e.$index,
-            Object.assign({}, this.tmpData[index])
+      computed: {},
+      init: function (query, search) {
+        that.ml_pagesize = 10;
+        // debugger
+      },
+      mounted: function () {},
+      methods: {
+        openRuleView: function (e) {
+          that.$go('user/rules/@' + e.row.id);
+        },
+        addRowStatus: function () {
+          that.isAddRow = true;
+          that.ml_data.unshift(
+            Object.assign(
+              { _isEdit: true, _isPopover: false, _isAdd: true },
+              dataFormat
+            )
           );
-        } else {
-          that.isAddRow = false;
-          that.ml_data.splice(e.$index, 1);
-        }
-      },
-      deleteRow: function(e) {
-        that
+        },
+        quitRow: function (e) {
+          var index = e.$index;
+          if (!e.row._isAdd) {
+            that.$set(
+              this.ml_data,
+              e.$index,
+              Object.assign({}, this.tmpData[index])
+            );
+          } else {
+            that.isAddRow = false;
+            that.ml_data.splice(e.$index, 1);
+          }
+        },
+        deleteRow: function (e) {
+          that
           .$api(apis.sysDeleteGroup, { id: e.row })
-          .then(function() {
+          .then(function () {
             that.ml_data.splice(e.$index, 1);
             that.ml_pagetotal--;
-            that.$nextTick(function() {
+            that.$nextTick(function () {
               if (that.ml_data.length <= 0) that.getLists();
             });
           })
-          .catch(function(e) {
+          .catch(function (e) {
             that.$warMsg(e);
           });
-      },
-      addRow: function(e) {
-        that
+        },
+        addRow: function (e) {
+          that
           .$api(apis.sysCreateGroup, e.row)
-          .then(function(v) {
+          .then(function (v) {
             e.row._isEdit = false;
             e.row._isAdd = false;
             that.isAddRow = false;
             that.$set(that.ml_data, e.$index, Object.assign({}, e.row, v.data));
           })
-          .catch(function(e) {
+          .catch(function (e) {
             that.$warMsg(e);
           });
-      },
-      editRow: function(e) {
-        if (e.row._isAdd) {
-          this.addRow(e);
-          return;
-        }
-        if (e.row._isEdit) {
-          that
+        },
+        editRow: function (e) {
+          if (e.row._isAdd) {
+            this.addRow(e);
+            return;
+          }
+          if (e.row._isEdit) {
+            that
             .$api(apis.sysUpdateGroup, e.row)
-            .then(function(v) {
+            .then(function (v) {
               e.row._isEdit = false;
               that.$set(
                 that.ml_data,
@@ -199,52 +163,54 @@ Spa.define(
                 Object.assign({}, e.row, v.data)
               );
             })
-            .catch(function(e) {
+            .catch(function (e) {
               that.$warMsg(e);
             });
-        } else {
-          this.$set(this.tmpData, e.$index, Object.assign({}, e.row));
-          e.row._isEdit = !e.row._isEdit;
-        }
-      },
-      getEditBtnAttrs: function(e) {
-        return e.row._isEdit
-          ? {
-              title: "提 交",
-              type: "primary",
-              icon: "el-icon-check"
+          } else {
+            this.$set(this.tmpData, e.$index, Object.assign({}, e.row));
+            e.row._isEdit = !e.row._isEdit;
+          }
+        },
+        getEditBtnAttrs: function (e) {
+          return e.row._isEdit
+            ? {
+              title: '提 交',
+              type: 'primary',
+              icon: 'el-icon-check'
             }
-          : {
-              title: "编 辑",
-              type: "info",
-              icon: "el-icon-edit"
+            : {
+              title: '编 辑',
+              type: 'info',
+              icon: 'el-icon-edit'
             };
-      },
-      getLists: function() {
-        var data = { page: this.ml_page, pagesize: this.ml_pagesize };
-        if (this.ml_searchKey) {
-          data["key"] = this.ml_searchKey;
-        }
-        that.isAddRow = false;
-        that.ml_listsLoading = true;
-        this.$api(apis.sysGroupLists, data)
-          .then(function(v) {
-            that.ml_data = v.data.map(function(e) {
+        },
+        getLists: function () {
+          var data = { page: this.ml_page, pagesize: this.ml_pagesize };
+          if (this.ml_searchKey) {
+            data['key'] = this.ml_searchKey;
+          }
+          that.isAddRow = false;
+          that.ml_listsLoading = true;
+          this.$api(apis.sysGroupLists, data)
+          .then(function (v) {
+            that.ml_data = v.data.map(function (e) {
               e._isEdit = false;
               e._isPopover = false;
               return e;
             });
+            // 更新角色
+            that.$store.commit('setGroups', that.ml_data);
           })
-          .catch(function(e) {
+          .catch(function (e) {
             that.$warMsg(e);
           })
-          .finally(function() {
+          .finally(function () {
             that.ml_listsLoading = false;
           });
+        }
       }
-    }
-  },
-  ["/components/rule-view"],
-  "/index"
-);
+    },
+    ['/components/rule-view'],
+    '/index'
+  );
 </script>

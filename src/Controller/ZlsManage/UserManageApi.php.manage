@@ -18,9 +18,11 @@ class UserManageApi extends ZlsManage
     /**
      * 获取用户列表
      * @time 2018-11-7 17:57:39
-     * @param int page 页码 GET 1 n
-     * @param int pagesize 条数 GET 10
-     * @param string key 用户名/Email GET '' n 为空表示全部用户
+     *
+     * @api-param int page 页码 GET 1 n
+     * @api-param int pagesize 条数 GET 10
+     * @api-param string key 用户名/Email GET '' n 为空表示全部用户
+     *
      * @return array
      */
     public function GETzUserLists()
@@ -48,7 +50,9 @@ class UserManageApi extends ZlsManage
      * 删除用户
      * @desc 该操作只是软删除用户
      * @time 2018-11-9 16:56:55
+     *
      * @param int id 用户id POST '' y
+     *
      * @return array|string
      */
     public function DELETEzUser()
@@ -75,12 +79,14 @@ class UserManageApi extends ZlsManage
      */
     public function GETzGroups()
     {
-        return [200, '角色列表', (new GroupBusiness)->all()];
+        return [200, '角色列表', (new GroupBusiness())->all()];
     }
 
     /**
      * 获取角色详情
+     *
      * @param int id 角色ID GET Y
+     *
      * @return array|string
      */
     public function zGroupInfo()
@@ -89,7 +95,7 @@ class UserManageApi extends ZlsManage
         if (!$id) {
             return '参数错误';
         }
-        $GroupBusiness = new GroupBusiness;
+        $GroupBusiness = new GroupBusiness();
         $info          = $GroupBusiness->find($id);
 
         return !!$info ? [200, '角色详情', $GroupBusiness->integration($info)] : '角色不存在';
@@ -97,8 +103,10 @@ class UserManageApi extends ZlsManage
 
     /**
      * 创建角色
+     *
      * @param string name 角色名称 POST Y null
      * @param string remark 角色备注 POST Y ''
+     *
      * @time 2019-4-19 11:14:19
      * @return array|string
      */
@@ -106,15 +114,17 @@ class UserManageApi extends ZlsManage
     {
         $name   = z::post('name');
         $remark = z::post('remark', '');
-        $res    = (new GroupBusiness)->save(null, $name, $remark);
+        $res    = (new GroupBusiness())->save(null, $name, $remark);
 
         return is_string($res) ? $res : [200, '创建新角色', $res];
     }
 
     /**
      * 更新角色
+     *
      * @param string name 角色名称 PUT Y null
      * @param string remark 角色备注 PUT Y ''
+     *
      * @time 2019-4-19 11:14:19
      * @return array|string
      */
@@ -123,7 +133,7 @@ class UserManageApi extends ZlsManage
         $name   = z::postText('name');
         $remark = z::postText('remark', '');
         $id     = z::postText('id', 0);
-        $res    = (new GroupBusiness)->save($id, $name, $remark);
+        $res    = (new GroupBusiness())->save($id, $name, $remark);
 
         return is_string($res) ? $res : [200, '更新角色', $res];
     }
@@ -143,14 +153,14 @@ class UserManageApi extends ZlsManage
     public function GETzRules()
     {
         $key   = z::get('key', '');
-        $where = function (\Zls_Database_ActiveRecord $db) use ($key) {
+        $where = static function (\Zls_Database_ActiveRecord $db) use ($key) {
             if ($key) {
                 $db->where(['title like' => "%{$key}%"]);
                 $db->where(['router like' => "%{$key}%"], 'or');
             }
         };
 
-        return [200, '权限规则列表', (new RulesBusiness)->lists($where)];
+        return [200, '权限规则列表', (new RulesBusiness())->lists($where)];
     }
 
     /**
@@ -161,7 +171,7 @@ class UserManageApi extends ZlsManage
         $title  = z::postText('title', '');
         $router = z::postText('router', '');
         $remark = z::postText('remark', '');
-        $res    = (new RulesBusiness)->addRules($title, $router, $remark);
+        $res    = (new RulesBusiness())->addRules($title, $router, $remark);
 
         return is_string($res) ? $res : [200, '权限规则列表', $res];
     }
@@ -175,7 +185,7 @@ class UserManageApi extends ZlsManage
         $router = z::postText('router', '');
         $id     = z::postText('id', '');
         $remark = z::postText('remark', '');
-        $res    = (new RulesBusiness)->editRules($id, $title, $router, $remark);
+        $res    = (new RulesBusiness())->editRules($id, $title, $router, $remark);
 
         return is_string($res) ? $res : [200, '权限规则列表', $res];
     }
@@ -186,7 +196,7 @@ class UserManageApi extends ZlsManage
     public function DELETEzRules()
     {
         $id  = z::postText('id', '');
-        $res = (new RulesBusiness)->deteleRules($id);
+        $res = (new RulesBusiness())->deteleRules($id);
 
         return is_string($res) ? $res : [200, '删除权限规则', $res];
     }
@@ -200,7 +210,7 @@ class UserManageApi extends ZlsManage
         $gid    = z::postText('gid');
         $status = z::postText('status');
         $sort   = z::postText('sort');
-        $res    = (new RulesBusiness)->updateUserRuleStatus($gid, $id, $status, $sort);
+        $res    = (new RulesBusiness())->updateUserRuleStatus($gid, $id, $status, $sort);
 
         return is_string($res) ? $res : [200, '权限规则列表', $res];
     }

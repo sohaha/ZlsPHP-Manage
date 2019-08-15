@@ -14,13 +14,15 @@ class GroupBusiness extends \Zls_Business
 {
     /**
      * 角色列表
+     *
      * @param array $where
+     *
      * @return array
      */
     public function all($where = [])
     {
         $dao = new GroupDao();
-        $table = $dao->getTable();
+        // $table = $dao->getTable();
         $fields = $dao->getReversalColumns('rule_ids,ban_rule_ids,create_time');
 
         return $dao->findAll($where, ['id' => 'desc'], null, $fields);
@@ -28,26 +30,30 @@ class GroupBusiness extends \Zls_Business
 
     /**
      * 查找角色
+     *
      * @param int $id
+     *
      * @return array
      */
     public function find($id)
     {
-        return (new GroupDao())->find((int) $id);
+        return (new GroupDao())->find((int)$id);
     }
 
     /**
      * 创建/更新角色
+     *
      * @param int    $id
      * @param        $name
      * @param string $remark
+     *
      * @return array|string
      */
     public function save($id, $name, $remark = '')
     {
         $GroupDao = new GroupDao();
-        $time = date('Y-m-d H:i:s');
-        $data = ['name' => $name, 'remark' => $remark];
+        $time     = date('Y-m-d H:i:s');
+        $data     = ['name' => $name, 'remark' => $remark];
         if (!!$id) {
             $data['id'] = $id;
         }
@@ -57,9 +63,9 @@ class GroupBusiness extends \Zls_Business
             if ($id) {
                 $res = $GroupDao->update($retData, $id);
             } else {
-                $retData = $retData + ['create_time' => $time];
-                $res = $GroupDao->insert($retData);
-                $retData['id'] = (int) $res;
+                $retData       = $retData + ['create_time' => $time];
+                $res           = $GroupDao->insert($retData);
+                $retData['id'] = (int)$res;
             }
 
             return $res ? $retData : '保存失败';
@@ -70,7 +76,9 @@ class GroupBusiness extends \Zls_Business
 
     /**
      * 整合角色相关数据
+     *
      * @param array $info
+     *
      * @return array
      */
     public function integration(array $info)
@@ -79,14 +87,14 @@ class GroupBusiness extends \Zls_Business
             return [];
         }
         // todo 做缓存处理
-        $gid = $info['id'];
+        $gid          = $info['id'];
         $RulesRelaDao = new RulesRelaDao();
-        $lists = $RulesRelaDao->findAll(['group_id' => $gid], ['id' => 'desc'], null, 'status,rule_id');
-        $rows = [];
+        $lists        = $RulesRelaDao->findAll(['group_id' => $gid], ['id' => 'desc'], null, 'status,rule_id');
+        $rows         = [];
         foreach ($lists as $row) {
             $rows[$row['status']][] = $row;
         }
-        $info['rule_ids'] = z::arrayValues(z::arrayGet($rows, '1', []), 'rule_id');
+        $info['rule_ids']     = z::arrayValues(z::arrayGet($rows, '1', []), 'rule_id');
         $info['ban_rule_ids'] = z::arrayValues(z::arrayGet($rows, '2', []), 'rule_id');
         // $info['rules_count'] = count($info['rule_ids'])+count($info['ban_rule_ids']);
         $info['user_count'] = z::arrayGet((new UserDao)->find(['group_id' => $info['id']], false, [], 'count(*) as count'), 'count', 0);
@@ -94,39 +102,46 @@ class GroupBusiness extends \Zls_Business
         return $info;
     }
 
+    /**
+     * 获取角色菜单
+     *
+     * @param $groupid
+     *
+     * @return array
+     */
     public function getMenu($groupid)
     {
         $menu = [
             [
-                "id" => 2,
+                "id"    => 2,
                 "title" => "日志查看",
                 "index" => "system/logs",
-                "icon" => "icon-alert-circle",
+                "icon"  => "icon-alert-circle",
             ],
             [
-                "id" => 1,
-                "title" => "系统设置",
-                "index" => "system",
+                "id"         => 1,
+                "title"      => "系统设置",
+                "index"      => "system",
                 "breadcrumb" => false,
-                "icon" => "icon-options-",
-                "child" => [
+                "icon"       => "icon-options-",
+                "child"      => [
                     [
-                        "id" => 10,
+                        "id"    => 10,
                         "title" => "程序设置",
                         "index" => "system/config",
-                        "icon" => "icon-settings",
+                        "icon"  => "icon-settings",
                     ],
                     [
-                        "id" => 11,
+                        "id"    => 11,
                         "title" => "用户设置",
                         "index" => "user/lists",
-                        "icon" => "icon-person",
+                        "icon"  => "icon-person",
                     ],
                     [
-                        "id" => 12,
+                        "id"    => 12,
                         "title" => "角色设置",
                         "index" => "user/group",
-                        "icon" => "icon-people",
+                        "icon"  => "icon-people",
                     ],
                 ],
             ],

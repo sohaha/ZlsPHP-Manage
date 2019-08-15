@@ -6,6 +6,9 @@ use Dao\ZlsManage\LogsDao;
 use Dao\ZlsManage\TokenDao;
 use Dao\ZlsManage\UserDao;
 use Z;
+use Zls\Action\Id;
+use Zls\Action\StrUtils;
+use Zls_Exception_Database;
 
 /**
  * Class UserBusiness
@@ -15,16 +18,18 @@ class UserBusiness extends \Zls_Business
 {
     /**
      * 根据token获取用户信息
+     *
      * @param $token
+     *
      * @return array
      */
     public function tokenToInfo($token)
     {
-        /** @var \Dao\ZlsManage\TokenDao $tokenDao */
+        /** @var TokenDao $tokenDao */
         $tokenDao = new TokenDao();
         $user     = [];
         if ($tokenInfo = $tokenDao->find(['token' => $token, 'status' => 1], false, [])) {
-            /** @var \Dao\ZlsManage\UserDao $dao */
+            /** @var UserDao $dao */
             $dao  = z::dao('ZlsManage\UserDao');
             $user = $dao->find($tokenInfo['userid']);
         }
@@ -34,12 +39,14 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 过滤用户密码等敏感字段
+     *
      * @param $user
+     *
      * @return array
      */
     public function filterField($user)
     {
-        /** @var \Dao\ZlsManage\UserDao $Dao */
+        /** @var UserDao $Dao */
         $Dao = z::dao('ZlsManage\UserDao', true);
 
         return z::readData($Dao->getReversalColumns(), $user);
@@ -47,12 +54,14 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 用户名获取用户信息
+     *
      * @param $username
+     *
      * @return array
      */
     public function nameToInfo($username)
     {
-        /** @var \Dao\ZlsManage\UserDao $dao */
+        /** @var UserDao $dao */
         $dao  = new UserDao();
         $user = $dao->find(['username' => $username], false, [], ['*']);
         if ($user) {
@@ -64,18 +73,20 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 创建token
+     *
      * @param string $idEncode 编码后的用户Id
+     *
      * @return string
      */
     public function createToken($idEncode)
     {
-        /** @var \Zls\Action\Id $ActionId */
+        /** @var Id $ActionId */
         $ActionId = z::extension('Action\Id');
         $id       = $ActionId->decode($idEncode);
 
         return z::tap(
             Z::encrypt($id . '_' . date('y-m-d H:i:s') . '_' . $ActionId->uniqueId(4)),
-            function ($token) use ($id) {
+            static function ($token) use ($id) {
                 $tokenDao = new TokenDao();
                 $tokenDao->saveToken($id, $token);
                 $dao = new LogsDao();
@@ -86,7 +97,9 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 清除用户Token
+     *
      * @param $token
+     *
      * @return int
      */
     public function clearToken($token)
@@ -96,7 +109,9 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 清除指定用户全部token
+     *
      * @param $userid
+     *
      * @return bool
      */
     public function clearAllToken($userid)
@@ -106,9 +121,11 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 用户列表
+     *
      * @param        $page
      * @param int    $pagesize
      * @param string $key
+     *
      * @return array
      */
     public function lists($page, $pagesize = 10, $key = '')
@@ -145,9 +162,11 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 更新用户
+     *
      * @param     $id
      * @param     $data
-     * @param int $uid
+     * @param int $operationUser
+     *
      * @return int|string
      */
     public function update($id, $data, $operationUser = 0)
@@ -173,11 +192,11 @@ class UserBusiness extends \Zls_Business
             $retData['update_time'] = date('Y-m-d H:i:s');
             if ($retData['avatar']) {
                 /**
-                 * @var \Business\ZlsManage\AssistBusiness $AssistBusiness
+                 * @var AssistBusiness $AssistBusiness
                  */
                 $AssistBusiness    = z::business('ZlsManage\AssistBusiness');
                 $avatarFilename    = 'user_' . md5($id) . '.png';
-                $retData['avatar'] = $AssistBusiness->mvAvatar($retData['avatar'], $avatarFilename);
+                $retData['avatar'] = $AssistBusiness->mvAvatar((string)$retData['avatar'], $avatarFilename);
             }
             $updatePassState = in_array('password', $veriField, true);
             if ($updatePassState) {
@@ -196,7 +215,9 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 建立用户
+     *
      * @param $data
+     *
      * @return string|int
      */
     public function create($data)
@@ -209,7 +230,7 @@ class UserBusiness extends \Zls_Business
             $retData                = z::readData($map, $retData, false);
             $date                   = date('Y-m-d H:i:s');
             $retData['create_time'] = $retData['update_time'] = $date;
-            /** @var \Zls\Action\StrUtils $StrUtils */
+            /** @var StrUtils $StrUtils */
             $StrUtils            = z::extension('Action\StrUtils');
             $key                 = $StrUtils->randString();
             $retData['key']      = $key;
@@ -224,7 +245,9 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 删除用户
+     *
      * @param $userid
+     *
      * @return int
      */
     public function delete($userid)
@@ -240,7 +263,9 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 获取真实用户id
+     *
      * @param $userid
+     *
      * @return int
      */
     public function decodeUserid($userid)
@@ -275,9 +300,12 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 修改用户密码
+     *
      * @param $userid
      * @param $oldPassword
      * @param $newPassword
+     * @param $operationUser
+     *
      * @return string|int
      */
     public function editPassword($userid, $oldPassword, $newPassword, $operationUser)
@@ -290,7 +318,7 @@ class UserBusiness extends \Zls_Business
         } elseif (md5(z::encrypt($oldPassword, '', $user['key'])) !== $user['password']) {
             return '原密码错误';
         } else {
-            /** @var \Zls\Action\StrUtils $StrUtils */
+            /** @var StrUtils $StrUtils */
             $StrUtils         = z::extension('Action\StrUtils');
             $data['key']      = $StrUtils->randString();
             $data['password'] = $UserDao->encryptPassword($newPassword, $data['key']);
@@ -322,6 +350,10 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 获取用户上次登录信息
+     *
+     * @param $userid
+     * @param $token
+     *
      * @return array
      */
     public function getLast($userid, $token)
@@ -333,6 +365,14 @@ class UserBusiness extends \Zls_Business
         return z::readData($field, $last);
     }
 
+    /**
+     * 获取token列表
+     *
+     * @param      $userid
+     * @param bool $showToken
+     *
+     * @return array[]
+     */
     public function getTokenLists($userid, $showToken = false)
     {
         $tokenDao = new TokenDao();
@@ -347,7 +387,10 @@ class UserBusiness extends \Zls_Business
 
     /**
      * 是否超级管理员
-     * @return boolean
+     *
+     * @param $userid
+     *
+     * @return bool
      */
     public function isSuperAdmin($userid)
     {

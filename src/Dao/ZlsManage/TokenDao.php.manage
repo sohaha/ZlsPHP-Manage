@@ -6,8 +6,8 @@ use z;
 
 class TokenDao extends \Zls_Dao
 {
-    const STATUS_OPEN = 1;
-    const STATUS_BAN = 2;
+    public const STATUS_OPEN = 1;
+    public const STATUS_BAN = 2;
 
     public function getColumns()
     {

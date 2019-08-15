@@ -71,6 +71,7 @@ html {
 
 body, a {
   color: rgb(53, 53, 53);
+  /*background-color: #324157;*/
 }
 
 body, h1, h2, h3, h4, h5, h6, p, ul, ol, dl, dd, fieldset, textarea {
@@ -245,10 +246,12 @@ img {
 
 .content-container {
   position: relative;
-  height: calc(100vh - 50px);
+  height: calc(100vh - 60px);
   -webkit-box-flex: 1;
   -ms-flex: auto;
   flex: auto;
+  border-radius: 10px 10px 0 0;
+  background-color: #f5f7f9;
 }
 
 .el-menu--vertical .el-menu--popup.el-menu--popup-right-start {
@@ -298,11 +301,11 @@ img {
 
 /* color #2c6eb1 */
 .el-submenu.is-active .el-submenu__title, .el-submenu.is-active .el-submenu__title i {
-  color: #2c6eb1 !important;
+  color: #fff !important;
 }
 
 .el-menu-item i, .el-submenu__title i {
-  color: #9a9a9a;
+  color: #b3becd;
 }
 
 .btns-operating > .el-button + .el-button {
@@ -326,12 +329,22 @@ img {
   margin-top: -10%;
 }
 
+.el-notification.custom-notify-class .el-notification__content {
+  margin-top: 2px;
+  padding-right: 10px;
+}
+
+.el-notification.custom-notify-class.right {
+  width: auto;
+}
+
 /*UI END*/
 #main {
   background-color: #f5f7f9;
   min-height: 100%;
   min-height: 100vh;
   min-width: 320px;
+  background-color: #324157;
 }
 
 .content-box {
@@ -541,7 +554,8 @@ img {
 /* 竖排表单 END */
 
 #nprogress .spinner {
-  right: 30px !important;
+  right: 42px !important;
+  top: 20px !important;
 }
 
 fieldset {
@@ -605,9 +619,11 @@ legend {
     position: fixed;
     left: 0;
     top: 0;
+    border-radius: 0 0 15px 0;
+    /* border-right: 1px solid #fff; */
     bottom: 0;
     z-index: 9000;
-    box-shadow: 1px 1px 1px #eceff3;
+    /* box-shadow: 1px 1px 1px #eceff3; */
     transform: translateX(-100%);
     transition: transform .5s, opacity .4s;
     opacity: 0;

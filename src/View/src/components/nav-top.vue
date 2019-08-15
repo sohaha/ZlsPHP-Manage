@@ -1,11 +1,12 @@
 <style>
   .header {
-    background-color: #ffffff;
-    color: #333333;
-    line-height: 50px;
+    /*background-color: #ffffff;*/
+    color: #fff;
+    /*color: #333333;*/
+    line-height: 60px;
     padding: 0 10px;
     z-index: 9;
-    box-shadow: 0 1px 4px 0 #c0c4cc;
+    /*box-shadow: 0 1px 4px 0 #c0c4cc;*/
   }
 
   .header-logo {
@@ -24,7 +25,7 @@
 
   .header-nav {
     padding: 0;
-    height: 50px;
+    height: 60px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -38,10 +39,12 @@
   .header-nav > div {
     width: 60px;
     text-align: center;
+    padding: 0 10px;
   }
 
   .header-nav > div:hover {
-    background-color: #eaf1f7;
+    /*background-color: #eaf1f7;*/
+    background-color: #28344a;
   }
 
   .tip-msg {
@@ -60,8 +63,7 @@
     overflow: hidden;
     vertical-align: middle;
     border-radius: 50%;
-    box-shadow: 1px 0 3px;
-    margin: 5px 5px 0 7px;
+    margin: 10px 5px 0 7px;
   }
 
   .el-dropdown-menu.el-popper {
@@ -70,7 +72,7 @@
   }
 
   .header-nav .user-menu.el-dropdown {
-    height: 50px;
+    height: 60px;
     line-height: 25px;
     display: block;
     width: 65px;
@@ -82,8 +84,8 @@
 
   .header-nav .el-icon--right {
     position: absolute;
-    right: 0;
-    top: 32px;
+    right: -3px;
+    top: 37px;
     color: #e3e4e4;
   }
 
@@ -98,7 +100,7 @@
   }
 
   .nav-top-collapse-icon {
-    height: 50px;
+    height: 60px;
     text-align: center;
     font-size: 25px;
     -webkit-animation: opacity 2s infinite;
@@ -107,11 +109,12 @@
 </style>
 <template>
   <el-container>
-    <el-aside width="30px" class="nav-top-collapse-icon">
-      <i v-if="isCollapse" @click.prevent="handleNav" class="icon-arrowhead-right-outl tap"></i> <i v-else @click.prevent="handleNav" class="icon-arrowhead-left-outli tap"></i>
-    </el-aside>
     <el-aside width="auto" class="header-logo tap" @click.native.prevent="handleNav">
       <img src="./src/images/logo.svg" alt="Logo">
+    </el-aside>
+    <el-aside v-if="isCollapse" width="30px" class="nav-top-collapse-icon">
+      <i @click.prevent="handleNav" class="icon-arrowhead-right-outl tap"></i>
+      <!--      <i v-else @click.prevent="handleNav" class="icon-arrowhead-left-outli tap"></i>-->
     </el-aside>
     <el-main class="header-nav">
       <div class="tap">
@@ -241,13 +244,13 @@
             localStorage.removeItem(key);
           }
         }
-        that.$sucMsg('清除缓存成功');
+        that.$sucNotify('清除缓存成功');
       },
       logout: function () {
         that.$api(apis.logout).then(function (e) {
           window['SysGetUnreadMessageCount'] = null;
-          that.$store.commit('setToken', '');
-          that.$store.commit('setUser', {});
+          that.$store.commit("setToken", '');
+          that.$store.commit("setUser", {});
           Spa.go('/login');
         });
       }

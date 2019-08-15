@@ -79,9 +79,9 @@ Spa.define(
             };
             // test end
             var data = v.data.items || [];
-            data.map(function(e) {
-              e._isEdit = false;
-              e._isPopover = false;
+            data.forEach(function(e,index,values) {
+              values[index]._isEdit = false;
+              values[index]._isPopover = false;
               return e;
             });
             var page = v.data.page;

@@ -41,16 +41,7 @@ class GroupDao extends \Zls_Dao
         }
         $verifyrules         = [];
         $rules               = [];
-        $verifyrules['name'] = [
-            'required' => '角色名称不能为空',
-            'function' => function ($key, $value, $data, $args, &$returnValue, &$break, &$db) {
-                $row          = (!!$id = z::arrayGet($data, 'id')) ? $this->find($id) : [];
-                $verifyRouter = !!$row ? $data['name'] !== $row['name'] : true;
-                if ($verifyRouter && (!z::checkValue($value, ['unique[' . $this->getTable() . '.name]']))) {
-                    return '角色名称已存在';
-                }
-            },
-        ];
+        $verifyrules['name'] = $this->ruleName();
         foreach ($columns as $column) {
             if (Z::arrayKeyExists($column, $verifyrules)) {
                 $rules[$column] = $verifyrules[$column];
@@ -60,5 +51,17 @@ class GroupDao extends \Zls_Dao
         return $rules;
     }
 
-
+    private function ruleName()
+    {
+        return [
+            'required' => '角色名称不能为空',
+            'function' => function ($key, $value, $data, $args, &$returnValue, &$break, &$db) {
+                $row          = (!!$id = z::arrayGet($data, 'id')) ? $this->find($id) : [];
+                $verifyRouter = !!$row ? $data['name'] !== $row['name'] : true;
+                if ($verifyRouter && (!z::checkValue($value, ['unique[' . $this->getTable() . '.name]']))) {
+                    return '角色名称已存在';
+                }
+            },
+        ];
+    }
 }
