@@ -20,7 +20,7 @@
           href="http://element-cn.eleme.io/#/zh-CN/component/layout"
           target="_blank"
         >element@2.11.1</a>
-        <br>定制主题
+        <br>主题定制
         <a
           href="https://elementui.github.io/theme-chalk-preview/#/zh-CN"
           target="_blank"

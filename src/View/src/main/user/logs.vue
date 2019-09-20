@@ -96,7 +96,6 @@
   </div>
 </template>
 <script>
-var that;
 Spa.define(
   {
     mixins: [mixinLists, initTitle],
@@ -132,9 +131,6 @@ Spa.define(
     init: function(query, search) {
       this.ml_reloadLists();
     },
-    beforeCreate: function() {
-      that = this;
-    },
     methods: {
       getTagAttrs: function(i) {
         for (let j = 0, length = this.logTypes.length; j < length; j++) {
@@ -150,7 +146,7 @@ Spa.define(
       readSelection: function(e) {
         var data = { ids: [] };
         if (!e) {
-          data.ids = that.selectIds;
+          data.ids = $this.selectIds;
         } else {
           data.ids = [e];
         }
@@ -158,10 +154,10 @@ Spa.define(
           .then(function(e) {
             window["SysGetUnreadMessageCount"] &&
               window["SysGetUnreadMessageCount"]();
-            that.ml_reloadLists();
+            $this.ml_reloadLists();
           })
           .catch(function(e) {
-            that.$warMsg(e);
+            $this.$warMsg(e);
           });
       },
       handleSelectionChange: function(e) {
@@ -175,14 +171,14 @@ Spa.define(
       handleClick: function(tab, event) {
         this.ml_page = 1;
         this.$nextTick(function() {
-          that.getLists();
+          $this.getLists();
         });
       },
       getLists: function() {
         if (this.ml_listsLoading) {
           return;
         }
-        var that = this,
+        var $this = this,
           data = {
             page: this.ml_page,
             pagesize: this.ml_pagesize,
@@ -196,14 +192,14 @@ Spa.define(
               v.username = !!v.username ? v.username : "游客";
               return v;
             });
-            that.ml_getLists(items, e.data.page);
+            $this.ml_getLists(items, e.data.page);
           })
           .catch(function(e) {
-            that.$warMsg(e);
+            $this.$warMsg(e);
           })
           .finally(function() {
-            // that.$store.commit('setUnreadMessageCount', 0);
-            that.ml_listsLoading = false;
+            // $this.$store.commit('setUnreadMessageCount', 0);
+            $this.ml_listsLoading = false;
           });
       }
     }

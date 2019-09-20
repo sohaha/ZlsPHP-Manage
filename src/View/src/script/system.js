@@ -178,12 +178,13 @@ var request = function (type, url, data, opt) {
   .then(_then);
 };
 
-var pathname = location.pathname.split('/')[1];
+var pathname = location.pathname.split('/');
+var projectPath = pathname[pathname.length - 2];
 Spa.run({
   debug: window['debug'],
   cache: typeof cache === 'undefined' ? true : cache,
   title: title,
-  baseUrl: (pathname ? '/' + pathname + '/' : '') + 'src/',
+  baseUrl: (projectPath ? '/' + projectPath + '/' : '') + 'src/',
   vueConfig: {
     data: function () {
       return {
@@ -202,13 +203,14 @@ Spa.run({
           _t.$store.commit('setUser', e.data);
         })
         .catch(function (e) {
-          if (e && e.code !== 401) {
+          if (e) {
             _t.$message({
               type: 'error',
               showClose: true,
               message: '网络繁忙，请稍后再试！',
               center: true
             });
+            console.log('退出登录状态?');
           }
         })
         .finally(function () {

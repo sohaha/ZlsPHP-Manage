@@ -1,5 +1,4 @@
-<style>
-</style>
+<style></style>
 <template>
   <div>
     <div class="view-title float-clear"></div>
@@ -22,22 +21,18 @@
   </div>
 </template>
 <script>
-var that;
-Spa.define(
-  {
-    mixins: [mixinLists, initTitle],
-    data: function() {
-      return {};
+  Spa.define(
+    {
+      mixins: [mixinLists, initTitle],
+      data: function () {
+        return { title: '个人设置(开发中)' };
+      },
+      mounted: function () {},
+      computed: {},
+      init: function (query, search) {},
+      methods: {}
     },
-    beforeCreate: function() {
-      that = this;
-    },
-    mounted: function() {},
-    computed: {},
-    init: function(query, search) {},
-    methods: {}
-  },
-  ["/components/demo"],
-  "/index"
-);
+    ['/components/demo'],
+    '/index'
+  );
 </script>

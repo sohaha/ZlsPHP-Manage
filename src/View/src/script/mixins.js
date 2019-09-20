@@ -47,8 +47,6 @@ var mixinLists = {
       ml_pagetotal: 0,
       ml_pagesize: 10,
       ml_pages: {},
-      title: '',
-      SpaTitle: ''
     };
   },
   watch: {

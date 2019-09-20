@@ -1,15 +1,17 @@
 <?php
+declare(strict_types=1);
 
 namespace Dao\ZlsManage;
 
 use Z;
+use Zls_Database_ActiveRecord;
 
 class RulesDao extends \Zls_Dao
 {
-    const TYPE_ROUTER = 1;//路由
-    const TYPE_MARK = 2;//标识码
+    public const TYPE_ROUTER = 1;//路由
+    public const TYPE_MARK = 2;//标识码
 
-    public function getColumns()
+    public function getColumns(): array
     {
         return [
             'id',//主键
@@ -25,50 +27,69 @@ class RulesDao extends \Zls_Dao
         ];
     }
 
-    public function getHideColumns()
-    {
-        return [];
-    }
-
-    public function getPrimaryKey()
+    public function getPrimaryKey(): string
     {
         return 'id';
     }
 
-    public function getTable()
+    public function getTable(): string
     {
         return 'auth_user_rules';
     }
 
-    public static function findBefore(\Zls_Database_ActiveRecord $db, $method)
+    /**
+     * @param Zls_Database_ActiveRecord $db
+     * @param string                    $method
+     *
+     * @return void|array
+     */
+    public static function findBefore(Zls_Database_ActiveRecord $db, $method)
     {
 
     }
 
-    public static function deleteBefore(\Zls_Database_ActiveRecord $db, $method)
+    /**
+     * @param Zls_Database_ActiveRecord $db
+     * @param string                    $method
+     *
+     * @return void|array
+     */
+    public static function deleteBefore(Zls_Database_ActiveRecord $db, $method)
     {
 
     }
 
-    public static function insertBefore(\Zls_Database_ActiveRecord $db, $method, &$data)
+    /**
+     * @param Zls_Database_ActiveRecord $db
+     * @param string                    $method
+     *
+     * @return void|array
+     */
+    public static function insertBefore(Zls_Database_ActiveRecord $db, $method, &$data)
     {
 
     }
 
-    public static function updateBefore(\Zls_Database_ActiveRecord $db, $method, &$data)
+    /**
+     * @param Zls_Database_ActiveRecord $db
+     * @param string                    $method
+     *
+     * @return void|array
+     */
+    public static function updateBefore(Zls_Database_ActiveRecord $db, $method, &$data)
     {
 
     }
 
 
-    public function find($values, $isRows = false, array $orderBy = [], $fields = null)
+    public function find($values, $isRows = false, array $orderBy = [], $fields = null):array
     {
         $this->cache(3);
 
         return parent::find($values, $isRows, $orderBy, $fields);
     }
 
-    public function verifyRules($columns = [])
+    public function verifyRules($columns = []):array
     {
         if (!$columns) {
             $columns = $this->getColumns();
@@ -81,7 +102,7 @@ class RulesDao extends \Zls_Dao
             'required' => '标识不能为空',
             'function' => function ($key, $value, $data, $args, &$returnValue, &$break, &$db) {
                 $id           = z::arrayGet($data, 'id');
-                $row          = (!!$id) ? $this->find($id) : [];
+                $row          = ((bool)$id) ? $this->find($id) : [];
                 $verifyRouter = $row ? $data['mark'] !== $row['mark'] && $data['id'] : true;
                 if ($verifyRouter && ($r = $this->find(['mark' => $data['mark']])) && ($r['id'] != $id)) {
                     return '标识规则已存在';

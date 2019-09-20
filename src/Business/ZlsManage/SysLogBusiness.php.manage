@@ -12,7 +12,7 @@ use Z;
  */
 class SysLogBusiness extends \Zls_Business
 {
-    public function domains($file = null)
+    public function domains($file = null): array
     {
         return $this->exportData('DomainCheck', $file);
     }
@@ -26,7 +26,7 @@ class SysLogBusiness extends \Zls_Business
      *
      * @return array
      */
-    public function exportData($name, $file, $line = 0)
+    public function exportData($name, $file, $line = 0): array
     {
         $data        = [];
         $dirs        = [];
@@ -69,7 +69,7 @@ class SysLogBusiness extends \Zls_Business
      *
      * @return array
      */
-    private function listsReverse($dirs)
+    private function listsReverse($dirs): array
     {
         return array_reverse(z::arrayMap($dirs, function ($v, $k) {
             return $k;
@@ -87,10 +87,10 @@ class SysLogBusiness extends \Zls_Business
      */
     public function tail($file, $start = null, $sum = 10)
     {
-        if (!$fp = fopen($file, 'r')) {
+        if (!$fp = fopen($file, 'rb')) {
             return false;
         }
-        $lines = "";
+        $lines = '';
         $total = 0;
         while (fgets($fp)) {
             $total++;
@@ -129,8 +129,9 @@ class SysLogBusiness extends \Zls_Business
      */
     private function listDir($dir, &$arr, $Subfix = '.log', $lastDir = null)
     {
-        if (is_null($lastDir)) {
-            $lastDir = $dir = z::realPath(z::config()->getStorageDirPath() . $dir, true);
+        if ($lastDir === null) {
+            $confing = z::config();
+            $lastDir = $dir = z::realPath($confing->getStorageDirPath() . $dir, true);
         }
         if (is_dir($dir) && ($dh = opendir($dir))) {
             while (false !== ($file = readdir($dh))) {
@@ -140,14 +141,12 @@ class SysLogBusiness extends \Zls_Business
                 $filePath = Z::realPath($dir . '/' . $file);
                 if ((is_dir($filePath))) {
                     $this->listDir($dir . '/' . $file, $arr, $Subfix, $lastDir);
-                } else {
-                    if (z::strEndsWith($file, $Subfix)) {
-                        $filemtime                                 = filemtime($filePath);
-                        $arr[str_replace($lastDir, '', $filePath)] = [
-                            'file' => $filePath,
-                            'time' => $filemtime ? date('Y-m-d H:i:s', $filemtime) : '',
-                        ];
-                    }
+                } elseif (z::strEndsWith($file, $Subfix)) {
+                    $filemtime                                 = filemtime($filePath);
+                    $arr[str_replace($lastDir, '', $filePath)] = [
+                        'file' => $filePath,
+                        'time' => $filemtime ? date('Y-m-d H:i:s', $filemtime) : '',
+                    ];
                 }
             }
             closedir($dh);
@@ -157,9 +156,10 @@ class SysLogBusiness extends \Zls_Business
     /**
      * 获取类型列表
      */
-    public function getTypes()
+    public function getTypes(): array
     {
-        $dir       = z::config()->getStorageDirPath();
+        $confing   = z::config();
+        $dir       = $confing->getStorageDirPath();
         $ignoreDir = ['cache', 'taskSingle'];
         $types     = [];
         if (is_dir($dir) && ($dh = opendir($dir))) {

@@ -12,7 +12,6 @@
   </div>
 </template>
 <script>
-var that;
 Spa.define(
   {
     mixins: [initTitle],
@@ -25,9 +24,6 @@ Spa.define(
           key3: "标签页3"
         }
       };
-    },
-    beforeCreate: function() {
-      that = this;
     },
     mounted: function() {},
     computed: {},

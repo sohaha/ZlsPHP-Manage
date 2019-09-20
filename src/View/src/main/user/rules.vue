@@ -62,7 +62,7 @@
 
 </style>
 <template>
-  <div>
+  <div v-loading='ml_listsLoading || loadGroup'>
     <div class="view-title float-clear">
       <div class="view-title-right">
         <el-form @submit.prevent.stop.native inline class="tip-top">
@@ -80,8 +80,8 @@
         </el-form>
       </div>
     </div>
-    <div class="tip-area" v-if="!gid">温馨提示: 规则路由不区分大小写，如需区分请求方式可追加冒号(::)+请求方式：【路由::请求方式】</div>
-    <div class="tip-area" v-else>温馨提示: 如不熟悉请不要随意更改路由权限；“禁止”的优先级最高</div>
+    <div class="tip-area" v-if="!gid">温馨提示: 如不熟悉请不要随意更改权限；路由不区分大小写</div>
+    <div class="tip-area" v-else>温馨提示: 如不熟悉请不要随意更改路由权限；优先级“禁止”最高->标识码->路由通行</div>
     <fieldset v-if="gid">
       <legend>角色信息</legend>
       <aside v-loading="loadGroup">
@@ -99,7 +99,7 @@
     </fieldset>
     <fieldset>
       <legend>{{title}}</legend>
-      <aside v-loading="ml_listsLoading || loadGroup" class="rules-table">
+      <aside class="rules-table">
         <el-table :data="ml_data" size="mini" :default-sort="!!gid?{prop: 'sort', order: 'descending'}:{}">
           <!-- <el-table-column :sortable="!!gid" show-overflow-tooltip :label="gid?'排序':'#'" width="80" prop="sort">
             <template slot-scope="scope">
@@ -109,28 +109,38 @@
                <div v-else>{{ scope.row.id || ' - ' }}</div>
             </template>
           </el-table-column>-->
-          <el-table-column show-overflow-tooltip label="规则名称" width="150">
+          <el-table-column label="规则名称" width="160">
             <template slot-scope="scope">
               <div v-if="scope.row._isEdit">
                 <el-input v-model="scope.row.title" placeholder="请填写规则名称" size="mini"></el-input>
               </div>
-              <div v-else>{{ scope.row.title || ' - ' }}</div>
+              <div v-else class='text-nowrap' :title='scope.row.title'>{{ scope.row.title || ' - ' }}</div>
             </template>
           </el-table-column>
-          <el-table-column show-overflow-tooltip label="规则路由" min-width="170">
+          <el-table-column label="标识" min-width="160">
             <template slot-scope="scope">
               <div v-if="scope.row._isEdit">
-                <el-input v-model="scope.row.router" placeholder="请填写规则路由" size="mini"></el-input>
+                <el-input v-model="scope.row.mark" placeholder="请填写标识码，唯一" size="mini"></el-input>
               </div>
-              <div v-else>{{ scope.row.router || ' - ' }}</div>
+              <el-link @click="editRow(scope)" :underline="false" :type="scope.row.type===1?'primary':'success'" v-else class='text-nowrap' :title='scope.row.mark'>{{ scope.row.mark || ' - ' }}</el-link>
             </template>
           </el-table-column>
-          <el-table-column label="备注" width="150">
+          <el-table-column label="类型" width="130">
+            <template slot-scope="scope">
+              <div v-if="scope.row._isEdit && !scope.row.id">
+                <el-select v-model="scope.row.type" placeholder="请选择" size="mini">
+                  <el-option :key='k' v-for='(v,k) in types' :label='v' :value='k'></el-option>
+                </el-select>
+              </div>
+              <el-tag :disable-transitions='true' size='mini' :type="scope.row.type===1?'primary':'success'" v-else>{{ ruleType(scope.row.type) }}</el-tag>
+            </template>
+          </el-table-column>
+          <el-table-column :show-overflow-tooltip='false' label="备注" min-width="150">
             <template slot-scope="scope">
               <div v-if="scope.row._isEdit">
                 <el-input v-model="scope.row.remark" placeholder="请填写规则备注" size="mini"></el-input>
               </div>
-              <div v-else>{{ scope.row.remark || ' - ' }}</div>
+              <div v-else class='text-nowrap' :title='scope.row.remark'>{{ scope.row.remark || ' - ' }}</div>
             </template>
           </el-table-column>
           <el-table-column label="操作" :width="gid?290:212">
@@ -138,7 +148,7 @@
             <template slot="header" slot-scope="scope">
               <el-form @submit.prevent.stop.native inline class="table-header-form" :inline="true">
                 <el-form-item class="form-item-search" :style="ml_searchKey?'width:'+(gid?190:110)+'px':''">
-                  <el-input v-model="ml_searchKey" size="mini" clearable placeholder="输入名称/路由搜索" suffix-icon="icon-corner-down-left-out" @keyup.enter.native="searchRow" @clear="ml_reloadLists"></el-input>
+                  <el-input v-model="ml_searchKey" size="mini" clearable placeholder="输入名称/标识搜索" suffix-icon="icon-corner-down-left-out" @keyup.enter.native="searchRow" @clear="ml_reloadLists"></el-input>
                 </el-form-item>
                 <el-form-item v-show="!!ml_searchKey">
                   <el-button size="mini" icon="icon-search" type @click="searchRow">搜索</el-button>
@@ -146,27 +156,29 @@
               </el-form>
             </template>
             <template slot-scope="scope">
-              <div v-if="gid">
-                <el-radio-group class="status" size="mini" v-model="scope.row.gstatus" @click.stop.native="clickChangeStatus(scope,$event)">
-                  <el-radio-button :label="1">通 行</el-radio-button>
-                  <el-radio-button :label="3">未使用</el-radio-button>
-                  <el-radio-button :label="2">禁 止</el-radio-button>
-                </el-radio-group>
-              </div>
-              <div v-else>
-                <div class="btns-operating">
-                  <el-button v-bind="getEditBtnAttrs(scope)" size="mini" @click="editRow(scope)" :loading="scope.row._loading">{{getEditBtnAttrs(scope).title}}</el-button>
-                  <el-button v-if="scope.row._isEdit" title="放 弃" @click="quitRow(scope)" size="mini" :loading="scope.row._loading" icon="el-icon-close">放 弃</el-button>
-                  <template>
-                    <el-popover placement="top" width="160" v-model="scope.row._isPopover">
-                      <p>确定删除吗？</p>
-                      <div>
-                        <el-button size="mini" @click="scope.row._isPopover = false" type="info" plain>取 消</el-button>
-                        <el-button type="danger" size="mini" @click="deleteRow(scope)" plain>确 定</el-button>
-                      </div>
-                      <el-button v-show="!scope.row._isEdit" slot="reference" size="mini" type="danger" icon="el-icon-delete" title="删 除">删 除</el-button>
-                    </el-popover>
-                  </template>
+              <div>
+                <div v-if="gid">
+                  <el-radio-group class="status" size="mini" v-model="scope.row.gstatus" @click.stop.native="clickChangeStatus(scope,$event)">
+                    <el-radio-button :label="1">{{scope.row.type!==2?'通 行':'拥 有'}}</el-radio-button>
+                    <el-radio-button :label="3">未使用</el-radio-button>
+                    <el-radio-button :label="2" v-show='scope.row.type!==2' :disabled='scope.row.type===2' title='禁止拥有该规则的用户访问/标识码不支持'>禁 止</el-radio-button>
+                  </el-radio-group>
+                </div>
+                <div v-else>
+                  <div class="btns-operating">
+                    <el-button v-bind="getEditBtnAttrs(scope)" size="mini" @click="editRow(scope)" :loading="scope.row._loading">{{getEditBtnAttrs(scope).title}}</el-button>
+                    <el-button v-if="scope.row._isEdit" title="放 弃" @click="quitRow(scope)" size="mini" :loading="scope.row._loading" icon="el-icon-close">放 弃</el-button>
+                    <template>
+                      <el-popover placement="top" width="160" v-model="scope.row._isPopover">
+                        <p>确定删除吗？</p>
+                        <div>
+                          <el-button size="mini" @click="scope.row._isPopover = false" type="info" plain>取 消</el-button>
+                          <el-button type="danger" size="mini" @click="deleteRow(scope)" plain>确 定</el-button>
+                        </div>
+                        <el-button v-show="!scope.row._isEdit" slot="reference" size="mini" type="danger" icon="el-icon-delete" title="删 除">删 除</el-button>
+                      </el-popover>
+                    </template>
+                  </div>
                 </div>
               </div>
             </template>
@@ -174,9 +186,8 @@
         </el-table>
       </aside>
     </fieldset>
-
     <fieldset>
-      <legend>菜单设置</legend>
+      <legend>菜单设置(开发中)</legend>
       <aside :aria-label="title">
         <el-tree :data="menuData" show-checkbox node-key="id" :default-expanded-keys="[2, 3]" :default-checked-keys="[5]" :props="{ children: 'child',
           label: 'title'}">
@@ -198,8 +209,12 @@
     router: '',
     sort: 0,
     gstatus: 3,
+    type: '',
     _loading: false
-  };
+  }, types = {
+    '1': 'API路由',
+    '2': '标识码'
+  }, viewTitle = '权限设置';
 
   Spa.define(
     {
@@ -207,69 +222,34 @@
       data: function () {
         return {
           gid: 0,
-          ginfo: {},
+          ginfo: {
+            user_count: 0
+          },
           isAddRow: false,
           tmpIndex: null,
           tmpData: [],
           loadGroup: false,
-          menuData: [{
-            id: 1,
-            label: '一级 1',
-            children: [{
-              id: 4,
-              label: '二级 1-1',
-              children: [{
-                id: 9,
-                label: '三级 1-1-1'
-              }, {
-                id: 10,
-                label: '三级 1-1-2'
-              }]
-            }]
-          }, {
-            id: 2,
-            label: '一级 2',
-            children: [{
-              id: 5,
-              label: '二级 2-1'
-            }, {
-              id: 6,
-              label: '二级 2-2'
-            }]
-          }, {
-            id: 3,
-            label: '一级 3',
-            children: [{
-              id: 7,
-              label: '二级 3-1'
-            }, {
-              id: 8,
-              label: '二级 3-2'
-            }]
-          }],
+          types: types,
+          menuData: []
         };
       },
+      filters: {},
       watch: {
         gid: function (v) {
-          console.log(this.SpaTitle);
           if (v) {
-            $this.title = '权限设置';
-            $this.SpaTitle = '权限设置' + ' - %s';
+            $this.title = '角色权限';
+            $this.SpaTitle = '角色权限' + ' - %s';
             $this.$SpaSetTitle();
             $this.getGroup();
           } else {
-            $this.title = this.$store.state.viewTitle;
-            $this.SpaTitle = title + ' - %s';
+            $this.title = viewTitle;
+            $this.SpaTitle = $this.title + ' - %s';
             $this.$SpaSetTitle();
           }
         }
       },
-      beforeCreate: function () {
-        that = this;
-      },
       mounted: function () {
-        var menus = $this.$store.getters.menus;
-        this.menuData = menus;
+        this.menuData = $this.$store.getters.menus;
       },
       computed: {
         groups: function () {
@@ -293,8 +273,10 @@
         }
       },
       methods: {
+        ruleType: function (v) {
+          return types[v] || '--';
+        },
         changeSort: function (v) {
-          console.log(this.tmpIndex, '', v);
           var row = this.ml_data[this.tmpIndex];
           $this.updateUserRuleStatus(row.id, row.gstatus, row.sort);
           this.tmpIndex = null;
@@ -303,7 +285,7 @@
           this.tmpIndex = e.target.dataset.index;
         },
         deleteRow: function (e) {
-          that
+          $this
           .$api(apis.sysDeleteRule, e.row)
           .then(function () {
             $this.ml_data.splice(e.$index, 1);
@@ -318,7 +300,7 @@
         },
         addRow: function (e) {
           e.row._loading = true;
-          that
+          $this
           .$api(apis.sysAddRule, e.row)
           .then(function (v) {
             e.row._isEdit = false;
@@ -342,12 +324,13 @@
           );
         },
         editRow: function (e) {
+          if (this.gid) return;
           if (e.row._isAdd) {
             this.addRow(e);
             return;
           }
           if (e.row._isEdit) {
-            that
+            $this
             .$api(apis.EditRule, e.row)
             .then(function (v) {
               v = { data: {} };
@@ -401,7 +384,7 @@
           }
         },
         updateUserRuleStatus: function (id, status, sort) {
-          that
+          $this
           .$api(apis.sysUpdateUserRuleStatus, {
             gid: $this.gid,
             id: id,
@@ -430,11 +413,10 @@
         },
         getGroup: function () {
           $this.loadGroup = true;
-          that
+          $this
           .$api(apis.sysGroupInfo, { id: $this.gid })
           .then(function (e) {
             $this.ginfo = e.data;
-            // todo 获取菜单
             $this.getRules();
           })
           .catch(function (err) {

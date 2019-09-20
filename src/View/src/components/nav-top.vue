@@ -17,10 +17,19 @@
     letter-spacing: 2px;
   }
 
+  .is-collapse .header-logo.tap {
+    width: 52px !important;
+    overflow: hidden;
+  }
+
   .header-logo img {
     height: 42px;
     vertical-align: middle;
     padding-bottom: 4px;
+  }
+
+  .is-collapse .header-logo img {
+    max-width: inherit;
   }
 
   .header-nav {
@@ -108,7 +117,7 @@
   }
 </style>
 <template>
-  <el-container>
+  <el-container :class='isCollapse?"is-collapse":"not-collapse"'>
     <el-aside width="auto" class="header-logo tap" @click.native.prevent="handleNav">
       <img src="./src/images/logo.svg" alt="Logo">
     </el-aside>
@@ -209,8 +218,9 @@
             that.$store.commit('setUnreadMessageCount', e.data.count);
         })
         .finally(function () {
-          if (that.$store.getters.token)
-            MessageCountTime = setTimeout(that.getUnreadMessageCount, 6000);
+          if (that.$store.getters.token && window['messagesRegularly']) {
+            MessageCountTime = setTimeout(that.getUnreadMessageCount, window['messagesRegularly']);
+          }
         });
       },
       handleNav: function () {
@@ -235,12 +245,11 @@
       },
       clear: function () {
         var isSpaV = function (str) {
-          var endStr = '.v';
-          var d = str.length - endStr.length;
+          var endStr = '.v', d = str.length - endStr.length;
           return d >= 0 && str.lastIndexOf(endStr) === d;
         };
         for (var key in localStorage) {
-          if (isSpaV(key)) {
+          if (localStorage.hasOwnProperty(key) && isSpaV(key)) {
             localStorage.removeItem(key);
           }
         }
@@ -249,8 +258,8 @@
       logout: function () {
         that.$api(apis.logout).then(function (e) {
           window['SysGetUnreadMessageCount'] = null;
-          that.$store.commit("setToken", '');
-          that.$store.commit("setUser", {});
+          that.$store.commit('setToken', '');
+          that.$store.commit('setUser', {});
           Spa.go('/login');
         });
       }

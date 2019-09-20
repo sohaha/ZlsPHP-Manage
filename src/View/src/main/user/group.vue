@@ -73,8 +73,7 @@
   </div>
 </template>
 <script>
-  var dataFormat = { title: '', date: '', id: 0 },
-    that;
+  var dataFormat = { title: '', date: '', id: 0 };
   Spa.define(
     {
       mixins: [mixinLists, initTitle],
@@ -85,22 +84,18 @@
           viewDialogVisible: true
         };
       },
-      beforeCreate: function () {
-        that = this;
-      },
       computed: {},
       init: function (query, search) {
-        that.ml_pagesize = 10;
-        // debugger
+        $this.ml_pagesize = 10;
       },
       mounted: function () {},
       methods: {
         openRuleView: function (e) {
-          that.$go('user/rules/@' + e.row.id);
+          $this.$go('user/rules/@' + e.row.id);
         },
         addRowStatus: function () {
-          that.isAddRow = true;
-          that.ml_data.unshift(
+          $this.isAddRow = true;
+          $this.ml_data.unshift(
             Object.assign(
               { _isEdit: true, _isPopover: false, _isAdd: true },
               dataFormat
@@ -110,41 +105,41 @@
         quitRow: function (e) {
           var index = e.$index;
           if (!e.row._isAdd) {
-            that.$set(
+            $this.$set(
               this.ml_data,
               e.$index,
               Object.assign({}, this.tmpData[index])
             );
           } else {
-            that.isAddRow = false;
-            that.ml_data.splice(e.$index, 1);
+            $this.isAddRow = false;
+            $this.ml_data.splice(e.$index, 1);
           }
         },
         deleteRow: function (e) {
-          that
+          $this
           .$api(apis.sysDeleteGroup, { id: e.row })
           .then(function () {
-            that.ml_data.splice(e.$index, 1);
-            that.ml_pagetotal--;
-            that.$nextTick(function () {
-              if (that.ml_data.length <= 0) that.getLists();
+            $this.ml_data.splice(e.$index, 1);
+            $this.ml_pagetotal--;
+            $this.$nextTick(function () {
+              if ($this.ml_data.length <= 0) $this.getLists();
             });
           })
           .catch(function (e) {
-            that.$warMsg(e);
+            $this.$warMsg(e);
           });
         },
         addRow: function (e) {
-          that
+          $this
           .$api(apis.sysCreateGroup, e.row)
           .then(function (v) {
             e.row._isEdit = false;
             e.row._isAdd = false;
-            that.isAddRow = false;
-            that.$set(that.ml_data, e.$index, Object.assign({}, e.row, v.data));
+            $this.isAddRow = false;
+            $this.$set($this.ml_data, e.$index, Object.assign({}, e.row, v.data));
           })
           .catch(function (e) {
-            that.$warMsg(e);
+            $this.$warMsg(e);
           });
         },
         editRow: function (e) {
@@ -153,18 +148,18 @@
             return;
           }
           if (e.row._isEdit) {
-            that
+            $this
             .$api(apis.sysUpdateGroup, e.row)
             .then(function (v) {
               e.row._isEdit = false;
-              that.$set(
-                that.ml_data,
+              $this.$set(
+                $this.ml_data,
                 e.$index,
                 Object.assign({}, e.row, v.data)
               );
             })
             .catch(function (e) {
-              that.$warMsg(e);
+              $this.$warMsg(e);
             });
           } else {
             this.$set(this.tmpData, e.$index, Object.assign({}, e.row));
@@ -189,23 +184,23 @@
           if (this.ml_searchKey) {
             data['key'] = this.ml_searchKey;
           }
-          that.isAddRow = false;
-          that.ml_listsLoading = true;
+          $this.isAddRow = false;
+          $this.ml_listsLoading = true;
           this.$api(apis.sysGroupLists, data)
           .then(function (v) {
-            that.ml_data = v.data.map(function (e) {
+            $this.ml_data = v.data.map(function (e) {
               e._isEdit = false;
               e._isPopover = false;
               return e;
             });
             // 更新角色
-            that.$store.commit('setGroups', that.ml_data);
+            $this.$store.commit('setGroups', $this.ml_data);
           })
           .catch(function (e) {
-            that.$warMsg(e);
+            $this.$warMsg(e);
           })
           .finally(function () {
-            that.ml_listsLoading = false;
+            $this.ml_listsLoading = false;
           });
         }
       }

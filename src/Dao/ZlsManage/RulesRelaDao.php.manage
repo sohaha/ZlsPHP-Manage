@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Dao\ZlsManage;
 
@@ -10,7 +11,7 @@ class RulesRelaDao extends \Zls_Dao
     public const STATUS_BAN = 2;
     public const STATUS_IGNORE = 3;
 
-    public function getColumns()
+    public function getColumns(): array
     {
         return [
             'id', //主键
@@ -23,22 +24,22 @@ class RulesRelaDao extends \Zls_Dao
         ];
     }
 
-    public function getHideColumns()
+    public function getHideColumns(): array
     {
         return [];
     }
 
-    public function getPrimaryKey()
+    public function getPrimaryKey(): string
     {
         return 'id';
     }
 
-    public function getTable()
+    public function getTable(): string
     {
         return 'auth_user_rules_rela';
     }
 
-    public function verifyRules($columns = [])
+    public function verifyRules($columns = []): array
     {
         if (!$columns) {
             $columns = $this->getColumns();

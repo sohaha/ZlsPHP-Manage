@@ -23,7 +23,7 @@ class UserDao extends \Zls_Dao
      * @param \Zls_Database_ActiveRecord $db
      * @param string                     $method
      *
-     * @return void
+     * @return void|array
      */
     public static function findBefore(\Zls_Database_ActiveRecord $db, $method)
     {
@@ -32,7 +32,7 @@ class UserDao extends \Zls_Dao
     }
 
 
-    public function verifyRules($columns = [])
+    public function verifyRules($columns = []): array
     {
         if (!$columns) {
             $columns = $this->getColumns();
@@ -104,7 +104,7 @@ class UserDao extends \Zls_Dao
         return $rule;
     }
 
-    public function getColumns()
+    public function getColumns(): array
     {
         return [
             'id',//id
@@ -122,17 +122,17 @@ class UserDao extends \Zls_Dao
         ];
     }
 
-    public function getHideColumns()
+    public function getHideColumns(): array
     {
         return ['password', 'key'];
     }
 
-    public function getPrimaryKey()
+    public function getPrimaryKey(): string
     {
         return 'id';
     }
 
-    public function getTable()
+    public function getTable(): string
     {
         return 'auth_user';
     }
@@ -145,7 +145,7 @@ class UserDao extends \Zls_Dao
      *
      * @return string
      */
-    public function encryptPassword($password, $key)
+    public function encryptPassword($password, $key): string
     {
         return md5(Z::encrypt($password, '', $key));
     }

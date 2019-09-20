@@ -5,23 +5,11 @@ namespace Bean\ZlsManage;
 use Business\ZlsManage\GroupBusiness;
 use Business\ZlsManage\UserBusiness;
 use Z;
-use Zls\Action\Id as IdAlias;
 
 class UserBean extends \Zls_Bean
 {
-    //id
     protected $id;
     protected $group_id;
-
-
-    public function getId()
-    {
-        /** @var IdAlias $ActionId */
-        $ActionId = z::extension('Action\Id');
-
-        return $this->id ? $ActionId->encode($this->id) : 0;
-    }
-
 
     public function getGroups()
     {

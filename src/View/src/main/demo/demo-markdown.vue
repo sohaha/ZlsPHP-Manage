@@ -37,7 +37,6 @@
   </div>
 </template>
 <script>
-var that;
 Spa.define(
   {
     name: "Demo-View",
@@ -52,27 +51,24 @@ Spa.define(
         hasInit: false
       };
     },
-    beforeCreate: function() {
-      that = this;
-    },
     mounted: function() {},
     computed: {
       content2n: function() {
-        return that.content.replace(/\n/g, "\\n");
+        return $this.content.replace(/\n/g, "\\n");
       }
     },
     init: function(query, search) {},
     methods: {
       initDone: function(e) {
         console.log("编辑器初始化完成");
-        that.hasInit = true;
+        $this.hasInit = true;
       },
       onHtml: function(e) {
-        that.contentHtml = e;
+        $this.contentHtml = e;
       },
       setContent: function(e) {
         // 手动设置编辑器内容
-        that.$refs["editor"].setValue(e);
+        $this.$refs["editor"].setValue(e);
       }
     }
   },

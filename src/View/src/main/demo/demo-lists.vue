@@ -41,7 +41,6 @@
   </div>
 </template>
 <script>
-var that;
 Spa.define(
   {
     name: "DemoViewLits",
@@ -49,12 +48,9 @@ Spa.define(
     data: function() {
       return {};
     },
-    beforeCreate: function() {
-      that = this;
-    },
     computed: {},
     init: function(query, search) {
-      that.ml_pagesize = 10;
+      $this.ml_pagesize = 10;
     },
     mounted: function() {},
     methods: {
@@ -63,7 +59,7 @@ Spa.define(
         if (this.ml_searchKey) {
           data["key"] = this.ml_searchKey;
         }
-        that.ml_listsLoading = true;
+        $this.ml_listsLoading = true;
         this.$api(undefined, data)
           .then(function(v) {
             // todo test 接口地址undefined是不会真实发起请求所以这里 v 是不会有数据
@@ -78,20 +74,19 @@ Spa.define(
               }
             };
             // test end
-            var data = v.data.items || [];
-            data.forEach(function(e,index,values) {
-              values[index]._isEdit = false;
-              values[index]._isPopover = false;
+            var data = (v.data.items || []).map(function(e) {
+              e._isEdit = false;
+              e._isPopover = false;
               return e;
             });
             var page = v.data.page;
-            that.ml_getLists(data, page);
+            $this.ml_getLists(data, page);
           })
           .catch(function(e) {
-            that.$warMsg(e);
+            $this.$warMsg(e);
           })
           .finally(function() {
-            that.ml_listsLoading = false;
+            $this.ml_listsLoading = false;
           });
       }
     }

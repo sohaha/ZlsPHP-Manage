@@ -28,7 +28,6 @@
   </div>
 </template>
 <script>
-var that;
 Spa.define(
   {
     name: "Demo-View",
@@ -40,23 +39,20 @@ Spa.define(
         tinymceHasInit: false
       };
     },
-    beforeCreate: function() {
-      that = this;
-    },
     mounted: function() {},
     computed: {},
     init: function(query, search) {},
     methods: {
       initDone: function(e) {
         console.log("编辑器初始化完成");
-        that.tinymceHasInit = true;
-        that.setContent(
+        $this.tinymceHasInit = true;
+        $this.setContent(
           '<p>我是一个<span style="color: #2880b9;">富文本</span><span style="background-color: #bdc3c7; color: #ffffff;">编辑器</span></p>'
         );
       },
       setContent: function(e) {
         // 手动设置编辑器内容
-        that.$refs["editor"].setContent(e);
+        $this.$refs["editor"].setContent(e);
       }
     }
   },

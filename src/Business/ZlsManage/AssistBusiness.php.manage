@@ -6,6 +6,8 @@ namespace Business\ZlsManage;
 use Dao\ZlsManage\LogsDao;
 use Dao\ZlsManage\UserDao;
 use z;
+use Zls\Action\FileUp;
+use Zls\Action\Ini;
 
 /**
  * Zls
@@ -39,7 +41,7 @@ class AssistBusiness extends \Zls_Business
      *
      * @return string
      */
-    public function mvAvatar($path, $filename = null)
+    public function mvAvatar($path, $filename = null): string
     {
         $tmp = Z::urlPath(self::AVATAR_TMP_PATH);
         if (Z::strBeginsWith($path, $tmp)) {
@@ -68,7 +70,7 @@ class AssistBusiness extends \Zls_Business
      */
     public function upload($dir, $name = '', $ext = ['jpg', 'png'], $formfield = 'file', $size = 2048)
     {
-        /** @var \Zls\Action\FileUp $fileUpload */
+        /** @var FileUp $fileUpload */
         $fileUpload = z::extension('Action\FileUp');
         $fileUpload->setFormField($formfield);
         $fileUpload->setMaxSize($size);
@@ -77,6 +79,9 @@ class AssistBusiness extends \Zls_Business
         if (!$path) {
             return z::arrayGet($fileUpload->getError(), 'error');
         }
+        if (is_array($path)) {
+            $path = $path[0];
+        }
 
         return ['url' => z::safePath($path, '', true), 'path' => $path];
     }
@@ -84,14 +89,15 @@ class AssistBusiness extends \Zls_Business
     /**
      * 获取日志列表
      *
-     * @param     $page
-     * @param     $pagesize
-     * @param int $unread
-     * @param int $type
+     * @param      $page
+     * @param      $pagesize
+     * @param int  $unread
+     * @param int  $type
+     * @param null $userid
      *
      * @return array
      */
-    public function getLogs($page, $pagesize, $unread = 0, $type = 0, $userid = null)
+    public function getLogs($page, $pagesize, $unread = 0, $type = 0, $userid = null): array
     {
         $dao   = new LogsDao();
         $where = $unread ? ['status' => $dao::STATUS_NOT] : [];
@@ -103,7 +109,7 @@ class AssistBusiness extends \Zls_Business
         }
         $table     = $dao->getTable();
         $userTable = (new UserDao())->getTable();
-        $lists     = $dao->getPage($page, $pagesize, '{page}', "{$table}.*,{$userTable}.username as username", function ($db) use ($where, $table, $userTable) {
+        $lists     = $dao->getPage($page, $pagesize, '{page}', "{$table}.*,{$userTable}.username as username", function (\Zls_Database_ActiveRecord $db) use ($where, $table, $userTable) {
             $newWhere = [];
             foreach ($where as $key => $value) {
                 $newWhere[$table . '.' . $key] = $value;
@@ -123,7 +129,7 @@ class AssistBusiness extends \Zls_Business
      *
      * @return int
      */
-    public function getUnreadMessageCount($lastid = 0, $userid = 0)
+    public function getUnreadMessageCount($lastid = 0, $userid = 0): int
     {
         $logsDao = new LogsDao();
 
@@ -138,7 +144,7 @@ class AssistBusiness extends \Zls_Business
      *
      * @return bool
      */
-    public function updateMessageStatus($ids, $uid = 0)
+    public function updateMessageStatus($ids, $uid = 0): bool
     {
         $logsDao = new LogsDao();
 
@@ -147,19 +153,19 @@ class AssistBusiness extends \Zls_Business
         }), 'id');
     }
 
-    /**
+    /*
      * 读取系统配置
      * @return array
      */
-    public function getSystemConfig()
+    public function getSystemConfig(): array
     {
         $config = z::config('ini', true, []);
         // 根据实际情况过滤只返回需要显示的
         $data = [
-            'debug'        => !!z::arrayGet($config, 'base.debug', true),
+            'debug'        => (bool)z::arrayGet($config, 'base.debug', true),
             'cdnHost'      => z::arrayGet($config, 'project.cdnHost', ''),
-            'maintainMode' => !!z::arrayGet($config, 'base.maintainMode', true),
-            'ipWhitelist'  => join(',', z::arrayGet($config, 'base.ipWhitelist', [])),
+            'maintainMode' => (bool)z::arrayGet($config, 'base.maintainMode', true),
+            'ipWhitelist'  => implode(',', z::arrayGet($config, 'base.ipWhitelist', [])),
         ];
 
         return $data;
@@ -172,7 +178,7 @@ class AssistBusiness extends \Zls_Business
      *
      * @return bool
      */
-    public function updateSystemConfig(array $data)
+    public function updateSystemConfig(array $data): bool
     {
         $config = z::config('ini', true, []);
         // 根据实际情况从$data读取需要的数据
@@ -181,19 +187,19 @@ class AssistBusiness extends \Zls_Business
         $config['base']['maintainMode'] = z::arrayGet($data, 'maintainMode');
         $config['base']['ipWhitelist']  = explode(';', z::arrayGet($data, 'ipWhitelist', ''));
         /**
-         * @var \Zls\Action\Ini $Ini
+         * @var Ini $Ini
          */
         $Ini  = z::extension('Action\Ini');
         $path = z::realPath('zls.ini', false, false);
 
-        return !!@file_put_contents($path, $Ini->extended($config));
+        return @file_put_contents($path, $Ini->extended($config));
     }
 
     /**
      * 读取系统信息
      * @return array
      */
-    public function getSystemInfo()
+    public function getSystemInfo(): array
     {
         /** @noinspection PhpComposerExtensionStubsInspection */
         $data = [
@@ -210,7 +216,7 @@ class AssistBusiness extends \Zls_Business
                 $composer = z::arrayFilter(z::arrayValues($composer, ['name', 'version']), function ($v) {
                     return $v['name'] !== 'zls/framework';
                 });
-                $composer = z::arrayMap($composer, function ($v) {
+                $composer = z::arrayMap($composer, static function ($v) {
                     $v['version'] = z::strBeginsWith($v['version'], 'v') ? substr($v['version'], 1) : $v['version'];
 
                     return $v;

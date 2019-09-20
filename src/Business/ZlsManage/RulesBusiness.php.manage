@@ -19,7 +19,7 @@ class RulesBusiness extends \Zls_Business
      *
      * @return array
      */
-    public function lists($where = [])
+    public function lists($where = []): array
     {
         $dao    = new RulesDao();
         $fields = ['mark', 'id', 'status', 'title', 'type', 'remark'];
@@ -27,7 +27,7 @@ class RulesBusiness extends \Zls_Business
         return $dao->findAll($where, ['sort' => 'desc', 'id' => 'desc'], null, $fields);
     }
 
-    public function findRows(array $ids)
+    public function findRows(array $ids): array
     {
         $dao = new RulesDao();
 
@@ -44,7 +44,7 @@ class RulesBusiness extends \Zls_Business
      *
      * @return null|array|string
      */
-    public function updateUserRuleStatus($gid, $id, $status, $sort)
+    public function updateUserRuleStatus(int $gid, int $id, int $status, int $sort)
     {
         $time         = date('Y-m-d H:i:s');
         $RulesRelaDao = new RulesRelaDao();
@@ -63,9 +63,9 @@ class RulesBusiness extends \Zls_Business
 
             // todo 更新缓存
             return $res ? [$data] : '更新失败';
-        } else {
-            return $errorMsg;
         }
+
+        return $errorMsg;
     }
 
     /**
@@ -87,9 +87,9 @@ class RulesBusiness extends \Zls_Business
             $id = $dao->insert($retData);
 
             return $id ? ['id' => $id] : '添加失败';
-        } else {
-            return $errorMsg;
         }
+
+        return $errorMsg;
     }
 
     /**
@@ -97,7 +97,7 @@ class RulesBusiness extends \Zls_Business
      *
      * @param        $id
      * @param string $title
-     * @param string $router
+     * @param        $mark
      * @param        $remark
      *
      * @return null|array[]
@@ -113,9 +113,9 @@ class RulesBusiness extends \Zls_Business
             $rs      = $dao->update($retData, $id);
 
             return $retData + ['res' => $rs];
-        } else {
-            return $errorMsg;
         }
+
+        return $errorMsg;
     }
 
     /**

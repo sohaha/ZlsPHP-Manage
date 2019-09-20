@@ -41,8 +41,7 @@
   </div>
 </template>
 <script>
-var that,
-  ruleForm = { title: "", select: "", status: "1" }; // 表单初始数据
+var ruleForm = { title: "", select: "", status: "1" }; // 表单初始数据
 Spa.define(
   {
     mixins: [mixinLists, initTitle],
@@ -51,9 +50,6 @@ Spa.define(
         formState: false,
         ruleForm: JSON.parse(JSON.stringify(ruleForm))
       };
-    },
-    beforeCreate: function() {
-      that = this;
     },
     mounted: function() {},
     computed: {
@@ -70,11 +66,11 @@ Spa.define(
       submitForm: function() {
         this.$refs["ruleForm"].validate(function(valid) {
           if (valid) {
-            that.formState = true;
+            $this.formState = true;
             // 这里请求接口
             setTimeout(function() {
               console.log("submitForm ok");
-              that.formState = false;
+              $this.formState = false;
             }, 3000);
           } else {
             return false;
@@ -83,7 +79,7 @@ Spa.define(
       },
       resetForm: function() {
         this.$nextTick(function() {
-          that.$refs["ruleForm"].clearValidate();
+          $this.$refs["ruleForm"].clearValidate();
         });
         this.ruleForm = JSON.parse(JSON.stringify(ruleForm));
       }

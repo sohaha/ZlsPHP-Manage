@@ -34,7 +34,7 @@
       },
       rules: function () {
         var validatePass = function (rule, value, callback) {
-          if (value !== this.ruleForm.pass) {
+          if (value !== $this.ruleForm.pass) {
             callback(new Error('两次输入密码不一致!'));
           } else {
             callback();

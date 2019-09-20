@@ -2940,15 +2940,11 @@
   </div>
 </template>
 <script>
-var that;
 Spa.define(
   {
     mixins: [mixinLists, initTitle],
     data: function() {
       return {};
-    },
-    beforeCreate: function() {
-      that = this;
     },
     computed: {},
     init: function(query, search) {},

@@ -10,8 +10,8 @@ class UserRules extends M
         $table = $this->table('auth_user_rules', ['id' => false, 'primary_key' => ['id']]);
         $table->addColumn('id', 'integer', ['identity' => true, 'comment' => '主键'])->comment('权限规则');
         $table->addColumn('title', 'string', ['default' => '', 'null' => false, 'comment' => '规则名称']);
-        $table->addColumn('create_time', 'timestamp', ['default' => null, 'null' => true, 'comment' => '创建时间']);
-        $table->addColumn('update_time', 'timestamp', ['default' => null, 'null' => true, 'comment' => '更新时间']);
+        $table->addColumn('create_time', 'datetime', ['default' => null, 'null' => true, 'comment' => '创建时间']);
+        $table->addColumn('update_time', 'datetime', ['default' => null, 'null' => true, 'comment' => '更新时间']);
         $table->addColumn('status', 'integer', ['default' => 1, 'limit' => 255, 'comment' => '状态：1正常，2禁止；标识码不支持禁止']);
         $table->addColumn('type', 'integer', ['default' => 1, 'limit' => MysqlAdapter::INT_TINY, 'comment' => '类型：1路由，2标识码']);
         $table->addColumn('mark', 'string', ['default' => '', 'comment' => '标识（唯一）']);
@@ -30,13 +30,6 @@ class UserRules extends M
                 'mark'        => 'ZlsManage/UserManageApi*',
             ],
             [
-                'title'       => '后台权限',
-                'create_time' => date('Y-m-d H:i:s'),
-                'update_time' => date('Y-m-d H:i:s'),
-                'type'        => 2,
-                'remark'      => '非游客',
-                'mark'        => 'not_visitor',
-            ], [
                 'title'       => '系统管理权限',
                 'create_time' => date('Y-m-d H:i:s'),
                 'update_time' => date('Y-m-d H:i:s'),
@@ -53,5 +46,4 @@ class UserRules extends M
     {
         $this->table('auth_user_rules')->drop()->save();
     }
-
 }

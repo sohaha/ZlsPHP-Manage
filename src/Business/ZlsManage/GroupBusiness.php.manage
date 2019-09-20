@@ -21,7 +21,7 @@ class GroupBusiness extends \Zls_Business
      *
      * @return array
      */
-    public function all($where = [])
+    public function all($where = []): array
     {
         $dao    = new GroupDao();
         $table  = $dao->getTable();
@@ -37,7 +37,7 @@ class GroupBusiness extends \Zls_Business
      *
      * @return array
      */
-    public function find($id)
+    public function find($id): array
     {
         return (new GroupDao())->find((int)$id);
     }
@@ -56,7 +56,7 @@ class GroupBusiness extends \Zls_Business
         $GroupDao = new GroupDao();
         $time     = date('Y-m-d H:i:s');
         $data     = ['name' => $name, 'remark' => $remark];
-        if (!!$id) {
+        if ((bool)$id) {
             $data['id'] = $id;
         }
         $retData = $errorMsg = $errorKey = null;
@@ -65,15 +65,15 @@ class GroupBusiness extends \Zls_Business
             if ($id) {
                 $res = $GroupDao->update($retData, $id);
             } else {
-                $retData       = $retData + ['create_time' => $time];
+                $retData       += ['create_time' => $time];
                 $res           = $GroupDao->insert($retData);
                 $retData['id'] = (int)$res;
             }
 
             return $res ? $retData : '保存失败';
-        } else {
-            return $errorMsg;
         }
+
+        return $errorMsg;
     }
 
     /**
@@ -83,7 +83,7 @@ class GroupBusiness extends \Zls_Business
      *
      * @return array
      */
-    public function integration(array $info)
+    public function integration(array $info): array
     {
         if (!$info) {
             return [];
@@ -121,46 +121,26 @@ class GroupBusiness extends \Zls_Business
      *
      * @return array
      */
-    public function getMenu($userid = 0)
+    public function getMenu($userid = 0): array
     {
         $menu = [
             [
-                "id"    => 2,
-                "title" => "日志查看",
-                "index" => "system/logs",
-                "icon"  => "icon-alert-circle",
+                'id'    => 2,
+                'title' => '日志查看',
+                'index' => 'system/logs',
+                'icon'  => 'icon-alert-circle',
             ],
             [
-                "id"         => 1,
-                "title"      => "系统设置",
-                "index"      => "system",
-                "breadcrumb" => false,
-                "icon"       => "icon-options-",
-                "child"      => [
-                    [
-                        "id"    => 10,
-                        "title" => "程序设置",
-                        "index" => "system/config",
-                        "icon"  => "icon-settings",
-                    ],
-                    [
-                        "id"    => 11,
-                        "title" => "用户设置",
-                        "index" => "user/lists",
-                        "icon"  => "icon-person",
-                    ],
-                    [
-                        "id"    => 12,
-                        "title" => "角色设置",
-                        "index" => "user/group",
-                        "icon"  => "icon-people",
-                    ],
-                    [
-                        "id"    => 13,
-                        "title" => "菜单设置",
-                        "index" => "user/menu",
-                        "icon"  => "icon-pricetags",
-                    ],
+                'id'         => 1,
+                'title'      => '系统设置',
+                'index'      => 'system',
+                'breadcrumb' => false,
+                'icon'       => 'icon-options-',
+                'child'      => [
+                    ['id' => 10, 'title' => '程序设置', 'index' => 'system/config', 'icon' => 'icon-settings',],
+                    ['id' => 11, 'title' => '用户设置', 'index' => 'user/lists', 'icon' => 'icon-person',],
+                    ['id' => 12, 'title' => '角色设置', 'index' => 'user/group', 'icon' => 'icon-people'],
+                    ['id' => 13, 'title' => '菜单设置', 'index' => 'user/menu', 'icon' => 'icon-pricetags',],
                 ],
             ],
         ];
@@ -175,14 +155,14 @@ class GroupBusiness extends \Zls_Business
      *
      * @return array
      */
-    public function getMarks(array $groupid)
+    public function getMarks(array $groupid): array
     {
         $rulesDao = new RulesDao();
 
         return array_values(Z::arrayValues($this->getRules($groupid, $rulesDao::TYPE_MARK), 'mark'));
     }
 
-    public function getRouter(array $groupid)
+    public function getRouter(array $groupid): array
     {
         $rulesDao = new RulesDao();
 
@@ -197,7 +177,7 @@ class GroupBusiness extends \Zls_Business
      *
      * @return array
      */
-    public function getRules($groupid, $type = null)
+    public function getRules($groupid, $type = null): array
     {
         $dao      = new RulesDao();
         $relasDao = new RulesRelaDao();
@@ -209,11 +189,11 @@ class GroupBusiness extends \Zls_Business
         } catch (\Zls_Exception_Database $e) {
             $rules = [];
         }
-        if (is_null($type)) {
+        if ($type === null) {
             return $rules;
         }
-        $rules = Z::arrayFilter($rules, function ($v) use ($type) {
-            return $v['type'] == $type;
+        $rules = Z::arrayFilter($rules, static function ($v) use ($type) {
+            return $v['type'] === $type;
         });
 
         return $rules;

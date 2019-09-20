@@ -3,6 +3,7 @@
  */
 var apiUrl = '';
 var title = '后台管理系统';
+var messagesRegularly = 0;
 var apis = {
   login: ['post', '/ZlsManage/UserApi/GetToken.go'],
   logout: ['post', '/ZlsManage/UserApi/ClearToken.go'],

@@ -54,7 +54,7 @@
   .starry-warpper {
     width: 100%;
     height: 100%;
-    background: #000000;
+    background: linear-gradient(50deg, rgba(146, 146, 146, 0.02) 0%, rgba(146, 146, 146, 0.02) 25%, rgba(82, 82, 82, 0.02) 25%, rgba(82, 82, 82, 0.02) 50%, rgba(217, 217, 217, 0.02) 50%, rgba(217, 217, 217, 0.02) 75%, rgba(41, 41, 41, 0.02) 75%, rgba(41, 41, 41, 0.02) 100%), linear-gradient(252deg, rgba(126, 126, 126, 0.01) 0%, rgba(126, 126, 126, 0.01) 25%, rgba(117, 117, 117, 0.01) 25%, rgba(117, 117, 117, 0.01) 50%, rgba(219, 219, 219, 0.01) 50%, rgba(219, 219, 219, 0.01) 75%, rgba(41, 41, 41, 0.01) 75%, rgba(41, 41, 41, 0.01) 100%), linear-gradient(272deg, rgba(166, 166, 166, 0.01) 0%, rgba(166, 166, 166, 0.01) 20%, rgba(187, 187, 187, 0.01) 20%, rgba(187, 187, 187, 0.01) 40%, rgba(238, 238, 238, 0.01) 40%, rgba(238, 238, 238, 0.01) 60%, rgba(204, 204, 204, 0.01) 60%, rgba(204, 204, 204, 0.01) 80%, rgba(5, 5, 5, 0.01) 80%, rgba(5, 5, 5, 0.01) 100%), linear-gradient(86deg, rgba(143, 143, 143, 0.02) 0%, rgba(143, 143, 143, 0.02) 12.5%, rgba(36, 36, 36, 0.02) 12.5%, rgba(36, 36, 36, 0.02) 25%, rgba(23, 23, 23, 0.02) 25%, rgba(23, 23, 23, 0.02) 37.5%, rgba(223, 223, 223, 0.02) 37.5%, rgba(223, 223, 223, 0.02) 50%, rgba(101, 101, 101, 0.02) 50%, rgba(101, 101, 101, 0.02) 62.5%, rgba(94, 94, 94, 0.02) 62.5%, rgba(94, 94, 94, 0.02) 75%, rgba(148, 148, 148, 0.02) 75%, rgba(148, 148, 148, 0.02) 87.5%, rgba(107, 107, 107, 0.02) 87.5%, rgba(107, 107, 107, 0.02) 100%), linear-gradient(25deg, rgba(2, 2, 2, 0.02) 0%, rgba(2, 2, 2, 0.02) 16.667%, rgba(51, 51, 51, 0.02) 16.667%, rgba(51, 51, 51, 0.02) 33.334%, rgba(26, 26, 26, 0.02) 33.334%, rgba(26, 26, 26, 0.02) 50.001000000000005%, rgba(238, 238, 238, 0.02) 50.001%, rgba(238, 238, 238, 0.02) 66.668%, rgba(128, 128, 128, 0.02) 66.668%, rgba(128, 128, 128, 0.02) 83.33500000000001%, rgba(21, 21, 21, 0.02) 83.335%, rgba(21, 21, 21, 0.02) 100.002%), linear-gradient(325deg, rgba(95, 95, 95, 0.03) 0%, rgba(95, 95, 95, 0.03) 14.286%, rgba(68, 68, 68, 0.03) 14.286%, rgba(68, 68, 68, 0.03) 28.572%, rgba(194, 194, 194, 0.03) 28.572%, rgba(194, 194, 194, 0.03) 42.858%, rgba(51, 51, 51, 0.03) 42.858%, rgba(51, 51, 51, 0.03) 57.144%, rgba(110, 110, 110, 0.03) 57.144%, rgba(110, 110, 110, 0.03) 71.42999999999999%, rgba(64, 64, 64, 0.03) 71.43%, rgba(64, 64, 64, 0.03) 85.71600000000001%, rgba(31, 31, 31, 0.03) 85.716%, rgba(31, 31, 31, 0.03) 100.002%), linear-gradient(90deg, #324157, #324157);
     overflow: hidden;
     position: absolute;
   }
@@ -267,8 +267,8 @@
     42px 1353px #2485c1, 717px 72px #2485c1, 1845px 1212px #2485c1,
     344px 867px #2485c1, 418px 855px #2485c1, 899px 1124px #2485c1,
     1798px 1582px #2485c1;
-    -webkit-animation: y 250s linear infinite;
-    animation: y 250s linear infinite;
+    -webkit-animation: y 220s linear infinite;
+    animation: y 220s linear infinite;
   }
 
   .starry-warpper .stars:after {
@@ -501,8 +501,8 @@
   }
 
   .starry-warpper .stars3 {
-    -webkit-animation: y 700s linear infinite;
-    animation: y 700s linear infinite;
+    -webkit-animation: y 500s linear infinite;
+    animation: y 500s linear infinite;
   }
 
   .starry-warpper .stars3, #body .starry-warpper .stars3:after {
@@ -580,8 +580,8 @@
     bottom: 0;
     left: 0;
     opacity: 0.5;
-    background-color: #080708;
-    background-image: linear-gradient(0deg, #7f7f7f 0%, #000 100%);
+    /*background-color: #080708;*/
+    /*background-image: linear-gradient(0deg, #7f7f7f 0%, #000 100%);*/
   }
 </style>
 <template>
@@ -597,7 +597,7 @@
         <h2 class="title">{{ProjectName}}</h2>
         <el-tabs v-model="activeName">
           <el-tab-pane label="账号登录" name="username">
-            <form-create v-model="formApi" :rule="formRule" :option="formOption"></form-create>
+            <form-create ref='form' @keyup.enter.native='enter' v-model="formApi" :rule="formRule" :option="formOption"></form-create>
           </el-tab-pane>
           <!--<el-tab-pane label="扫码登录" name="qr">-->
           <!--<div class='qr-container'>-->
@@ -706,6 +706,9 @@
       }
     },
     methods: {
+      enter: function () {
+        this.$refs['form'].formCreate.handle.fCreateApi.submit();
+      },
       switchTitle: function (type) {
         var userTypes;
         for (var k in this.userTypes) {

@@ -1,5 +1,6 @@
 <?php
 
+use Zls\Action\StrUtils;
 use Zls\Migration\AbstractMigration as M;
 use Zls\Migration\MysqlAdapter;
 
@@ -9,9 +10,11 @@ use Zls\Migration\MysqlAdapter;
  */
 class Users extends M
 {
-    public function change()
+    private $table = 'auth_user';
+
+    public function up()
     {
-        $table = $this->table('auth_user');
+        $table = $this->table($this->table);
         $table->comment('管理员');
         $table->addColumn('username', self::TYPE_STRING, [self::OPTIONS_DEFAULT => '', self::OPTIONS_COMMENT => '用户名']);
         $table->addColumn('password', self::TYPE_STRING, [self::OPTIONS_DEFAULT => '', self::OPTIONS_COMMENT => '用户密码']);
@@ -22,37 +25,55 @@ class Users extends M
         $table->addColumn('avatar', self::TYPE_STRING, [self::OPTIONS_DEFAULT => '', self::OPTIONS_COMMENT => '头像']);
         $table->addColumn('status', self::TYPE_INTEGER, [self::OPTIONS_DEFAULT => 0, 'limit' => MysqlAdapter::INT_TINY, self::OPTIONS_COMMENT => '状态:-1软删除,0待激活,1正常,2禁止']);
         $table->addColumn('group_id', self::TYPE_STRING, [self::OPTIONS_DEFAULT => '', 'limit' => MysqlAdapter::TEXT_SMALL, self::OPTIONS_COMMENT => '角色Id']);
-        $table->addColumn('create_time', self::TYPE_TIMESTAMP, [self::OPTIONS_DEFAULT => null, self::OPTIONS_NULL => true, self::OPTIONS_COMMENT => '创建时间']);
-        $table->addColumn('update_time', self::TYPE_TIMESTAMP, [self::OPTIONS_DEFAULT => null, self::OPTIONS_NULL => true, self::OPTIONS_COMMENT => '更新时间']);
+        $table->addColumn('create_time', self::TYPE_DATETIME, [self::OPTIONS_DEFAULT => null, self::OPTIONS_NULL => true, self::OPTIONS_COMMENT => '创建时间']);
+        $table->addColumn('update_time', self::TYPE_DATETIME, [self::OPTIONS_DEFAULT => null, self::OPTIONS_NULL => true, self::OPTIONS_COMMENT => '更新时间']);
         $table->addIndex(['username', 'status'], ['name' => 'username_status']);
         $table->create();
-        /** @var \Zls\Action\StrUtils $StrUtils */
+        /** @var StrUtils $StrUtils */
         $StrUtils = z::extension('Action\StrUtils');
         $key      = $StrUtils->randString();
         $time     = date('Y-m-d H:i:s');
-        $rows[]   = [
-            'username'    => 'seekwe',
-            'key'         => $key,
-            'status'      => 1,
-            'group_id'    => 1,
-            'email'       => 'seekwe@gmail.com',
-            'password'    => md5(Z::encrypt('seekwe', '', $key)),// 密码
-            'create_time' => $time,
-            'update_time' => $time,
-            'remark'      => '一名超级管理员',
-        ];
-        $key      = $StrUtils->randString();
-        $rows[]   = [
+        // 随机生成用户密码
+        $userPassword = $StrUtils->randString(6, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+        $rows[]       = [
             'username'    => 'admin',
             'key'         => $key,
             'status'      => 1,
             'group_id'    => 1,
             'email'       => 'admin@qq.com',
-            'password'    => md5(Z::encrypt('123456', '', $key)),// 密码
+            'password'    => md5(Z::encrypt($userPassword, '', $key)),
             'create_time' => $time,
             'update_time' => $time,
         ];
+        $key          = $StrUtils->randString();
+        $rows[]       = [
+            'username'    => 'seekwe',
+            'key'         => $key,
+            'status'      => 1,
+            'group_id'    => 2,
+            'email'       => 'seekwe@gmail.com',
+            'password'    => md5(Z::encrypt($userPassword, '', $key)),
+            'create_time' => $time,
+            'update_time' => $time,
+            'remark'      => '一名编辑员',
+        ];
         $table->insert($rows);
         $table->saveData();
+        Z::defer(function () use ($rows, $userPassword) {
+            $this->printStrN();
+            $this->printStrN('创建默认管理账号：', 'light_cyan');
+            foreach ($rows as $k => $row) {
+                $this->printStr('  用户名：');
+                $this->printStrN($row['username'], 'blue');
+                $this->printStr('  密码  ：');
+                $this->printStrN($userPassword, 'red');
+                $this->printStrN();
+            }
+        });
+    }
+
+    public function down()
+    {
+        $this->table($this->table)->drop()->save();
     }
 }

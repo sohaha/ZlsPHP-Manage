@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Dao\ZlsManage;
 
@@ -12,7 +13,7 @@ class LogsDao extends \Zls_Dao
     public const STATUS_NOT = 1;
     public const STATUS_READ = 2;
 
-    public function getColumns()
+    public function getColumns(): array
     {
         return [
             'id'//id
@@ -31,23 +32,18 @@ class LogsDao extends \Zls_Dao
         ];
     }
 
-    public function getHideColumns()
-    {
-        return [];
-    }
-
     public function getPrimaryKey()
     {
         return 'id';
     }
 
-    public function getTable()
+    public function getTable(): string
     {
         return 'auth_user_logs';
     }
 
 
-    public function create($userid, $title, $content, $operateid = 0, $type = self::TYPE_NORMAL, $status = self::STATUS_NOT)
+    public function create($userid, $title, $content, $operateid = 0, $type = self::TYPE_NORMAL, $status = self::STATUS_NOT): int
     {
         $data = [
             'userid'      => $userid,
@@ -63,7 +59,7 @@ class LogsDao extends \Zls_Dao
         return $this->insert($data);
     }
 
-    public function createOperationLog($userid, $title, $content, $operateid = 0, $type = self::TYPE_NORMAL, $status = self::STATUS_NOT)
+    public function createOperationLog($userid, $title, $content, $operateid = 0, $type = self::TYPE_NORMAL, $status = self::STATUS_NOT): int
     {
         $ip = Z::clientIp();
         $ua = Z::server('HTTP_USER_AGENT');
