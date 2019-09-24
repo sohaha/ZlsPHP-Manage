@@ -39,7 +39,7 @@ class GroupBusiness extends \Zls_Business
      */
     public function find($id): array
     {
-        return (new GroupDao())->find((int)$id);
+        return (new GroupDao())->find((int) $id);
     }
 
     /**
@@ -56,7 +56,7 @@ class GroupBusiness extends \Zls_Business
         $GroupDao = new GroupDao();
         $time     = date('Y-m-d H:i:s');
         $data     = ['name' => $name, 'remark' => $remark];
-        if ((bool)$id) {
+        if ((bool) $id) {
             $data['id'] = $id;
         }
         $retData = $errorMsg = $errorKey = null;
@@ -67,7 +67,7 @@ class GroupBusiness extends \Zls_Business
             } else {
                 $retData       += ['create_time' => $time];
                 $res           = $GroupDao->insert($retData);
-                $retData['id'] = (int)$res;
+                $retData['id'] = (int) $res;
             }
 
             return $res ? $retData : '保存失败';
@@ -92,23 +92,33 @@ class GroupBusiness extends \Zls_Business
         $gid          = $info['id'];
         $RulesRelaDao = new RulesRelaDao();
         $lists        = $RulesRelaDao->findAll(
-            ['group_id' => $gid], ['id' => 'desc'], null, 'status,rule_id'
+            ['group_id' => $gid],
+            ['id' => 'desc'],
+            null,
+            'status,rule_id'
         );
         $rows         = [];
         foreach ($lists as $row) {
             $rows[$row['status']][] = $row;
         }
         $info['rule_ids']     = z::arrayValues(
-            z::arrayGet($rows, '1', []), 'rule_id'
+            z::arrayGet($rows, '1', []),
+            'rule_id'
         );
         $info['ban_rule_ids'] = z::arrayValues(
-            z::arrayGet($rows, '2', []), 'rule_id'
+            z::arrayGet($rows, '2', []),
+            'rule_id'
         );
         // $info['rules_count'] = count($info['rule_ids'])+count($info['ban_rule_ids']);
         $info['user_count'] = z::arrayGet(
             (new UserDao)->find(
-                ['group_id' => $info['id']], false, [], 'count(*) as count'
-            ), 'count', 0
+                ['group_id' => $info['id']],
+                false,
+                [],
+                'count(*) as count'
+            ),
+            'count',
+            0
         );
 
         return $info;
@@ -184,11 +194,7 @@ class GroupBusiness extends \Zls_Business
         $db       = $dao->getDb()->join([$relasDao->getTable() => 're'], 're.rule_id=r.id')->from($dao->getTable(), 'r');
         $db->where(['re.group_id' => $groupid, 're.status !=' => $relasDao::STATUS_IGNORE]);
         $db->select('*,re.status as status');
-        try {
-            $rules = $db->execute()->rows();
-        } catch (\Zls_Exception_Database $e) {
-            $rules = [];
-        }
+        $rules = $db->execute()->rows();
         if ($type === null) {
             return $rules;
         }

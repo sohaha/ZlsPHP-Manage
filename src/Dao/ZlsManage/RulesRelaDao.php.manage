@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Dao\ZlsManage;
@@ -22,11 +23,6 @@ class RulesRelaDao extends \Zls_Dao
             'status', //状态:1正常，2禁止，3忽略
             'sort', //排序
         ];
-    }
-
-    public function getHideColumns(): array
-    {
-        return [];
     }
 
     public function getPrimaryKey(): string

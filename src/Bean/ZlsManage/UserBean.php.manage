@@ -11,15 +11,15 @@ class UserBean extends \Zls_Bean
     protected $id;
     protected $group_id;
 
-    public function getGroups()
+    public function getGroups(): array
     {
-        $groupids = Z::arrayMap(explode(',', $this->group_id), function ($v) {
-            return (int)$v;
+        $groupids = Z::arrayMap(explode(',', $this->group_id), static function ($v) {
+            return (int) $v;
         });
         $groups   = (new GroupBusiness())->all();
         $names    = [];
         foreach ($groups as $group) {
-            if (in_array($group['id'], $groupids)) {
+            if (in_array($group['id'], $groupids, true)) {
                 $names[$group['id']] = $group['name'];
             }
         }
@@ -31,6 +31,4 @@ class UserBean extends \Zls_Bean
 
         return $names;
     }
-
-
 }

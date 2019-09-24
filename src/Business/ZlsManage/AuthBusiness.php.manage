@@ -1,5 +1,6 @@
 <?php
-declare (strict_types=1);
+
+declare(strict_types=1);
 
 namespace Business\ZlsManage;
 
@@ -30,7 +31,10 @@ class AuthBusiness extends \Zls_Business
     public function userAuth($user, array $condition, array $regular, $singlePermission = false)
     {
         $router = Z::arrayGet($condition, 'router', '');
-        if (!$user = is_object($user) ? $user : (new UserBusiness())->info((int)$user)) {
+        if (!is_array($user)) {
+            $user = (new UserBusiness())->info((int) $user);
+        }
+        if (!$user) {
             return ['title' => '未知用户', 'router' => $router];
         }
         // 标识码优先级最高，一旦标识码匹配成功即忽略路由匹配
@@ -94,7 +98,7 @@ class AuthBusiness extends \Zls_Business
             }
         }
 
-        return !!$adopt ?: $ban;
+        return (bool) $adopt ?: $ban;
     }
 
     private function verify($router, $rule, $condition, $user)
@@ -113,7 +117,6 @@ class AuthBusiness extends \Zls_Business
         } else {
             $rs = true;
         }
-
         // todo 待完成
         // if (false || $rs && $condition) {
         //     if (preg_match_all('/\{(\w*?):(.*?):(.*?)\}/', $condition, $command)) {
@@ -130,7 +133,6 @@ class AuthBusiness extends \Zls_Business
         //         }
         //     }
         // }
-
         return $rs;
     }
 }

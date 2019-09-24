@@ -1,9 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Controller\ZlsManage;
 
-use Business\ZlsManage\AssistBusiness;
 use Business\ZlsManage\GroupBusiness;
 use Business\ZlsManage\RulesBusiness;
 use Controller\ZlsManage;
@@ -11,33 +11,39 @@ use Z;
 
 /**
  * 后台-用户管理接口
- * @author        影浅 seekwe@gmail.com
- * @desc          需要传递Token（GetToken除外）
+ * @desc          需要传递 header token（GetToken除外）
  */
 class UserManageApi extends ZlsManage
 {
     /**
      * 获取用户列表
-     * @time 2018-11-7 17:57:39
-     *
-     * @param int page 页码 GET 1 n
-     * @param int pagesize 条数 GET 10
-     * @param string key 用户名/Email GET '' n 为空表示全部用户
-     *
+     * @time      2018-11-7 17:57:39
+     * @api-param int page 页码  1 n
+     * @api-param int pagesize 条数  10
+     * @api-param string key 用户名/Email  '' n 为空表示全部用户
      * @return array
      */
-    public function GETzUserLists()
+    public function GETzUserLists(): array
     {
         $page     = z::get('page', 1);
         $pagesize = z::get('pagesize', 10);
         $key      = z::get('key');
+        $where    = [];
+        if ($key) {
+            $where['username like'] = "%{$key}%";
+        }
+        // 没有管理员权限，只能查看自己
+        if ($this->hasPermission("system")) {
+            $where['id'] = $this->getInfo('id');
+        }
 
-        return [200, '用户列表', $this->UserBusiness->lists($page, $pagesize, $key)];
+        return [200, '用户列表', $this->UserBusiness->lists($page, $pagesize, $where)];
     }
 
     /**
      * 创建新用户
-     * @time 2019-3-4 19:30:56
+     * @time      2018-11-7 17:57:39
+     * @api-permission("system")
      */
     public function POSTzUser()
     {
@@ -49,16 +55,15 @@ class UserManageApi extends ZlsManage
 
     /**
      * 删除用户
-     * @desc 该操作只是软删除用户
-     * @time 2018-11-9 16:56:55
-     *
-     * @param int id 用户id POST '' y
-     *
+     * @desc       该操作只是软删除用户
+     * @time       2018-11-7 17:57:39
+     * @api-permission("system")
+     * @api-delete int id 用户id  '' y
      * @return array|string
      */
     public function DELETEzUser()
     {
-        $id = (int)z::postText('id');
+        $id = (int) z::postText('id');
         switch (true) {
             case ($id === z::arrayGet($this->USER, 'id')):
                 $result = '不可以删除自己';
@@ -77,6 +82,9 @@ class UserManageApi extends ZlsManage
 
     /**
      * 获取角色列表
+     * @time      2018-11-7 17:57:39
+     * @api-permission("system")
+     * @return array
      */
     public function GETzGroups()
     {
@@ -85,9 +93,9 @@ class UserManageApi extends ZlsManage
 
     /**
      * 获取角色详情
-     *
-     * @param int id 角色ID GET Y
-     *
+     * @time      2018-11-7 17:57:39
+     * @api-permission("system")
+     * @api-get   int id 角色ID  Y
      * @return array|string
      */
     public function zGroupInfo()
@@ -104,11 +112,10 @@ class UserManageApi extends ZlsManage
 
     /**
      * 创建角色
-     *
-     * @param string name 角色名称 POST Y null
-     * @param string remark 角色备注 POST Y ''
-     *
-     * @time 2019-4-19 11:14:19
+     * @time     2019-4-19 11:14:19
+     * @api-permission("system")
+     * @api-post string name 角色名称  Y null
+     * @api-post string remark 角色备注  Y ''
      * @return array|string
      */
     public function POSTzGroups()
@@ -121,12 +128,24 @@ class UserManageApi extends ZlsManage
     }
 
     /**
+     * 删除角色
+     * @return string
+     * @todo       未完成
+     * @time       2019-09-04 16:10:49
+     * @api-permission("system")
+     * @api-delete int id 角色id y null
+     */
+    public function DELETEzGroups()
+    {
+        return '暂不支持';
+    }
+
+    /**
      * 更新角色
-     *
-     * @param string name 角色名称 PUT Y null
-     * @param string remark 角色备注 PUT Y ''
-     *
-     * @time 2019-4-19 11:14:19
+     * @time     2019-4-19 11:14:19
+     * @api-permission("system")
+     * @api-put  string name 角色名称  Y null
+     * @api-put  string remark 角色备注  Y ''
      * @return array|string
      */
     public function PUTzGroups()
@@ -140,16 +159,10 @@ class UserManageApi extends ZlsManage
     }
 
     /**
-     * 删除角色
-     * @todo 未完成
-     */
-    public function DELETEzGroups()
-    {
-        return '暂不支持';
-    }
-
-    /**
      * 获取权限规则列表
+     * @time 2019-09-04 16:10:49
+     * @api-permission("system")
+     * @return array
      */
     public function GETzRules()
     {
@@ -166,25 +179,31 @@ class UserManageApi extends ZlsManage
 
     /**
      * 添加权限规则
+     * @time 2019-09-04 16:10:49
+     * @api-permission("system")
+     * @return array|string
      */
     public function POSTzRules()
     {
         $title  = z::postText('title', '');
-        $mark = z::postText('mark', '');
-        $type = z::postText('type', '');
+        $mark   = z::postText('mark', '');
+        $type   = z::postText('type', '');
         $remark = z::postText('remark', '');
-        $res    = (new RulesBusiness)->addRules($title, $mark,$type, $remark);
+        $res    = (new RulesBusiness)->addRules($title, $mark, $type, $remark);
 
         return is_string($res) ? $res : [200, '权限规则列表', $res];
     }
 
     /**
      * 编辑权限规则
+     * @time 2019-09-04 16:10:49
+     * @api-permission("system")
+     * @return array|string
      */
     public function PUTzRules()
     {
         $title  = z::postText('title', '');
-        $mark = z::postText('mark', '');
+        $mark   = z::postText('mark', '');
         $id     = z::postText('id', '');
         $remark = z::postText('remark', '');
         $res    = (new RulesBusiness)->editRules($id, $title, $mark, $remark);
@@ -194,6 +213,9 @@ class UserManageApi extends ZlsManage
 
     /**
      * 删除权限规则
+     * @time 2019-09-04 16:10:49
+     * @api-permission("system")
+     * @return array|string
      */
     public function DELETEzRules()
     {
@@ -205,6 +227,9 @@ class UserManageApi extends ZlsManage
 
     /**
      * 更新用户规则权限
+     * @time 2019-09-04 16:10:49
+     * @api-permission("system")
+     * @return array|string
      */
     public function PUTzUpdateUserRuleStatus()
     {
@@ -212,7 +237,7 @@ class UserManageApi extends ZlsManage
         $gid    = z::postText('gid');
         $status = z::postText('status');
         $sort   = z::postText('sort');
-        $res    = (new RulesBusiness)->updateUserRuleStatus($gid, $id, $status, $sort);
+        $res    = (new RulesBusiness)->updateUserRuleStatus((int) $gid, (int) $id, (int) $status, (int) $sort);
 
         return is_string($res) ? $res : [200, '权限规则列表', $res];
     }

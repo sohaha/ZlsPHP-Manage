@@ -1,5 +1,6 @@
 <?php
-declare (strict_types=1);
+
+declare(strict_types=1);
 
 namespace Controller;
 
@@ -8,17 +9,19 @@ use Business\ZlsManage\PermissionsBusiness;
 use Business\ZlsManage\UserBusiness;
 use Z;
 use Zls\Action\ApiDoc;
+use Zls_Controller;
 
 /**
  * Class ZlsManage
  * @package Controller
  */
-class ZlsManage extends \Zls_Controller
+class ZlsManage extends Zls_Controller
 {
     /**
      * 跳转到静态页面
+     * @api-ignore 忽略权限控制
      */
-    public function zIndex()
+    public function zIndex(): void
     {
         Z::redirect('/zls-manage/index.html');
     }
@@ -41,35 +44,41 @@ class ZlsManage extends \Zls_Controller
         $AuthBusiness       = new AuthBusiness();
         $router             = str_replace('_', '/', z::strCamel2Snake(str_replace('\\', '/', $controllerShort) . '/' . $method, ''));
         $this->UserBusiness = new UserBusiness;
-        try {
-            $comment    = ApiDoc::getMethodComment($this, $methodFull);
-            $permission = $comment('permission');
-            if (!is_null($comment('ignore')) && is_null($permission)) {
-                return;
+        $comment            = ApiDoc::getComment($this, $methodFull);
+        /** @var array 方法权限 $permission */
+        $permission = $comment('permission');
+        // 控制器权限（最高），
+        // 如果用户没这个权限那么就会直接忽略方法权限的判断，进入路由判断
+        $classPermission = $comment('permissionClass');
+        // 对带有 api-ignore 并且没有指定权限的方法跳过权限控制
+        if (!$permission && !$classPermission && (bool) $comment('ignore')) {
+            return;
+        }
+        // 是否只需匹配权限配置内其中一个即可
+        $singlePermission = $comment('single-permission');
+        $token            = $this->getToken();
+        $this->USER       = $this->UserBusiness->tokenToInfo($token);
+        if (!$this->USER) {
+            return [401, '请先登录'];
+        }
+        $this->USER['isSuper'] = $this->UserBusiness->isSuperAdmin((int) $this->USER['id']);
+        $noVerification        = [];
+        $permission            = array_reduce($permission ?: [], 'array_merge', []);
+        $classPermission       = array_reduce($classPermission ?: [], 'array_merge', []);
+        if (!$this->USER['isSuper'] && !in_array($router, $noVerification, true)) {
+            $condition = [
+                'router'          => $router,
+                'permission'      => $permission,
+                'classPermission' => $classPermission,
+            ];
+            $regular   = [
+                'marks'   => $this->USER['marks'],
+                'routers' => $this->USER['routers'],
+            ];
+            $auth      = $AuthBusiness->userAuth($this->USER['id'], $condition, $regular, $singlePermission);
+            if ($auth !== true) {
+                return [403, '对不起，权限不足', $auth];
             }
-            $token      = $this->getToken();
-            $this->USER = $this->UserBusiness->tokenToInfo($token);
-            if (!$this->USER) {
-                return [401, '请先登录'];
-            }
-            $this->USER['isSuper'] = $this->UserBusiness->isSuperAdmin($this->USER['id']);
-            $noVerification        = [];
-            if (!$this->USER['isSuper'] && !in_array($router, $noVerification)) {
-                $condition = [
-                    'router'     => $router,
-                    'permission' => array_reduce($permission ?: [], 'array_merge', []),
-                ];
-                $regular   = [
-                    'marks'   => $this->USER['marks'],
-                    'routers' => $this->USER['routers'],
-                ];
-                $auth      = $AuthBusiness->userAuth($this->USER['id'], $condition, $regular);
-                if ($auth !== true) {
-                    return [403, '对不起，权限不足', $auth];
-                }
-            }
-        } catch (\ReflectionException $e) {
-            return $this->call($method, $controllerShort, $args, $methodFull, $controller);
         }
 
         return null;
@@ -126,7 +135,7 @@ class ZlsManage extends \Zls_Controller
      */
     final public function hasPermission(string $permissions, $userid = null): bool
     {
-        if (is_null($userid)) {
+        if ($userid === null) {
             $groupid = $this->getInfo('group_id');
         } else {
             if (!$info = (new UserBusiness())->info($userid)) {
@@ -138,7 +147,7 @@ class ZlsManage extends \Zls_Controller
         $business = Z::business('ZlsManage\PermissionsBusiness');
         $groupids = explode(',', $groupid);
         foreach ($groupids as $groupid) {
-            if ($business->has($permissions, (int)$groupid)) {
+            if ($business->has($permissions, (int) $groupid)) {
                 return true;
             }
         }
@@ -156,7 +165,7 @@ class ZlsManage extends \Zls_Controller
      *
      * @return string
      */
-    public function after($contents, $methodName, $controllerShort, $args, $methodFull, $class)
+    public function after($contents, $methodName, $controllerShort, $args, $methodFull, $class): string
     {
         return is_array($contents) ? Z::json($contents) : Z::json(211, $contents);
     }
@@ -170,8 +179,8 @@ class ZlsManage extends \Zls_Controller
      *
      * @return array
      */
-    public function call($method, $controllerShort, $args, $methodFull, $controller)
+    public function call($method, $controllerShort, $args, $methodFull, $controller): array
     {
-        return [404, 'HTTP/1.1 404 Not Found'];
+        return [404, 'HTTP/1.1 404 Not Found', [Z::server('REQUEST_METHOD', '')]];
     }
 }

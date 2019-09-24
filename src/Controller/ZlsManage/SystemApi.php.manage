@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Controller\ZlsManage;
@@ -10,8 +11,7 @@ use Z;
 
 /**
  * 后台-系统接口
- * @author        影浅 seekwe@gmail.com
- * @desc          需要传递Token
+ * @desc          需要传递 header token（GetToken除外）
  */
 class SystemApi extends UserApi
 {
@@ -19,15 +19,12 @@ class SystemApi extends UserApi
      * 查看用户日志
      * @time       2018-12-13 19:15:42
      * @api-ignore 忽略权限控制
-     * @api-permission("not_visitor")
-     *
-     * @param int page 页码 GET 1 n
-     * @param int pagesize 条数 GET 10
-     * @param int unread 是否只查询未读 GET 0 N 1只查询未读
-     *
-     * @return mixed|string
+     * @api-get    int page 页码  1 n
+     * @api-get    int pagesize 条数  10
+     * @api-get    int unread 是否只查询未读  0 N 1只查询未读
+     * @return array
      */
-    public function GETzLogs()
+    public function GETzLogs(): array
     {
         $assist = new AssistBusiness();
         $type   = Z::get('type');
@@ -41,12 +38,12 @@ class SystemApi extends UserApi
      * 未读日志总数
      * @desc        建议轮询获取未读日志
      * @api-ignore  忽略权限控制
-     * @api-permission("not_visitor")
      * @api-get     int id 上一条消息ID 0 N 只返回上条到最新的消息
      * @api-return  JSON {"code":200, "msg":"未读日志"}
      * @api-return  int code 状态码 200：成功
+     * @return array
      */
-    public function zUnreadMessageCount()
+    public function zUnreadMessageCount(): array
     {
         $assist = new AssistBusiness();
         $lastId = z::getPost('id', 0);
@@ -58,8 +55,9 @@ class SystemApi extends UserApi
 
     /**
      * 更新日志状态
+     * @return array
      */
-    public function PUTzMessageStatus()
+    public function PUTzMessageStatus(): array
     {
         $assist = new AssistBusiness();
         $uid    = $this->getInfo('id');
@@ -69,9 +67,12 @@ class SystemApi extends UserApi
     }
 
     /**
-     * 查看系统日志文件（高危接口）
+     * 查看系统日志文件
+     * @time 2019-08-06 15:58:24
+     * @api-permission("systems")
+     * @return array
      */
-    public function GETzSystemLogs()
+    public function GETzSystemLogs(): array
     {
         $name        = z::getPost('name');
         $type        = z::getPost('type');
@@ -82,9 +83,12 @@ class SystemApi extends UserApi
     }
 
     /**
-     * 删除系统日志文件（高危接口）
+     * 删除系统日志文件
+     * @time 2019-08-06 15:58:21
+     * @api-permission("systems")
+     * @return array
      */
-    public function DELETEzSystemLogs()
+    public function DELETEzSystemLogs(): array
     {
         $name = z::postText('name');
         $type = z::postText('type');
@@ -94,25 +98,33 @@ class SystemApi extends UserApi
     }
 
     /**
-     * 读取系统配置（高危接口）
+     * 读取系统配置
+     * @time 2019-08-06 15:58:21
+     * @api-permission("systems")
      */
-    public function GETzSystemConfig()
+    public function GETzSystemConfig(): array
     {
         return [200, '读取系统配置', (new AssistBusiness)->getSystemConfig()];
     }
 
     /**
-     * 更新系统配置（高危接口）
+     * 更新系统配置
+     * @time 2019-08-06 15:58:21
+     * @api-permission("systems")
      */
-    public function PUTzSystemConfig()
+    public function PUTzSystemConfig(): array
     {
         return [200, '更新系统配置', (new AssistBusiness)->updateSystemConfig(z::postText())];
     }
 
     /**
      * 获取系统菜单列表
+     * @todo 未完成
+     * @time 2019-08-06 15:58:21
+     * @api-permission("systems")
+     * @return array
      */
-    public function zMenu()
+    public function zMenu(): array
     {
         $userid = $this->getInfo('id');
 

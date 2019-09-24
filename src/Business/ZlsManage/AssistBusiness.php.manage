@@ -1,5 +1,6 @@
 <?php
-declare (strict_types=1);
+
+declare(strict_types=1);
 
 namespace Business\ZlsManage;
 
@@ -20,8 +21,8 @@ use Zls\Action\Ini;
  */
 class AssistBusiness extends \Zls_Business
 {
-    const AVATAR_PATH = 'static/avatar';
-    const AVATAR_TMP_PATH = 'static/avatar/tmp';
+    public const AVATAR_PATH = 'static/avatar';
+    public const AVATAR_TMP_PATH = 'static/avatar/tmp';
 
     /**
      * 上传头像图片至临时目录
@@ -148,7 +149,7 @@ class AssistBusiness extends \Zls_Business
     {
         $logsDao = new LogsDao();
 
-        return $logsDao->updateBatch(z::arrayMap($ids, function ($v) use ($logsDao) {
+        return $logsDao->updateBatch(z::arrayMap($ids, static function ($v) use ($logsDao) {
             return ['id' => $v, 'status' => $logsDao::STATUS_READ];
         }), 'id');
     }
@@ -162,9 +163,9 @@ class AssistBusiness extends \Zls_Business
         $config = z::config('ini', true, []);
         // 根据实际情况过滤只返回需要显示的
         $data = [
-            'debug'        => (bool)z::arrayGet($config, 'base.debug', true),
+            'debug'        => (bool) z::arrayGet($config, 'base.debug', true),
             'cdnHost'      => z::arrayGet($config, 'project.cdnHost', ''),
-            'maintainMode' => (bool)z::arrayGet($config, 'base.maintainMode', true),
+            'maintainMode' => (bool) z::arrayGet($config, 'base.maintainMode', true),
             'ipWhitelist'  => implode(',', z::arrayGet($config, 'base.ipWhitelist', [])),
         ];
 

@@ -1,5 +1,6 @@
 <?php
-declare (strict_types=1);
+
+declare(strict_types=1);
 
 namespace Business\ZlsManage;
 
@@ -16,7 +17,7 @@ use Zls\Action\StrUtils;
  */
 class UserBusiness extends \Zls_Business
 {
-    const USER_CACHE_KEY = 'USER_CACHE_KEY_';
+    public const USER_CACHE_KEY = 'USER_CACHE_KEY_';
 
     /**
      * 根据token获取用户信息
@@ -25,15 +26,15 @@ class UserBusiness extends \Zls_Business
      *
      * @return array
      */
-    public function tokenToInfo($token)
+    public function tokenToInfo($token): array
     {
         /** @var TokenDao $tokenDao */
         $tokenDao = new TokenDao();
         $user     = [];
         if ($tokenInfo = $tokenDao->find(['token' => $token, 'status' => 1], false, [])) {
-            $user            = $this->info((int)$tokenInfo['userid']);
-            $GroupBusiness   = new GroupBusiness;
-            $groupid         = explode(',', (string)$user['group_id']);
+            $user            = $this->info((int) $tokenInfo['userid']);
+            $GroupBusiness   = new GroupBusiness();
+            $groupid         = explode(',', (string) $user['group_id']);
             $user['groups']  = $GroupBusiness->all();
             $user['menus']   = $GroupBusiness->getMenu($groupid);
             $user['marks']   = $GroupBusiness->getMarks($groupid);
@@ -158,7 +159,7 @@ class UserBusiness extends \Zls_Business
             return '用户不存在';
         }
         $userid    = $user['id'];
-        $veriField = ['status', 'remark', 'avatar'];
+        $veriField = ['status', 'remark', 'avatar', 'nickname'];
         $email     = z::arrayGet($data, 'email');
         if ($email && $user['email'] !== $email) {
             $veriField[] = 'email';
@@ -178,16 +179,17 @@ class UserBusiness extends \Zls_Business
                  */
                 $AssistBusiness    = z::business('ZlsManage\AssistBusiness');
                 $avatarFilename    = 'user_' . md5($id) . '.png';
-                $retData['avatar'] = $AssistBusiness->mvAvatar((string)$retData['avatar'], $avatarFilename);
+                $retData['avatar'] = $AssistBusiness->mvAvatar((string) $retData['avatar'], $avatarFilename);
             }
             $updatePassState = in_array('password', $veriField, true);
             if ($updatePassState) {
                 $retData['password'] = $dao->encryptPassword($retData['password'], $user['key']);
             }
 
-            return z::tap($dao->update($retData, $id), function ($res) use ($userid, $operationUser, $updatePassState) {
-                if ($res && $updatePassState) {
-                    $this->updatePasswordTip($userid, $operationUser);
+            return z::tap($dao->update($retData, $id), function (&$res) use ($userid, $operationUser, $updatePassState) {
+                if ($res) {
+                    $updatePassState && $this->updatePasswordTip($userid, $operationUser);
+                    Z::cache()->delete(self::USER_CACHE_KEY . $userid);
                 }
             });
         }
@@ -219,7 +221,7 @@ class UserBusiness extends \Zls_Business
             $retData['password'] = $dao->encryptPassword($retData['password'], $key);
             $retData['group_id'] = Z::arrayGet($retData, 'group_id') ?: 0;
 
-            return (int)$dao->insert($retData);
+            return (int) $dao->insert($retData);
         }
 
         return $errorMsg;
@@ -313,10 +315,10 @@ class UserBusiness extends \Zls_Business
         });
     }
 
-    public function updatePasswordTip($userid, $operationId)
+    public function updatePasswordTip($userid, $operationId): void
     {
         // 非自己修改了用户密码之后需要记录日志 修改密码之后要重置用户token
-        if ((int)$userid === (int)$operationId) {
+        if ((int) $userid === (int) $operationId) {
             $tip    = '修改密码成功';
             $level  = LogsDao::TYPE_NORMAL;
             $status = LogsDao::STATUS_READ;
