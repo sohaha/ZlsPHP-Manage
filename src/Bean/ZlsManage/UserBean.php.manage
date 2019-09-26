@@ -1,4 +1,5 @@
 <?php
+declare (strict_types=1);
 
 namespace Bean\ZlsManage;
 
@@ -10,11 +11,12 @@ class UserBean extends \Zls_Bean
 {
     protected $id;
     protected $group_id;
+    protected $status;
 
     public function getGroups(): array
     {
         $groupids = Z::arrayMap(explode(',', $this->group_id), static function ($v) {
-            return (int) $v;
+            return (int)$v;
         });
         $groups   = (new GroupBusiness())->all();
         $names    = [];
@@ -30,5 +32,10 @@ class UserBean extends \Zls_Bean
         }
 
         return $names;
+    }
+
+    public function getStatus(): int
+    {
+        return (int)$this->status;
     }
 }

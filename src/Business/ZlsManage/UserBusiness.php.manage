@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Business\ZlsManage;
@@ -32,9 +31,9 @@ class UserBusiness extends \Zls_Business
         $tokenDao = new TokenDao();
         $user     = [];
         if ($tokenInfo = $tokenDao->find(['token' => $token, 'status' => 1], false, [])) {
-            $user            = $this->info((int) $tokenInfo['userid']);
+            $user            = $this->info((int)$tokenInfo['userid']);
             $GroupBusiness   = new GroupBusiness();
-            $groupid         = explode(',', (string) $user['group_id']);
+            $groupid         = explode(',', (string)$user['group_id']);
             $user['groups']  = $GroupBusiness->all();
             $user['menus']   = $GroupBusiness->getMenu($groupid);
             $user['marks']   = $GroupBusiness->getMarks($groupid);
@@ -136,9 +135,10 @@ class UserBusiness extends \Zls_Business
      */
     public function lists($page, $pagesize = 10, $where = []): array
     {
-        $dao    = new UserDao();
-        $fields = $dao->getReversalColumns(null, true);
-        $data   = $dao->getPage($page, $pagesize, '{page}', $fields, $where, ['id' => 'desc']);
+        $dao           = new UserDao();
+        $fields        = $dao->getReversalColumns(null, true);
+        $data          = $dao->getPage($page, $pagesize, '{page}', $fields, $where, ['id' => 'desc']);
+        $data['items'] = $dao->beans($data['items']);
 
         return $data;
     }
@@ -179,7 +179,7 @@ class UserBusiness extends \Zls_Business
                  */
                 $AssistBusiness    = z::business('ZlsManage\AssistBusiness');
                 $avatarFilename    = 'user_' . md5($id) . '.png';
-                $retData['avatar'] = $AssistBusiness->mvAvatar((string) $retData['avatar'], $avatarFilename);
+                $retData['avatar'] = $AssistBusiness->mvAvatar((string)$retData['avatar'], $avatarFilename);
             }
             $updatePassState = in_array('password', $veriField, true);
             if ($updatePassState) {
@@ -221,7 +221,7 @@ class UserBusiness extends \Zls_Business
             $retData['password'] = $dao->encryptPassword($retData['password'], $key);
             $retData['group_id'] = Z::arrayGet($retData, 'group_id') ?: 0;
 
-            return (int) $dao->insert($retData);
+            return (int)$dao->insert($retData);
         }
 
         return $errorMsg;
@@ -318,7 +318,7 @@ class UserBusiness extends \Zls_Business
     public function updatePasswordTip($userid, $operationId): void
     {
         // 非自己修改了用户密码之后需要记录日志 修改密码之后要重置用户token
-        if ((int) $userid === (int) $operationId) {
+        if ((int)$userid === (int)$operationId) {
             $tip    = '修改密码成功';
             $level  = LogsDao::TYPE_NORMAL;
             $status = LogsDao::STATUS_READ;
