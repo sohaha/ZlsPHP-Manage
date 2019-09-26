@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Controller\ZlsManage;
@@ -29,7 +28,7 @@ class UserApi extends ZlsManage
             return in_array($k, $show, true);
         });
         // todo 注意控制某些用户不显示系统信息
-        if ($this->hasPermission('systems')) {
+        if ($this->getInfo('isSuper') || $this->hasPermission('systems')) {
             $user['system'] = (new AssistBusiness())->getSystemInfo();
         }
         $user['last'] = $this->UserBusiness->getLast($user['id'], $this->getToken());
@@ -72,13 +71,13 @@ class UserApi extends ZlsManage
      */
     public function PUTzUpdate()
     {
-        $uid     = (int) $this->getInfo('id');
-        $userid  = (int) (z::postText('id') ?: $uid);
+        $uid     = (int)$this->getInfo('id');
+        $userid  = (int)(z::postText('id') ?: $uid);
         $post    = z::postText();
         $isSuper = $this->getInfo('isSuper');
         // 被修改的用户是否超级管理员
-        $userIsSuper = $this->UserBusiness->isSuperAdmin((int) $userid);
-        $status      = (int) z::arrayGet($post, 'status');
+        $userIsSuper = $this->UserBusiness->isSuperAdmin((int)$userid);
+        $status      = (int)z::arrayGet($post, 'status');
         $isMe        = $userid === $uid;
         if ($isMe && 1 !== $status) {
             return '不能禁止自己';
@@ -114,8 +113,8 @@ class UserApi extends ZlsManage
     {
         $oldPassword = z::postText('oldPass');
         $newPassword = z::postText('pass');
-        $userid      = (int) $this->getInfo('id');
-        $upUid       = (int) (z::postText('userid') ?: $userid);
+        $userid      = (int)$this->getInfo('id');
+        $upUid       = (int)(z::postText('userid') ?: $userid);
         if ($userid === $upUid) {
             $rs = $this->UserBusiness->editPassword($upUid, $oldPassword, $newPassword, $userid);
         } else {
