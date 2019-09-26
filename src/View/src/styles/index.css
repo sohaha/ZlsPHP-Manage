@@ -35,13 +35,6 @@ svg[hidden] {
   font-size: 25px;
 }
 
-
-.el-menu-item {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 html {
   -webkit-user-select: none;
   -moz-user-select: none;

@@ -51,9 +51,15 @@
     background: #283446 !important;
   }
 
-  .not-collapse .el-menu-item [class^='icon-'] {
+  .not-collapse ul[role="menu"] .el-menu-item [class^='icon-'] {
     position: absolute;
     left: 30px;
+  }
+
+  ul[role="menu"] .el-menu-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .el-menu-item {
