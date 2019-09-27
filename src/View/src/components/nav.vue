@@ -62,6 +62,11 @@
     align-items: center;
   }
 
+  ul[role="menu"] .el-menu-item::after {
+    content: "";
+    margin-right: 5px;
+  }
+
   .el-menu-item {
     position: relative;
   }
