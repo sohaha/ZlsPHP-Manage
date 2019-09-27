@@ -9,9 +9,9 @@ use Z;
 
 class UserBean extends \Zls_Bean
 {
-    protected $id;
-    protected $group_id;
-    protected $status;
+    protected $id = 0;
+    protected $group_id = 0;
+    protected $status = 0;
 
     public function getGroups(): array
     {

@@ -175,10 +175,10 @@ class UserBusiness extends \Zls_Business
             $retData['update_time'] = date('Y-m-d H:i:s');
             if ($retData['avatar']) {
                 /**
-                 * @var \Business\ZlsManage\AssistBusiness $AssistBusiness
+                 * @var AssistBusiness $AssistBusiness
                  */
                 $AssistBusiness    = z::business('ZlsManage\AssistBusiness');
-                $avatarFilename    = 'user_' . md5($id) . '.png';
+                $avatarFilename    = 'user_' . md5((string)$id) . '.png';
                 $retData['avatar'] = $AssistBusiness->mvAvatar((string)$retData['avatar'], $avatarFilename);
             }
             $updatePassState = in_array('password', $veriField, true);

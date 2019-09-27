@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 namespace Controller\ZlsManage;
@@ -63,7 +62,7 @@ class UserManageApi extends ZlsManage
      */
     public function DELETEzUser()
     {
-        $id = (int) z::postText('id');
+        $id = (int)z::postText('id');
         switch (true) {
             case ($id === z::arrayGet($this->USER, 'id')):
                 $result = '不可以删除自己';
@@ -237,7 +236,7 @@ class UserManageApi extends ZlsManage
         $gid    = z::postText('gid');
         $status = z::postText('status');
         $sort   = z::postText('sort');
-        $res    = (new RulesBusiness)->updateUserRuleStatus((int) $gid, (int) $id, (int) $status, (int) $sort);
+        $res    = (new RulesBusiness)->updateUserRuleStatus((int)$gid, (int)$id, (int)$status, (int)$sort);
 
         return is_string($res) ? $res : [200, '权限规则列表', $res];
     }
