@@ -43,7 +43,7 @@
     margin-bottom: -10px !important;
   }
 
-  .el-submenu__title {
+  .el-submenu__title, .el-menu-item[role="menuitem"] {
     background: none !important;
   }
 
