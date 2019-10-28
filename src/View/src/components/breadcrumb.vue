@@ -5,6 +5,7 @@
     top: 15px;
     left: 15px;
     font-size: 14px;
+    line-height: 28px;
   }
 
   .breadcrumb__link .el-breadcrumb__inner {
