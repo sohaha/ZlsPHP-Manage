@@ -60,8 +60,8 @@
       <el-container class="content-container">
         <el-main ref="content-box" class="content-box content-view-main" aria-label="页面内容">
           <components_breadcrumb></components_breadcrumb>
-          <!--包含lists关键字的页面进行缓存-->
-          <keep-alive :max="3" :include="/lists/">
+          <!--包含keep关键字的页面进行缓存-->
+          <keep-alive :max="3" :include="/keep/">
             <component class="content-main" v-bind:is="childView"></component>
           </keep-alive>
         </el-main>

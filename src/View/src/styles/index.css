@@ -126,7 +126,6 @@ img {
 
 .loading-group .sub-title {
   color: #495060;
-  /*#fff;*/
   font-size: 10px;
 }
 
@@ -139,7 +138,6 @@ img {
   width: 10px;
   height: 10px;
   background-color: #495060;
-  /*#fff;*/
   float: left;
   -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
   animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
@@ -219,8 +217,8 @@ img {
 }
 
 ::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
+  width: 5px;
+  height: 5px;
 }
 
 .el-main::-webkit-scrollbar {

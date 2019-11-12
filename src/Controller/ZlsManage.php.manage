@@ -1,4 +1,5 @@
 <?php
+declare (strict_types=1);
 
 declare(strict_types=1);
 
@@ -79,6 +80,8 @@ class ZlsManage extends Zls_Controller
             if ($auth !== true) {
                 return [403, '对不起，权限不足', $auth];
             }
+        } catch (\ReflectionException $e) {
+            return $this->call($method, $controllerShort, $args, $methodFull, $controller);
         }
 
         return null;

@@ -1,5 +1,4 @@
-<style>
-</style>
+<style></style>
 <template>
   <div>
     <div class="view-title float-clear">
@@ -10,19 +9,11 @@
     <fieldset>
       <legend>{{title}}</legend>
       <aside :aria-label="title">
-        <form-create
-          class="form-create-mini"
-          v-model="formApi"
-          :rule="formRule"
-          :option="formOption"
-        ></form-create>
+        <form-create class="form-create-mini" v-model="formApi" :rule="formRule" :option="formOption"></form-create>
       </aside>
     </fieldset>
     <div class="panel">
-      更多自定义配置请参考 <a
-      href="http://form-create.com/v2/element-ui/global.html#row"
-      target="_blank"
-    >form-create 文档</a>。
+      更多自定义配置请参考 <a href="http://form-create.com/v2/element-ui/global.html#row" target="_blank">form-create 文档</a>。
     </div>
   </div>
 </template>
@@ -38,11 +29,16 @@
         return {
           formApi: {},
           formRule: [
+            // {
+            //   type: 'div',
+            //   children: ['自定义标签']
+            // },
             {
               type: 'input',
               field: 'text',
               title: '文本：',
               value: '',
+              info: '一个文本',
               props: {
                 prefixIcon: 'el-icon-edit',
                 placeholder: '文本...',
@@ -51,6 +47,7 @@
                 showPassword: true,
                 clearable: true
               },
+              children: [],
               validate: [
                 { required: true, message: '请输入文本', trigger: 'input' }
               ]
@@ -69,7 +66,8 @@
               title: '分类：',
               value: ['104', '105'],
               props: {
-                placeholder: '分类...'
+                placeholder: '分类...',
+                // multiple: true
               },
               options: [
                 { value: '104', label: '生态', disabled: false },
@@ -99,6 +97,7 @@
             }
           ],
           formOption: {
+            info: { type: 'popover' },
             form: {
               className: 'hi',
               hideRequiredAsterisk: true,
@@ -130,15 +129,7 @@
       },
       mounted: function () {
       },
-      computed: {
-        rules: function () {
-          var rules = {
-            title: [{ required: true, message: '请输入标题', trigger: 'change' }],
-            select: [{ required: true, message: '请选择', trigger: 'change' }]
-          };
-          return rules;
-        }
-      },
+      computed: {},
       init: function (query, search) {
       },
       methods: {

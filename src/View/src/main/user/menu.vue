@@ -91,10 +91,13 @@
             data.forEach(function (e, index, values) {
               values[index]._isEdit = false;
               values[index]._isPopover = false;
+            var data = v.data;
+            data.map(function (e) {
+              e._isEdit = false;
+              e._isPopover = false;
               return e;
             });
-            var page = v.data.page;
-            $this.ml_getLists(data, page);
+            $this.ml_data = data;
           })
           .catch(function (e) {
             $this.$warMsg(e);
