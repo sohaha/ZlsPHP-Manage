@@ -8,6 +8,7 @@ namespace Controller;
 use Business\ZlsManage\AuthBusiness;
 use Business\ZlsManage\PermissionsBusiness;
 use Business\ZlsManage\UserBusiness;
+use Dao\ZlsManage\AccessLogDao;
 use Z;
 use Zls\Action\ApiDoc;
 use Zls_Controller;
@@ -170,6 +171,22 @@ class ZlsManage extends Zls_Controller
      */
     public function after($contents, $methodName, $controllerShort, $args, $methodFull, $class): string
     {
+        if ($this->USER) {
+            $jsonOpt = JSON_UNESCAPED_UNICODE + JSON_UNESCAPED_SLASHES;
+            $dao     = new AccessLogDao();
+            $data    = [
+                'userid'      => $this->getInfo('id'),
+                'route'       => Z::host(false, true),
+                'param'       => json_encode(Z::get(), $jsonOpt),
+                'input'       => json_encode(z::post() ?: (Z::postRaw() ?: ''), $jsonOpt),
+                'content'     => json_encode($contents, $jsonOpt),
+                'create_time' => date('Y-m-d H:i:s'),
+            ];
+            $dao->insert($data);
+        }
+        if ($contents === null) {
+            return '';
+        }
         return is_array($contents) ? Z::json($contents) : Z::json(211, $contents);
     }
 
