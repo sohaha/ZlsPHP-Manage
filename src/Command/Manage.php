@@ -8,6 +8,7 @@ use Zls\Action\StrUtils;
 
 class Manage extends \Zls\Command\Command
 {
+    use Replace;
     private $force;
 
     /**

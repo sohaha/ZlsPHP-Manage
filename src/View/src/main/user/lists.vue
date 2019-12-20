@@ -1,19 +1,4 @@
 <style>
-  .list-avatar {
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    border: 1px solid rgb(228, 232, 235);
-  }
-
-  .list-avatar-tooltip {
-    width: 120px;
-  }
-
-  .list-avatar-tooltip img {
-    width: 120px;
-  }
-
   span.el-tag.el-tag--mini + span.el-tag.el-tag--mini {
     margin-left: 5px;
   }

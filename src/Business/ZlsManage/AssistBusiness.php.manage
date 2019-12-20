@@ -192,7 +192,7 @@ class AssistBusiness extends \Zls_Business
         $Ini  = z::extension('Action\Ini');
         $path = z::realPath('zls.ini', false, false);
 
-        return @file_put_contents($path, $Ini->extended($config));
+        return !!@file_put_contents($path, $Ini->extended($config));
     }
 
     /**

@@ -12,14 +12,14 @@
       <aside>
         <el-form size="mini" label-position="top" :rules="rules" ref="form" :model="form" label-width="90px">
           <el-form-item label="IP白名单">
-            <el-input v-model="form.ipWhitelist" size="mini" placeholder="IP白名单，多个使用;分隔"></el-input>
+            <el-input v-model="form.ipWhitelist" size="mini" placeholder="IP白名单，多个使用;分隔" />
           </el-form-item>
           <el-form-item label="其他开关">
             <el-tooltip content="程序出错时候会直接在页面打印出异常信息，正式环境下建议关闭。" transition="el-zoom-in-bottom" placement="top-start">
-              <el-switch v-model="form.debug" active-text="开发模式"></el-switch>
+              <el-switch v-model="form.debug" active-text="开发模式" />
             </el-tooltip>
             <el-tooltip content="开启维护模式之后除了白名单内Ip，其他用户无法访问。" transition="el-zoom-in-bottom" placement="top-start">
-              <el-switch v-model="form.maintainMode" active-text="维护模式"></el-switch>
+              <el-switch @change='changeMaintainMode' v-model="form.maintainMode" active-text="维护模式" />
             </el-tooltip>
           </el-form-item>
           <el-form-item>
@@ -31,8 +31,7 @@
   </div>
 </template>
 <script>
-  var form = { ipWhitelist: '', maintainMode: false, debug: false },
-    that;
+  var form = { ipWhitelist: '', maintainMode: null, debug: false };
   Spa.define(
     {
       mixins: [mixinLists, initTitle],
@@ -43,31 +42,44 @@
         };
       },
       beforeCreate: function () {
-        that = this;
       },
       mounted: function () {
         this.getConfig();
       },
       computed: {},
+      watch: {
+        'form.maintainMode': {
+          handler (val, oldVal) {},
+          deep: true
+        }
+      },
       init: function (query, search) {},
       methods: {
+        changeMaintainMode: function (val) {
+          if (val === true) {
+            app.$confirm('是否真的要开启维护模式', '警告', function (e) {
+              if (e !== 'confirm') {
+                $this.form.maintainMode = false;
+              }
+            }, { type: 'warning', });
+          }
+        },
         getConfig: function () {
-          that.$api('sysGetSystemConfig').then(function (e) {
-            var data = Object.assign(form, e.data);
-            that.form = data;
+          $this.$api('sysGetSystemConfig').then(function (e) {
+            $this.form = Object.assign({}, form, e.data);
           });
         },
         submit: function () {
-          that.$refs['form'].validate(function (valid) {
+          $this.$refs['form'].validate(function (valid) {
             if (valid) {
-              that
-              .$api('sysSetSystemConfig', that.form)
+              $this
+              .$api('sysSetSystemConfig', $this.form)
               .then(function (e) {
                 console.log(e);
-                that.$tipMsg('更新成功');
+                $this.$tipMsg('更新成功');
               })
               .catch(function (err) {
-                that.$warMsg(err);
+                $this.$warMsg(err);
               });
             } else {
               return false;

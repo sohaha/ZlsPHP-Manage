@@ -180,6 +180,10 @@ var request = function (type, url, data, opt) {
 
 var pathname = location.pathname.split('/');
 var projectPath = pathname[pathname.length - 2];
+Spa.log = function (msg) {
+  if (Spa.debug)
+    console.log('%c LOG ', 'background:#aaa;color:#bada55', msg);
+};
 Spa.run({
   debug: window['debug'],
   cache: typeof cache === 'undefined' ? true : cache,
@@ -235,7 +239,7 @@ Spa.run({
   },
   routerBeforeEach: function (to, from, next) {
     if (Spa.debug) {
-      console.log(from + ' -> ' + to + '');
+      Spa.log(from + ' -> ' + to + '');
       console.groupEnd();
       console.group('router: ' + to);
     }
@@ -301,6 +305,17 @@ Spa.run({
       offset: 58
     });
   };
+  var confirm = window['app'].$confirm;
+  Vue.prototype.$confirm = function (tip, title, fn, opt) {
+    confirm(tip, Object.assign({
+      title: title,
+      center: true,
+      showClose: false,
+      closeOnClickModal: false,
+      callback: fn
+    }, opt || {}));
+  };
+
   Vue.prototype.$tipMsg = function (tip, duration) {
     message('info', tip, duration);
   };

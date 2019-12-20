@@ -554,6 +554,22 @@ img {
 
 /* 竖排表单 END */
 
+.list-avatar {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border: 1px solid rgb(228, 232, 235);
+  vertical-align: middle;
+}
+
+.list-avatar-tooltip {
+  width: 120px;
+}
+
+.list-avatar-tooltip img {
+  width: 120px;
+}
+
 #nprogress .spinner {
   right: 42px !important;
   top: 20px !important;

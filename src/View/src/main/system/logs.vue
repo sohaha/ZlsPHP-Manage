@@ -59,22 +59,15 @@
       <legend v-show="logName">{{logName}}</legend>
       <aside>
         <div class="switch">
-          <el-switch v-model="autoLoad" active-text="自动刷新"></el-switch>
+          <el-switch v-model="autoLoad" active-text="自动刷新" />
         </div>
-        <el-input
-          type="textarea"
-          ref="textarea"
-          :placeholder="current?'':'请先选择日志类型与日志文件'"
-          readonly
-          :autosize="{ minRows: 20, maxRows: 30}"
-          v-model="content"
-        ></el-input>
+        <el-input type="textarea" ref="textarea" :placeholder="current?'':'请先选择日志类型与日志文件'" readonly :autosize="{ minRows: 20, maxRows: 30}" v-model="content" />
       </aside>
     </fieldset>
   </div>
 </template>
 <script>
-var that, timer;
+var $this, timer;
 Spa.define(
   {
     mixins: [mixinLists, initTitle],
@@ -92,7 +85,6 @@ Spa.define(
       };
     },
     beforeCreate: function() {
-      that = this;
     },
     beforeDestroy: function() {
       clearTimeout(timer);
@@ -100,93 +92,93 @@ Spa.define(
     watch: {
       current: function(v) {
         if (v) {
-          that.current = v;
-          that.currentLine = 0;
-          that.getDate();
+          $this.current = v;
+          $this.currentLine = 0;
+          $this.getDate();
         }
       },
       currentType: function(v, o) {
         if (v !== o) {
-          that.current = "";
-          that.content = "";
-          that.lists = [];
+          $this.current = "";
+          $this.content = "";
+          $this.lists = [];
           this.stateTip = false;
-          that.getDate();
+          $this.getDate();
         }
-        if (that.ban && v) {
-          that.ban = false;
+        if ($this.ban && v) {
+          $this.ban = false;
         }
       },
       autoLoad: function() {
-        that.timeout();
+        $this.timeout();
       }
     },
     mounted: function() {
-      that.getDate();
+      $this.getDate();
     },
     computed: {
       logName: function() {
-        return that.currentType ? that.currentType + " - 日志查看" : "日志查看";
+        return $this.currentType ? $this.currentType + " - 日志查看" : "日志查看";
       },
       stateDel: function() {
-        return !that.current;
+        return !$this.current;
       }
     },
     init: function(query, search) {},
     methods: {
       timeout: function() {
         clearTimeout(timer);
-        if (that.autoLoad && that.current) {
+        if ($this.autoLoad && $this.current) {
           timer = setTimeout(function() {
-            that.reloadDate();
+            $this.reloadDate();
           }, 2000);
         }
       },
       reloadDate: function() {
-        that.getDate();
+        $this.getDate();
       },
       deleteLog: function() {
-        that
+        $this
           .$api(apis.systemLogsDelete, {
-            name: that.current,
-            type: that.currentType
+            name: $this.current,
+            type: $this.currentType
           })
           .then(function() {
-            that.current = "";
-            that.content = "";
-            that.reloadDate();
+            $this.current = "";
+            $this.content = "";
+            $this.reloadDate();
           })
           .finally(function() {
             setTimeout(function() {
-              that.stateTip = false;
+              $this.stateTip = false;
             });
           });
       },
       getDate: function() {
-        that
+        $this
           .$api(apis.systemLogs, {
-            name: that.current,
-            type: that.currentType,
-            currentLine: that.currentLine
+            name: $this.current,
+            type: $this.currentType,
+            currentLine: $this.currentLine
           })
           .then(function(e) {
-            that.lists = e.data.lists;
-            if (that.currentLine) {
-              that.content = that.content + e.data.content;
+            $this.lists = e.data.lists;
+            if ($this.currentLine) {
+              $this.content = $this.content + e.data.content;
             } else {
-              that.content = e.data.content;
+              $this.content = e.data.content;
             }
-            that.types = e.data.types;
-            that.currentLine = e.data.currentLine;
-            that.timeout();
+            $this.types = e.data.types;
+            $this.currentLine = e.data.currentLine;
+            $this.timeout();
           })
           .catch(function(err) {
-            that.$warMsg(err);
+            $this.$warMsg(err);
           })
           .finally(function() {
-            that.$nextTick(function() {
-              if (that.$refs.textarea) {
-                var textarea = that.$refs.textarea.$el.querySelector(
+            $this.$nextTick(function() {
+              if ($this.$refs.textarea) {
+                var textarea = $this.$refs.textarea.$el.querySelector(
                   "textarea"
                 );
                 textarea.scrollTop = textarea.scrollHeight;
