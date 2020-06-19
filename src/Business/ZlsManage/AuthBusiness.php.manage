@@ -43,10 +43,10 @@ class AuthBusiness extends \Zls_Business
         $classPermission = Z::arrayGet($condition, 'classPermission', []);
         $adopt           = false;
         // 不需要条件那么就应该是默认拥有权限了
-        if (!$permission) {
+        if (!$permission && !$classPermission) {
             $adopt = true;
         } else {
-            foreach ($permission as $p) {
+            foreach ($classPermission as $p) {
                 if (in_array($p, $marks, true)) {
                     $adopt = true;
                     if ($singlePermission) {
@@ -56,11 +56,15 @@ class AuthBusiness extends \Zls_Business
                     $adopt = false;
                 }
             }
-            if ($classPermission) {
-                foreach ($classPermission as $p) {
-                    if (!in_array($p, $marks, true)) {
+            if($adopt){
+                foreach ($permission as $p) {
+                    if (in_array($p, $marks, true)) {
+                        $adopt = true;
+                        if ($singlePermission) {
+                            break;
+                        }
+                    } else {
                         $adopt = false;
-                        break;
                     }
                 }
             }
