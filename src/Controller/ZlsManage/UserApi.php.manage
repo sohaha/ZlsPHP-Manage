@@ -58,7 +58,7 @@ class UserApi extends ZlsManage
         }
         $user          = $this->UserBusiness->filterField($user);
         $user['token'] = $this->UserBusiness->createToken($user['id']);
-
+        // 新登录之后是否清除该用户的其他端登录状态？
         return [200, '登录成功', $user];
     }
 
@@ -75,6 +75,7 @@ class UserApi extends ZlsManage
         $userid  = (int)(z::postText('id') ?: $uid);
         $post    = z::postText();
         $isSuper = $this->getInfo('isSuper');
+        $ok = false;
         // 被修改的用户是否超级管理员
         $userIsSuper = $this->UserBusiness->isSuperAdmin((int)$userid);
         $status      = (int)z::arrayGet($post, 'status');
@@ -87,17 +88,23 @@ class UserApi extends ZlsManage
         }
         // 如果是超级管理员有权限更新用户密码
         $map = ['status', 'avatar', 'remark', 'email', 'nickname'];
-        if ($isSuper && z::arrayGet($post, 'password')) {
+        if ($isSuper && Z::arrayGet($post, 'password')) {
             $map[] = 'password';
             $map[] = 'password2';
+            Z::defer(function ()use (&$ok, $userid){
+                if($ok){
+                    // 注销该用户的 Token
+                    $this->UserBusiness->clearAllToken($userid,[$this->USER['token']]);
+                }
+            });
         }
         if ($isSuper && !$isMe) {
             $map[] = 'group_id';
         }
         $data = z::readData($map, $post);
         $rs   = $this->UserBusiness->update($userid, $data, $uid);
-
-        return is_string($rs) ? $rs : [200, '处理成功', ['result' => $rs]];
+        $ok = !is_string($rs) && !!$rs;
+        return !$ok ? $rs : [200, '处理成功', ['result' => $rs]];
     }
 
     /**
@@ -115,13 +122,20 @@ class UserApi extends ZlsManage
         $newPassword = z::postText('pass');
         $userid      = (int)$this->getInfo('id');
         $upUid       = (int)(z::postText('userid') ?: $userid);
+        $ok = false;
         if ($userid === $upUid) {
             $rs = $this->UserBusiness->editPassword($upUid, $oldPassword, $newPassword, $userid);
+            Z::defer(function () use (&$ok, $upUid) {
+                if ($ok) {
+                    // 注销该用户的 Token
+                    $this->UserBusiness->clearAllToken($upUid, [$this->USER['token']]);
+                }
+            });
         } else {
             $rs = '不能修改其他人密码';
         }
-
-        return is_string($rs) ? $rs : [200, '修改密码成功', $rs];
+        $ok = !is_string($rs);
+        return $ok ? $rs : [200, '修改密码成功', $rs];
     }
 
     /**

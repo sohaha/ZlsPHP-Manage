@@ -38,6 +38,7 @@ class UserBusiness extends \Zls_Business
             $user['menus']   = $GroupBusiness->getMenu($groupid);
             $user['marks']   = $GroupBusiness->getMarks($groupid);
             $user['routers'] = $GroupBusiness->getRouter($groupid);
+            $user['token']   = $token;
         }
 
         return $user;
@@ -119,9 +120,13 @@ class UserBusiness extends \Zls_Business
      *
      * @return bool|int
      */
-    public function clearAllToken($userid)
+    public function clearAllToken($userid,$exclude = [])
     {
-        return (new TokenDao())->update(['status' => 2], ['status' => 1, 'userid' => $userid]);
+        $where = ['status' => 1, 'userid' => $userid];
+        if($exclude){
+            $where['token !='] = $exclude;
+        }
+        return (new TokenDao())->update(['status' => 2], $where);
     }
 
     /**
