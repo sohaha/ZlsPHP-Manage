@@ -124,7 +124,7 @@ class UserBusiness extends \Zls_Business
     {
         $where = ['status' => 1, 'userid' => $userid];
         if($exclude){
-            $where['token !='] = $exclude;
+            $where['token not'] = $exclude;
         }
         return (new TokenDao())->update(['status' => 2], $where);
     }

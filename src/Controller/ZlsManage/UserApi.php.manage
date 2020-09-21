@@ -135,7 +135,7 @@ class UserApi extends ZlsManage
             $rs = '不能修改其他人密码';
         }
         $ok = !is_string($rs);
-        return $ok ? $rs : [200, '修改密码成功', $rs];
+        return $ok ? [200, '修改密码成功', $rs] : $rs;
     }
 
     /**
