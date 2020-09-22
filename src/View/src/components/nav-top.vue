@@ -135,7 +135,7 @@
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item command="user">
-              <i class="icon-person-outline"></i> <span>账号信息</span>
+              <i class="icon-person"></i> <span>账号信息</span>
             </el-dropdown-item>
             <el-dropdown-item command="logs">
               <i class="icon-award-outline"></i> <span>查看消息</span>
