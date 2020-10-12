@@ -30,5 +30,9 @@ var apis = {
   sysGetSystemConfig: ['get', '/ZlsManage/SystemApi/SystemConfig.go'],
   sysSetSystemConfig: ['put', '/ZlsManage/SystemApi/SystemConfig.go'],
   sysUnreadMessageCount: ['get', '/ZlsManage/SystemApi/UnreadMessageCount.go'],
-  sysUpdateMessageStatus: ['put', '/ZlsManage/SystemApi/MessageStatus.go']
+  sysUpdateMessageStatus: ['put', '/ZlsManage/SystemApi/MessageStatus.go'],
+  sysUserMenu: ['post', '/ZlsManage/MenuApi/UserMenu.go'],
+  sysMenuCreate: ['post', '/ZlsManage/MenuApi/Create.go'],
+  sysMenuDelete: ['post', '/ZlsManage/MenuApi/Delete.go'],
+  sysMenuUpdate: ['post', '/ZlsManage/MenuApi/Update.go'],
 };
