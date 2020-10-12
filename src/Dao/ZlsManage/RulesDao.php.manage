@@ -93,6 +93,18 @@ class RulesDao extends \Zls_Dao
         $verifyrules['mark']  = [
             'required' => '标识不能为空',
             'function' => function ($key, $value, $data, $args, &$returnValue, &$break, &$db) {
+                if (strpos($data['mark']??'', ',') !== false) {
+                    $markArr = explode(',', $data['mark']);
+                    $markArr2 = [];
+                    foreach ($markArr as $key => $value) {
+                        if (!$this->find(['mark' => $value])) {
+                            $markArr2[] = $value;
+                        }
+                    }
+                    $returnValue = join(',', $markArr2) . ',';
+                    return null;
+                }
+
                 $id           = z::arrayGet($data, 'id');
                 $row          = ((bool) $id) ? $this->find($id) : [];
                 $verifyRouter = $row ? $data['mark'] !== $row['mark'] && $data['id'] : true;
