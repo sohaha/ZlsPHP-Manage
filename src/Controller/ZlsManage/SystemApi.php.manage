@@ -113,7 +113,7 @@ class SystemApi extends UserApi
      */
     public function PUTzSystemConfig(): array
     {
-        return [200, '更新系统配置', (new AssistBusiness)->updateSystemConfig(z::postText())];
+        return [200, '更新系统配置', (new AssistBusiness)->updateSystemConfig(z::postText(), $this->USER['id'], $this->getTokenId())];
     }
 
     /**
