@@ -31,7 +31,7 @@ class UserApi extends ZlsManage
         if ($this->getInfo('isSuper') || $this->hasPermission('systems')) {
             $user['system'] = (new AssistBusiness())->getSystemInfo();
         }
-        $user['last'] = $this->UserBusiness->getLast($user['id'], $this->getToken());
+        $user['last'] = $this->UserBusiness->getLast($user['id'], $this->getTokenId());
 
         return [200, '用户信息', $user];
     }
@@ -94,7 +94,7 @@ class UserApi extends ZlsManage
             Z::defer(function ()use (&$ok, $userid){
                 if($ok){
                     // 注销该用户的 Token
-                    $this->UserBusiness->clearAllToken($userid,[$this->USER['token']]);
+                    $this->UserBusiness->clearAllToken($userid,[$this->getTokenId()]);
                 }
             });
         }
@@ -128,7 +128,7 @@ class UserApi extends ZlsManage
             Z::defer(function () use (&$ok, $upUid) {
                 if ($ok) {
                     // 注销该用户的 Token
-                    $this->UserBusiness->clearAllToken($upUid, [$this->USER['token']]);
+                    $this->UserBusiness->clearAllToken($upUid, [$this->getTokenId()]);
                 }
             });
         } else {
@@ -163,8 +163,8 @@ class UserApi extends ZlsManage
      */
     public function POSTzClearToken(): array
     {
-        $token  = $this->getToken();
-        $result = $this->UserBusiness->clearToken($token);
+        $tokenid  = $this->getTokenId();
+        $result = $this->UserBusiness->clearToken($tokenid);
 
         return [200, '清除用户Token', $result];
     }

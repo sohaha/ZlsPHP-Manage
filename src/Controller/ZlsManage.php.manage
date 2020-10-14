@@ -26,6 +26,7 @@ class ZlsManage extends Zls_Controller
         Z::redirect('/zls-manage/index.html');
     }
 
+    protected $TOKENID;
     protected $USER;
     /** @var UserBusiness $UserBusiness */
     protected $UserBusiness;
@@ -56,11 +57,15 @@ class ZlsManage extends Zls_Controller
         }
         // 是否只需匹配权限配置内其中一个即可
         $singlePermission = $comment('single-permission');
-        $token            = $this->getToken();
-        $this->USER       = $this->UserBusiness->tokenToInfo($token);
+        $tokenid          = $this->getTokenId();
+        $this->USER       = $this->UserBusiness->tokenToInfo($tokenid);
         if (!$this->USER) {
             return [401, '请先登录'];
         }
+        if (!$this->UserBusiness->isExpire()) {
+            return [403, '登陆过期，请重新登录'];
+        }
+        $this->USER['token']   = $this->getToken();
         $this->USER['isSuper'] = $this->UserBusiness->isSuperAdmin((int) $this->USER['id']);
         $noVerification        = [];
         $permission            = array_reduce($permission ?: [], 'array_merge', []);
@@ -91,6 +96,21 @@ class ZlsManage extends Zls_Controller
     final protected function getToken(): string
     {
         return z::server('HTTP_TOKEN') ?: z::getPost('token', '');
+    }
+
+    /**
+     * 获取token
+     * @return string
+     */
+    final protected function getTokenId(): int
+    {
+        if (!$this->TOKENID) {
+            $user   = Z::decrypt($this->getToken());
+            $dsArr  = explode('_', $user);
+            $this->TOKENID = (int)($dsArr[3] ?? 0);
+        }
+
+        return $this->TOKENID;
     }
 
     /**
