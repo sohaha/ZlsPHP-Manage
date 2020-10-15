@@ -1,0 +1,58 @@
+<?php
+
+use Zls\Migration\AbstractMigration as M;
+
+class AddRowToUser extends M
+{
+    /**
+     * Change Method.
+     * Write your reversible migrations using this method.
+     * More information on writing migrations is available here:
+     * https://docs.73zls.com/zls-php/#/packages-migration/migration
+     * The following commands can be used in this method
+     * automatically reverse them when rolling back:
+     *    createTable
+     *    renameTable
+     *    addColumn
+     *    addCustomColumn
+     *    renameColumn
+     *    addIndex
+     *    addForeignKey
+     * Any other destructive changes will result in an error when trying to
+     * rollback the migration.
+     * Remember to call "create()" or "update()" and NOT "save()" when working
+     * with the Table class.
+     */
+    public function change()
+    {
+        $table = $this->table('auth_user');
+        $date = date('Y-m-d H:i:s');
+        /** @var StrUtils $StrUtils */
+        $StrUtils = z::extension('Action\StrUtils');
+        $key      = $StrUtils->randString();
+        // 随机生成用户密码
+        $userPassword = $StrUtils->randString(6, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+        $table->insert([
+            'username'    => 'manage',
+            'key'         => $key,
+            'status'      => 1,
+            'group_id'    => 1,
+            'email'       => 'manage@qq.com',
+            'password'    => md5(Z::encrypt($userPassword, '', $key)),
+            'create_time' => $date,
+            'update_time' => $date,
+            'remark'      => '一名编辑员',
+            'is_super'    => 1,
+        ]);
+        $table->saveData();
+        Z::defer(function () use ($userPassword) {
+            $this->printStrN();
+            $this->printStrN('创建默认超级管理员账号：', 'light_cyan');
+            $this->printStr('  用户名：');
+            $this->printStrN('manage', 'blue');
+            $this->printStr('  密码  ：');
+            $this->printStrN($userPassword, 'red');
+            $this->printStrN();
+        });
+    }
+}

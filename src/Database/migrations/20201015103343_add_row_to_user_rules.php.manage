@@ -1,0 +1,41 @@
+<?php
+
+use Zls\Migration\AbstractMigration as M;
+use Zls\Migration\MysqlAdapter;
+
+class AddRowToUserRules extends M
+{
+    /**
+     * Change Method.
+     * Write your reversible migrations using this method.
+     * More information on writing migrations is available here:
+     * https://docs.73zls.com/zls-php/#/packages-migration/migration
+     * The following commands can be used in this method
+     * automatically reverse them when rolling back:
+     *    createTable
+     *    renameTable
+     *    addColumn
+     *    addCustomColumn
+     *    renameColumn
+     *    addIndex
+     *    addForeignKey
+     * Any other destructive changes will result in an error when trying to
+     * rollback the migration.
+     * Remember to call "create()" or "update()" and NOT "save()" when working
+     * with the Table class.
+     */
+    public function change()
+    {
+        $table = $this->table('auth_user_rules');
+        $date = date('Y-m-d H:i:s');
+        $table->insert([
+            'title'       => '用户权限',
+            'create_time' => $date,
+            'update_time' => $date,
+            'type'        => 1,
+            'remark'      => '用户基础权限',
+            'mark'        => '/ZlsManage/UserApi*',
+        ]);
+        $table->saveData();
+    }
+}

@@ -418,11 +418,15 @@ class UserBusiness extends \Zls_Business
      *
      * @return boolean
      */
-    public function isSuperAdmin(int $userid): bool
+    public function isSuperAdmin(&$user): bool
     {
+        $userid = (int)$user['id'];
         $superAdminIds = z::config('ini.manage.superAdmin', true, [1]);
 
-        return in_array($userid, $superAdminIds, true);
+        $isSuper = in_array($userid, $superAdminIds, true) || (int)$user['is_super'];
+        unset($user['is_super']);
+
+        return $isSuper;
     }
 
     public function info($userid): array
