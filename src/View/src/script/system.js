@@ -32,7 +32,7 @@ var userData,
 
 try {
   userData = JSON.parse(localStorage.getItem('user'));
-} catch (e) {}
+} catch (e) { }
 var vstore = new Vuex.Store({
   state: {
     token: localStorage.getItem('token'),
@@ -70,6 +70,15 @@ var vstore = new Vuex.Store({
       state.viewTitle = data;
     },
     setGroups: function (state, data) {
+      data.forEach(val1 => {
+        for (var k in val1) {
+          if (val1.hasOwnProperty(k)) {
+            if (typeof val1[k] === "number") {
+              val1[k] = "" + val1[k];
+            }
+          }
+        }
+      });
       state.groups = data;
     }
   },
@@ -140,42 +149,42 @@ var get = function (url, data, opt) {
   var arg = Spa.urlEncode(data);
   url += apiUrl + url.indexOf('?') > -1 ? '&' : '?';
   return Spa.get
-  .apply(Spa, [
-    url + arg,
-    __assign(
-      {
-        timeout: 0,
-        headers: __assign({}, headers, { token: vstore.getters.token })
-      },
-      opt
-    )
-  ])
-  .then(_then);
+    .apply(Spa, [
+      url + arg,
+      __assign(
+        {
+          timeout: 0,
+          headers: __assign({}, headers, { token: vstore.getters.token })
+        },
+        opt
+      )
+    ])
+    .then(_then);
 };
 var post = function (url, data, opt) {
   return Spa.post
-  .apply(Spa, [
-    apiUrl + url,
-    data,
-    __assign(
-      { headers: __assign({}, headers, { token: vstore.getters.token }) },
-      opt
-    )
-  ])
-  .then(_then);
+    .apply(Spa, [
+      apiUrl + url,
+      data,
+      __assign(
+        { headers: __assign({}, headers, { token: vstore.getters.token }) },
+        opt
+      )
+    ])
+    .then(_then);
 };
 var request = function (type, url, data, opt) {
   return Spa.request
-  .apply(Spa, [
-    type,
-    apiUrl + url,
-    data,
-    __assign(
-      { headers: __assign({}, headers, { token: vstore.getters.token }) },
-      opt
-    )
-  ])
-  .then(_then);
+    .apply(Spa, [
+      type,
+      apiUrl + url,
+      data,
+      __assign(
+        { headers: __assign({}, headers, { token: vstore.getters.token }) },
+        opt
+      )
+    ])
+    .then(_then);
 };
 
 var pathname = location.pathname.split('/');
@@ -202,38 +211,38 @@ Spa.run({
       getInfo: function () {
         var _t = this;
         this.$api(apis.sysUseriInfo)
-        .then(function (e) {
-          if (!_t.childView) _t.childView = 'main_main';
-          _t.$store.commit('setUser', e.data);
-        })
-        .catch(function (e) {
-          if (e) {
-            _t.$message({
-              type: 'error',
-              showClose: true,
-              message: '网络繁忙，请稍后再试！',
-              center: true
-            });
-            console.log('退出登录状态?');
-          }
-        })
-        .finally(function () {
-          var el = document.getElementById('loading');
-          var existence = Spa.vue.loading && el;
-          if (existence) {
-            el.addEventListener(
-              el.style['WebkitTransition'] !== undefined
-                ? 'webkitTransitionEnd'
-                : 'transitionend',
-              function () {
-                Spa.vue.loading = false;
-              }
-            );
-            setTimeout(function () {
-              el.style.opacity = 0;
-            }, 30);
-          }
-        });
+          .then(function (e) {
+            if (!_t.childView) _t.childView = 'main_main';
+            _t.$store.commit('setUser', e.data);
+          })
+          .catch(function (e) {
+            if (e) {
+              _t.$message({
+                type: 'error',
+                showClose: true,
+                message: '网络繁忙，请稍后再试！',
+                center: true
+              });
+              console.log('退出登录状态?');
+            }
+          })
+          .finally(function () {
+            var el = document.getElementById('loading');
+            var existence = Spa.vue.loading && el;
+            if (existence) {
+              el.addEventListener(
+                el.style['WebkitTransition'] !== undefined
+                  ? 'webkitTransitionEnd'
+                  : 'transitionend',
+                function () {
+                  Spa.vue.loading = false;
+                }
+              );
+              setTimeout(function () {
+                el.style.opacity = 0;
+              }, 30);
+            }
+          });
       }
     }
   },
@@ -257,90 +266,90 @@ Spa.run({
     Spa.replace('/not-exist');
   }
 })
-.then(function () {
-  Spa.loadJs('src/script/tools.js');
-  Spa.loadRemoteJs(
-    '//cdn.jsdelivr.net/npm/zls-manage/nprogress/nprogress.js',
-    true
-  );
-  Spa.loadRemoteCss(
-    '//cdn.jsdelivr.net/npm/zls-manage/nprogress/nprogress.css'
-  );
-  Vue.use(Vuex);
-  Vue.prototype.$store = vstore;
-  Vue.prototype.$api = function (name, data) {
-    return window['api'](name, data);
-  };
-  Vue.prototype.$go = function (e) {
-    Spa.go(
-      e.indexOf('/') === 0 || e.indexOf('./') === 0 || e.indexOf('../') === 0
-        ? e
-        : 'main/' + e
+  .then(function () {
+    Spa.loadJs('src/script/tools.js');
+    Spa.loadRemoteJs(
+      '//cdn.jsdelivr.net/npm/zls-manage/nprogress/nprogress.js',
+      true
     );
-  };
-  Vue.prototype.$replace = Spa.replace;
-  Vue.prototype.$back = Spa.back;
-  Vue.prototype.$get = get;
-  Vue.prototype.$post = post;
-  Vue.prototype.$request = request;
-  var message = function (type, tip, duration) {
-    if (!tip) return;
-    if (typeof duration === 'undefined') duration = 3000;
-    window['app'].$message({
-      type: type,
-      showClose: true,
-      message: tip,
-      center: true,
-      duration: duration
-    });
-  };
-  var notify = function (type, tip, duration) {
-    if (!tip) return;
-    if (typeof duration === 'undefined') duration = 3000;
-    window['app'].$notify({
-      message: tip,
-      type: type,
-      customClass: 'custom-notify-class',
-      duration: duration,
-      offset: 58
-    });
-  };
-  var confirm = window['app'].$confirm;
-  Vue.prototype.$confirm = function (tip, title, fn, opt) {
-    confirm(tip, Object.assign({
-      title: title,
-      center: true,
-      showClose: false,
-      closeOnClickModal: false,
-      callback: fn
-    }, opt || {}));
-  };
+    Spa.loadRemoteCss(
+      '//cdn.jsdelivr.net/npm/zls-manage/nprogress/nprogress.css'
+    );
+    Vue.use(Vuex);
+    Vue.prototype.$store = vstore;
+    Vue.prototype.$api = function (name, data) {
+      return window['api'](name, data);
+    };
+    Vue.prototype.$go = function (e) {
+      Spa.go(
+        e.indexOf('/') === 0 || e.indexOf('./') === 0 || e.indexOf('../') === 0
+          ? e
+          : 'main/' + e
+      );
+    };
+    Vue.prototype.$replace = Spa.replace;
+    Vue.prototype.$back = Spa.back;
+    Vue.prototype.$get = get;
+    Vue.prototype.$post = post;
+    Vue.prototype.$request = request;
+    var message = function (type, tip, duration) {
+      if (!tip) return;
+      if (typeof duration === 'undefined') duration = 3000;
+      window['app'].$message({
+        type: type,
+        showClose: true,
+        message: tip,
+        center: true,
+        duration: duration
+      });
+    };
+    var notify = function (type, tip, duration) {
+      if (!tip) return;
+      if (typeof duration === 'undefined') duration = 3000;
+      window['app'].$notify({
+        message: tip,
+        type: type,
+        customClass: 'custom-notify-class',
+        duration: duration,
+        offset: 58
+      });
+    };
+    var confirm = window['app'].$confirm;
+    Vue.prototype.$confirm = function (tip, title, fn, opt) {
+      confirm(tip, Object.assign({
+        title: title,
+        center: true,
+        showClose: false,
+        closeOnClickModal: false,
+        callback: fn
+      }, opt || {}));
+    };
 
-  Vue.prototype.$tipMsg = function (tip, duration) {
-    message('info', tip, duration);
-  };
-  Vue.prototype.$sucMsg = function (tip, duration) {
-    message('success', tip, duration);
-  };
-  Vue.prototype.$errMsg = function (tip, duration) {
-    message('error', tip, duration);
-  };
-  Vue.prototype.$warMsg = function (tip, duration) {
-    message('warning', tip, duration);
-  };
-  Vue.prototype.$sucNotify = function (tip, duration) {
-    notify('success', tip, duration);
-  };
-  Vue.prototype.$errNotify = function (tip, duration) {
-    notify('error', tip, duration);
-  };
-  Vue.prototype.$warNotify = function (tip, duration) {
-    notify('warning', tip, duration);
-  };
-  Vue.prototype.$tipNotify = function (tip, duration) {
-    notify('info', tip, duration);
-  };
-})
-.finally(function () {
-  console.log('ok');
-});
+    Vue.prototype.$tipMsg = function (tip, duration) {
+      message('info', tip, duration);
+    };
+    Vue.prototype.$sucMsg = function (tip, duration) {
+      message('success', tip, duration);
+    };
+    Vue.prototype.$errMsg = function (tip, duration) {
+      message('error', tip, duration);
+    };
+    Vue.prototype.$warMsg = function (tip, duration) {
+      message('warning', tip, duration);
+    };
+    Vue.prototype.$sucNotify = function (tip, duration) {
+      notify('success', tip, duration);
+    };
+    Vue.prototype.$errNotify = function (tip, duration) {
+      notify('error', tip, duration);
+    };
+    Vue.prototype.$warNotify = function (tip, duration) {
+      notify('warning', tip, duration);
+    };
+    Vue.prototype.$tipNotify = function (tip, duration) {
+      notify('info', tip, duration);
+    };
+  })
+  .finally(function () {
+    console.log('ok');
+  });

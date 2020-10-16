@@ -95,6 +95,8 @@ class RulesBusiness extends \Zls_Business
                             'mark'      => $value,
                             'remark'    => $retData['remark'],
                             'type'      => $retData['type'],
+                            'create_time'=> date('Y-m-d H:i:s'),
+                            'update_time'=> date('Y-m-d H:i:s'),
                         ];
                     }
                 }
