@@ -24,7 +24,7 @@ class AddRowToUserRules extends M
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    public function change()
+    public function up()
     {
         $table = $this->table('auth_user_rules');
         $date = date('Y-m-d H:i:s');
@@ -37,5 +37,10 @@ class AddRowToUserRules extends M
             'mark'        => 'ZlsManage/UserApi*',
         ]);
         $table->saveData();
+    }
+
+    public function down()
+    {
+
     }
 }

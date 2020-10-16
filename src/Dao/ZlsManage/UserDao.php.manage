@@ -119,6 +119,7 @@ class UserDao extends \Zls_Dao
             'avatar', //头像
             'status', //状态:-1软删除,0待激活,1正常,2禁止
             'group_id', //角色Id
+            'is_super', //超级管理
             'create_time', //创建时间
             'update_time', //更新时间
         ];

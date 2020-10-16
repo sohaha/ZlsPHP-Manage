@@ -23,7 +23,7 @@ class AddRowToUserRulesRela extends M
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    public function change()
+    public function up()
     {
         $table = $this->table('auth_user_rules_rela');
         $date = date('Y-m-d H:i:s');
@@ -44,5 +44,10 @@ class AddRowToUserRulesRela extends M
             ]
         ]);
         $table->saveData();
+    }
+
+    public function down()
+    {
+
     }
 }
