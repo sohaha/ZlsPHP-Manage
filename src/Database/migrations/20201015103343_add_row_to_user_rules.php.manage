@@ -34,7 +34,7 @@ class AddRowToUserRules extends M
             'update_time' => $date,
             'type'        => 1,
             'remark'      => '用户基础权限',
-            'mark'        => '/ZlsManage/UserApi*',
+            'mark'        => 'ZlsManage/UserApi*',
         ]);
         $table->saveData();
     }

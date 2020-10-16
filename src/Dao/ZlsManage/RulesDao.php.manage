@@ -53,8 +53,8 @@ class RulesDao extends \Zls_Dao
      *
      * @return void|array
      */
-    public static function deleteBefore(Zls_Database_ActiveRecord $db, $method)
-    { }
+    // public static function deleteBefore(Zls_Database_ActiveRecord $db, $method)
+    // { }
 
     /**
      * @param Zls_Database_ActiveRecord $db

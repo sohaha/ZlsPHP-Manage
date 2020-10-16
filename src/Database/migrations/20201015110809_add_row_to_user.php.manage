@@ -41,7 +41,7 @@ class AddRowToUser extends M
             'password'    => md5(Z::encrypt($userPassword, '', $key)),
             'create_time' => $date,
             'update_time' => $date,
-            'remark'      => '一名编辑员',
+            'remark'      => '超级管理员',
             'is_super'    => 1,
         ]);
         $table->saveData();
