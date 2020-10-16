@@ -90,6 +90,9 @@ class RulesDao extends \Zls_Dao
         $verifyrules['title'] = [
             'required' => '名称不能为空',
         ];
+        $verifyrules['type'] = [
+            'required' => '类型不能为空',
+        ];
         $verifyrules['mark']  = [
             'required' => '标识不能为空',
             'function' => function ($key, $value, $data, $args, &$returnValue, &$break, &$db) {
