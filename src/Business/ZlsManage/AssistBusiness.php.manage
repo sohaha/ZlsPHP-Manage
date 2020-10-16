@@ -196,7 +196,7 @@ class AssistBusiness extends \Zls_Business
 
         return  (bool)z::tap(!!@file_put_contents($path, $Ini->extended($config)), function ($value) use ($config, $userid, $tokenid) {
             if ($config['base']['loginMode']) {
-                (new UserBusiness)->clearAllToken($userid, [$tokenid]);
+                (new UserBusiness)->clearAllTokenSaveLastId();
             }
         });
     }

@@ -175,6 +175,36 @@ class UserBusiness extends \Zls_Business
     }
 
     /**
+     * 单点登陆
+     *
+     *
+     * @return bool|int
+     */
+    public function clearAllTokenSaveLastId()
+    {
+        $db = self::$TokenDao->getDb();
+
+        $db->select('MAX(id) as id')
+            ->from(self::$TokenDao->getTable())
+            ->where([
+                'status' => 1
+            ])
+            ->groupBy('userid');
+
+        $rs = $db->execute()->rows();
+
+        $ids = [];
+        foreach ($rs as $key => $value) {
+            $ids[] = $value['id'];
+        }
+
+        return self::$TokenDao->update(['status' => 2], [
+            'id not' => $ids,
+            'status' => 1,
+        ]);
+    }
+
+    /**
      * 用户列表
      *
      * @param        $page
