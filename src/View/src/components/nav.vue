@@ -165,20 +165,23 @@ Spa.define({
   },
   mounted: function () {
     var nav = [];
-    if (navs["serve"]) {
-      // 从后台获取菜单
-      nav = this.$store["getters"]["menus"];
-      $this.userNav = nav;
-      $this.changeData($this.userNav, false);
-      nav = $this.userNav;
-    } else {
-      // 手动设置菜单
-      nav = [].concat(
-        navs["global"],
-        navs["customize"][this.$store["getters"].groupID] || []
-      );
-    }
-    this.initMenu(JSON.parse(JSON.stringify(nav)));
+    var timer = setTimeout(function () {
+      clearTimeout(timer);
+      if (navs["serve"]) {
+        // 从后台获取菜单
+        nav = $this.$store["getters"]["menus"];
+        $this.userNav = nav;
+        $this.changeData($this.userNav, false);
+        nav = $this.userNav;
+      } else {
+        // 手动设置菜单
+        nav = [].concat(
+          navs["global"],
+          navs["customize"][this.$store["getters"].groupID] || []
+        );
+      }
+      $this.initMenu(JSON.parse(JSON.stringify(nav)));
+    }, 300);
   },
   watch: {
     router: {
@@ -320,7 +323,6 @@ Spa.define({
         }
         currentNav[i]["childLen"] = childLen;
       }
-      console.log(currentNav);
       this.data = currentNav;
       return currentNav;
     },
