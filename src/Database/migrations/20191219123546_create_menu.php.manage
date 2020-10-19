@@ -44,7 +44,7 @@ class CreateMenu extends M
             [
                 // 'id'         => 1,
                 'title'      => '后台中心',
-                'index'      => 'statistics',
+                'index'      => 'main',
                 'icon'       => 'icon-pie-chart-',
                 'breadcrumb' => 1,
                 'real'       => 1,
