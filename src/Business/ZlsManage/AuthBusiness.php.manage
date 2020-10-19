@@ -4,18 +4,10 @@ declare(strict_types=1);
 
 namespace Business\ZlsManage;
 
+use Dao\ZlsManage\RulesDao;
 use Dao\ZlsManage\RulesRelaDao;
 use z;
 
-/**
- * Zls
- * @author        影浅
- * @email         seekwe@gmail.com
- * @copyright     Copyright (c) 2015 - 2017, 影浅, Inc.
- * @link          ---
- * @since         v0.0.1
- * @updatetime    2018-11-08 17:55
- */
 class AuthBusiness extends \Zls_Business
 {
     /**
@@ -42,28 +34,31 @@ class AuthBusiness extends \Zls_Business
         $permission      = Z::arrayGet($condition, 'permission', []);
         $classPermission = Z::arrayGet($condition, 'classPermission', []);
         $adopt           = false;
-        $routers      = Z::arrayGet($regular, 'routers', []);
+        $routers         = Z::arrayGet($regular, 'routers', []);
 
         $ban = ['title' => '没有找到匹配规则', 'router' => $router];
 
         $fullRouter = $this->getFullRequestPath($router);
         $regexAdopt = $fullAdopt = false;
-        foreach ($routers as $rule) {
-            if ($fullRouter == strtolower($rule['mark'])) {
-                if ($rule['status'] == RulesRelaDao::STATUS_NORMAL) {
-                    $fullAdopt = true;
-                    // 如果这个全匹配路由规则匹配到，那就没必要在走下面正则之类的路由匹配规则了。
-                    break;
+        foreach ($routers as $rules) {
+            $rule = explode("\n", $rules['mark']);
+            foreach ($rule as $key => $value) {
+                if ($fullRouter == strtolower($value)) {
+                    if ($rules['status'] == RulesRelaDao::STATUS_NORMAL) {
+                        $fullAdopt = true;
+                        // 如果这个全匹配路由规则匹配到，那就没必要在走下面正则之类的路由匹配规则了。
+                        break;
+                    }
                 }
-            }
-
-            // 正则路由
-            if ($this->verify($router, $rule['mark'], $rule['condition'], $user)) {
-                if ($rule['status'] == RulesRelaDao::STATUS_NORMAL) {
-                    $regexAdopt = true;
+    
+                // 正则路由
+                if ($this->verify($router, $value, $rules['condition'], $user)) {
+                    if ($rules['status'] == RulesRelaDao::STATUS_NORMAL) {
+                        $regexAdopt = true;
+                    }
+    
+                    $ban = $rule;
                 }
-
-                $ban = $rule;
             }
         }
 
@@ -142,5 +137,18 @@ class AuthBusiness extends \Zls_Business
         }
 
         return $router;
+    }
+
+    private function completeComparisonVerify($router, $rules, &$tips = '')
+    {
+        $newRouter = $this->getFullRequestPath($router);
+        foreach ($rules as $rule) {
+            if ($newRouter === strtolower($rule['mark'])) {
+                $tips = $rule;
+                return true;
+            }
+        }
+
+        return false;
     }
 }

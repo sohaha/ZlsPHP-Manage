@@ -95,31 +95,31 @@ class RulesDao extends \Zls_Dao
         ];
         $verifyrules['mark']  = [
             'required' => '标识不能为空',
-            'function' => function ($key, $value, $data, $args, &$returnValue, &$break, &$db) {
-                if (strpos($data['mark']??'', "\n") !== false) {
-                    $markArr = explode("\n", $data['mark']);
-                    $markArr2 = [];
-                    foreach ($markArr as $key => $value) {
-                        $value = trim($value);
-                        if ($value) {
-                            if (!$this->find(['mark' => $value])) {
-                                $markArr2[] = $value;
-                            }
-                        }
-                    }
-                    $returnValue = join(',', $markArr2) . ',';
-                    return null;
-                }
+            // 'function' => function ($key, $value, $data, $args, &$returnValue, &$break, &$db) {
+            //     if (strpos($data['mark']??'', "\n") !== false) {
+            //         $markArr = explode("\n", $data['mark']);
+            //         $markArr2 = [];
+            //         foreach ($markArr as $key => $value) {
+            //             $value = trim($value);
+            //             if ($value) {
+            //                 if (!$this->find(['mark' => $value])) {
+            //                     $markArr2[] = $value;
+            //                 }
+            //             }
+            //         }
+            //         $returnValue = join(',', $markArr2) . ',';
+            //         return null;
+            //     }
 
-                $id           = z::arrayGet($data, 'id');
-                $row          = ((bool) $id) ? $this->find($id) : [];
-                $verifyRouter = $row ? $data['mark'] !== $row['mark'] && $data['id'] : true;
-                if ($verifyRouter && ($r = $this->find(['mark' => $data['mark']])) && ($r['id'] != $id)) {
-                    return '标识规则已存在';
-                }
+            //     $id           = z::arrayGet($data, 'id');
+            //     $row          = ((bool) $id) ? $this->find($id) : [];
+            //     $verifyRouter = $row ? $data['mark'] !== $row['mark'] && $data['id'] : true;
+            //     if ($verifyRouter && ($r = $this->find(['mark' => $data['mark']])) && ($r['id'] != $id)) {
+            //         return '标识规则已存在';
+            //     }
 
-                return null;
-            },
+            //     return null;
+            // },
         ];
         $rule                 = [];
         foreach ($columns as $column) {

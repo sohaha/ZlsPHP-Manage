@@ -85,29 +85,32 @@ class RulesBusiness extends \Zls_Business
         $rules   = $dao->verifyRules(array_keys($data));
         $retData = $errorMsg = $errorKey = null;
         if (z::checkData($data, $rules, $retData, $errorMsg, $errorKey)) {
-            if (strpos($retData['mark']??'', ',') !== false) {
-                $markArr = explode(',', $retData['mark']);
-                $batchData = [];
-                foreach ($markArr as $key => $value) {
-                    if (trim($value)) {
-                        $batchData[] = [
-                            'title'     => $retData['title'],
-                            'mark'      => $value,
-                            'remark'    => $retData['remark'],
-                            'type'      => $retData['type'],
-                            'create_time'=> date('Y-m-d H:i:s'),
-                            'update_time'=> date('Y-m-d H:i:s'),
-                        ];
-                    }
-                }
-                if (!$batchData) {
-                    return '已存在';
-                }
+            // if (strpos($retData['mark'] ?? '', ',') !== false) {
+            //     $markArr = explode(',', $retData['mark']);
+            //     $batchData = [];
+            //     foreach ($markArr as $key => $value) {
+            //         if (trim($value)) {
+            //             $batchData[] = [
+            //                 'title'     => $retData['title'],
+            //                 'mark'      => $value,
+            //                 'remark'    => $retData['remark'],
+            //                 'type'      => $retData['type'],
+            //                 'create_time' => date('Y-m-d H:i:s'),
+            //                 'update_time' => date('Y-m-d H:i:s'),
+            //             ];
+            //         }
+            //     }
+            //     if (!$batchData) {
+            //         return '已存在';
+            //     }
 
-                $id = $dao->insertBatch($batchData);
-            }else{
-                $id = $dao->insert($retData);
-            }
+            //     $id = $dao->insertBatch($batchData);
+            // } else {
+                $id = $dao->insert($retData + [
+                    'create_time' => date('Y-m-d H:i:s'),
+                    'update_time' => date('Y-m-d H:i:s'),
+                ]);
+            // }
 
             return $id ? ['id' => $id] : '添加失败';
         }
