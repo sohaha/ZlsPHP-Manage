@@ -60,6 +60,14 @@
     -ms-flex: auto;
     flex: auto;
 }
+
+.btn-box {
+    width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 </style>
 <template>
 <div v-loading='ml_listsLoading || loadGroup'>
@@ -120,7 +128,7 @@
                 <el-table-column label="标识" min-width="160">
                     <template slot-scope="scope">
                         <div v-if="scope.row._isEdit">
-                            <el-input type="textarea" autosize v-model="scope.row.mark" placeholder="请填写标识码，唯一(添加多个可通过<,>分割)" size="mini"></el-input>
+                            <el-input v-model="scope.row.mark" placeholder="请填写标识码，唯一" size="mini"></el-input>
                         </div>
                         <el-link @click="editRow(scope)" :underline="false" :type="scope.row.type===1?'primary':'success'" v-else class='text-nowrap' :title='scope.row.mark'>{{ scope.row.mark || ' - ' }}</el-link>
                     </template>
@@ -132,7 +140,7 @@
                                 <el-option :key='k' v-for='(v,k) in types' :label='v' :value='k'></el-option>
                             </el-select>
                         </div>
-                        <el-tag :disable-transitions='true' size='mini' :type="scope.row.type===1?'primary':'success'" v-else>{{ ruleType(scope.row.type) }}</el-tag>
+                        <el-tag :disable-transitions='true' size='mini' :type="scope.row.type === 1?'primary':'success'" v-else>{{ ruleType(scope.row.type) }}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column :show-overflow-tooltip='false' label="备注" min-width="150">
@@ -146,7 +154,7 @@
                 <el-table-column label="操作" :width="gid?290:212">
                     <!-- eslint-disable-next-line vue/no-unused-vars -->
                     <template slot="header" slot-scope="scope">
-                        <el-form @submit.prevent.stop.native class="table-header-form" :inline="true">
+                        <el-form @submit.prevent.stop.native inline class="table-header-form" :inline="true">
                             <el-form-item class="form-item-search" :style="ml_searchKey?'width:'+(gid?190:110)+'px':''">
                                 <el-input v-model="ml_searchKey" size="mini" clearable placeholder="输入名称/标识搜索" suffix-icon="icon-corner-down-left-out" @keyup.enter.native="searchRow" @clear="ml_reloadLists"></el-input>
                             </el-form-item>
@@ -186,17 +194,20 @@
             </el-table>
         </aside>
     </fieldset>
-    <fieldset>
+    <fieldset v-if="gid">
         <legend>菜单设置(开发中)</legend>
         <aside :aria-label="title">
-            <el-tree :data="menuData" show-checkbox node-key="id" :default-expanded-keys="[2, 3]" :default-checked-keys="[5]" :props="{ children: 'child',
-          label: 'title'}">
+            <el-tree v-loading="Menuloading" :data="menuData" show-checkbox node-key="id" :default-expanded-keys="[]" :default-checked-keys="showKeepMenuArr" :props="{ children: 'child',
+          label: 'title'}" @check-change="menuCheckChange" default-expand-all="true">
                 <div class="custom-tree-node" slot-scope="{ node, data }">
                     <span>
                         <i :class="data.icon"></i>{{ node.label }}
                     </span> <span v-show='!data.child'> ( {{ data.index }} )</span>
                 </div>
             </el-tree>
+            <div class="btn-box">
+                <el-button type="primary" size="mini" icon="el-icon-check" @click="keepRoleMenu">保 存</el-button>
+            </div>
         </aside>
     </fieldset>
 </div>
@@ -232,12 +243,18 @@ Spa.define({
                 tmpData: [],
                 loadGroup: false,
                 types: types,
-                menuData: []
+                menuData: [],
+
+                Menuloading: true, //菜单loading
+                keepMenuArr: [], //保存菜单的数组
+                showKeepMenuArr: [], //显示保存菜单的数组
             };
+
         },
         filters: {},
         watch: {
             gid: function (v) {
+                $this.Menuloading = true;
                 if (v) {
                     $this.title = '角色权限';
                     $this.SpaTitle = '角色权限' + ' - %s';
@@ -248,11 +265,12 @@ Spa.define({
                     $this.SpaTitle = $this.title + ' - %s';
                     $this.$SpaSetTitle();
                 }
+                $this.getMenuList(v);
             }
         },
-        mounted: function () {
-            this.menuData = $this.$store.getters.menus;
-        },
+        // mounted: function () {
+        //   this.menuData = $this.$store.getters.menus;
+        // },
         computed: {
             groups: function () {
                 return this.$store.getters.groups;
@@ -308,8 +326,7 @@ Spa.define({
                         e.row._isAdd = false;
                         e.row._loading = false;
                         $this.isAddRow = false;
-                        // $this.$set($this.ml_data, e.$index, Object.assign({}, e.row, v.data));
-                        $this.getRules();
+                        $this.$set($this.ml_data, e.$index, Object.assign({}, e.row, v.data));
                     })
                     .catch(function (err) {
                         e.row._loading = false;
@@ -370,15 +387,17 @@ Spa.define({
                 }
             },
             getEditBtnAttrs: function (e) {
-                return e.row._isEdit ? {
-                    title: '提 交',
-                    type: 'primary',
-                    icon: 'el-icon-check'
-                } : {
-                    title: '编 辑',
-                    type: 'info',
-                    icon: 'el-icon-edit'
-                };
+                return e.row._isEdit ?
+                    {
+                        title: '提 交',
+                        type: 'primary',
+                        icon: 'el-icon-check'
+                    } :
+                    {
+                        title: '编 辑',
+                        type: 'info',
+                        icon: 'el-icon-edit'
+                    };
             },
             clickChangeStatus: function (e, l) {
                 if (l.target.nodeName === 'INPUT') {
@@ -475,8 +494,76 @@ Spa.define({
             },
             searchRow: function () {
                 this.getRules();
+            },
+            /**
+             * @description: 获取菜单列表
+             * @param {type} 
+             * @return: 
+             */
+            getMenuList: function (roleId) {
+                $this.$api(apis.sysUserMenu, {
+                    groupid: roleId
+                }).then(function (data) {
+                    $this.showKeepMenuArr = [];
+                    $this.getShowMenu(data.data);
+                    $this.menuData = data.data;
+
+                }).catch(function (e) {
+                    $this.$warMsg(e);
+                }).finally(function () {
+
+                    $this.Menuloading = false;
+                })
+            },
+
+            /**
+             * 获取显示的菜单数组
+             */
+            getShowMenu: function (data) {
+                for (var i in data) {
+                    if (data[i].is_show) {
+                        $this.showKeepMenuArr.push(data[i].id);
+                    }
+                    if (data[i].child) {
+                        $this.getShowMenu(data[i].child);
+                    }
+                }
+            },
+
+            /**
+             * 保存角色菜单
+             */
+            keepRoleMenu: function (groupid, menu) {
+                var role = $this.gid;
+                var keepMenuArr = $this.keepMenuArr;
+                var useKeepMenuArr = keepMenuArr.join(',');
+                $this.$api(apis.sysUpdateGroupMenu, {
+                    groupid: role,
+                    menu: useKeepMenuArr
+                }).then(function (data) {
+                    $this.$sucMsg("保存角色菜单成功");
+                }).catch(function (e) {
+                    $this.$warMsg(e);
+                }).finally(function () {
+                    $this.getMenuList(role);
+                })
+            },
+
+            /**
+             * 树形结构
+             */
+            menuCheckChange: function (data, checked, indeterminate) {
+                // console.log(data, checked, indeterminate);
+                if (checked) {
+                    $this.keepMenuArr.push(data.id);
+                } else {
+                    var isHas = $this.keepMenuArr.indexOf(data.id);
+                    if (isHas >= 0) {
+                        $this.keepMenuArr.splice(isHas, 1);
+                    }
+                }
             }
-        }
+        },
     },
     [],
     '/index'

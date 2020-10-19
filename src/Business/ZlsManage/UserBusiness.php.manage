@@ -68,10 +68,11 @@ class UserBusiness extends \Zls_Business
         if ($tokenInfo = $tokenDao->find(['id' => $tokenid, 'status' => 1], false, [])) {
             $this->TOKEN_INFO = $tokenInfo;
             $user            = $this->info((int)$tokenInfo['userid']);
+            $user['isSuper'] = $this->isSuperAdmin($user);
             $GroupBusiness   = new GroupBusiness();
             $groupid         = explode(',', (string)$user['group_id']);
             $user['groups']  = $GroupBusiness->all();
-            $user['menus']   = $GroupBusiness->getMenu($groupid);
+            $user['menus']   = $GroupBusiness->getMenu($groupid, $user['isSuper']);
             $user['marks']   = $GroupBusiness->getMarks($groupid);
             $user['routers'] = $GroupBusiness->getRouter($groupid);
         }

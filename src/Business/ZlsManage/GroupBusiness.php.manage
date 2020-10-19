@@ -3,6 +3,8 @@
 namespace Business\ZlsManage;
 
 use Dao\ZlsManage\GroupDao;
+use Dao\ZlsManage\GroupMenuDao;
+use Dao\ZlsManage\MenuDao;
 use Dao\ZlsManage\RulesDao;
 use Dao\ZlsManage\RulesRelaDao;
 use Dao\ZlsManage\UserDao;
@@ -121,31 +123,70 @@ class GroupBusiness extends \Zls_Business
      *
      * @return array
      */
-    public function getMenu($userid = 0): array
+    public function getMenu($groupid = 0,$isSuper = false): array
     {
-        $menu = [
-            [
-                'id'    => 2,
-                'title' => '日志查看',
-                'index' => 'system/logs',
-                'icon'  => 'icon-alert-circle',
-            ],
-            [
-                'id'         => 1,
-                'title'      => '系统设置',
-                'index'      => 'system',
-                'breadcrumb' => false,
-                'icon'       => 'icon-options-',
-                'child'      => [
-                    ['id' => 10, 'title' => '程序设置', 'index' => 'system/config', 'icon' => 'icon-settings',],
-                    ['id' => 11, 'title' => '用户设置', 'index' => 'user/lists', 'icon' => 'icon-person',],
-                    ['id' => 12, 'title' => '角色设置', 'index' => 'user/group', 'icon' => 'icon-people'],
-                    ['id' => 13, 'title' => '菜单设置', 'index' => 'user/menu', 'icon' => 'icon-pricetags',],
-                ],
-            ],
-        ];
+        $dao  = new MenuDao();
+        $fields = $dao->getReversalColumns(null, true);
 
-        return $menu;
+        $dao->getDb()
+            ->select($fields)
+            ->from($dao->getTable())
+            ->orderBy('pid', 'asc')
+            ->orderBy('sort', 'asc');
+        $result = $dao->getDb()->execute()->rows();
+        $result = array_combine(array_column($result, 'id'), $result);
+
+        if(!$isSuper){
+            $groupMenuDao = new GroupMenuDao();
+            $fields = $groupMenuDao->getReversalColumns(["id","create_time","update_time"], true);
+
+            $where["groupid"] = $groupid;
+            $groupMenuDao->getDb()
+                ->select($fields)
+                ->from($groupMenuDao->getTable())
+                ->where($where);
+            $re = $dao->getDb()->execute()->row();
+        }
+
+        $menuArr = [];
+        if($re??0){
+            $menuArr = explode(",",$re["menu"]);
+        }
+
+        $pMenu = [];
+        $data = [];
+        //result是排序查询出来的，所以pid=0的必然在前面
+        foreach ($result as $key => $value){
+            if(!$isSuper && !in_array($value["id"],$menuArr)){
+                continue;
+            }
+
+            if($value['pid'] == 0){
+                $pMenu[] = $value["id"];
+                $data[] = $value;
+            }else{
+                //菜单1下有菜单2和菜单3，目前菜单1的主键是可能不保存到数据库的
+                //循环出来的菜单是必然要显示的，所以需要找到他的上级菜单
+
+                //找到上级菜单加入到data中
+                if(!in_array($value["pid"],$pMenu)){
+                    $pMenu[] = $value["pid"];
+                    $data[] = $result[$value["pid"]];
+                    $data[count($data)-1]['child'][] = $value;
+                }else{
+                    foreach ($data as $k => $v){
+                        if($v['id'] == $value['pid']){
+                            $data[$k]['child'][] = $value;
+                        }
+                    }
+                }
+            }
+        }
+        foreach ($data as $key => $value){
+            $sort[$key] = $value["sort"];
+        }
+        array_multisort($sort,SORT_ASC,$data);
+        return $data;
     }
 
     /**
