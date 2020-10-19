@@ -67,8 +67,10 @@ class AuthBusiness extends \Zls_Business
         // 不需要条件那么就应该是默认拥有权限了
         // 先标识码方法, 在标识码类
         if ($adopt) {
+            $adopt = false;
             foreach ($permission as $p) {
                 if (in_array($p, $marks, true)) {
+                    $adopt = true;
                     if ($singlePermission) {
                         break;
                     }
@@ -77,15 +79,14 @@ class AuthBusiness extends \Zls_Business
                 }
             }
 
-            if (!$adopt) {
-                foreach ($classPermission as $p) {
-                    if (in_array($p, $marks, true)) {
-                        if ($singlePermission) {
-                            break;
-                        }
-                    } else {
-                        $adopt = false;
+            foreach ($classPermission as $p) {
+                if (in_array($p, $marks, true)) {
+                    $adopt = true;
+                    if ($singlePermission) {
+                        break;
                     }
+                } else {
+                    $adopt = false;
                 }
             }
         }
