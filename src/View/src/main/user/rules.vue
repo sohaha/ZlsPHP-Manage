@@ -128,7 +128,7 @@
                 <el-table-column label="标识" min-width="160">
                     <template slot-scope="scope">
                         <div v-if="scope.row._isEdit">
-                            <el-input v-model="scope.row.mark" placeholder="请填写标识码，唯一" size="mini"></el-input>
+                            <el-input type="textarea" autosize v-model="scope.row.mark" placeholder="请填写标识码" size="mini"></el-input>
                         </div>
                         <el-link @click="editRow(scope)" :underline="false" :type="scope.row.type===1?'primary':'success'" v-else class='text-nowrap' :title='scope.row.mark'>{{ scope.row.mark || ' - ' }}</el-link>
                     </template>
