@@ -177,7 +177,7 @@ Spa.define({
         // 手动设置菜单
         nav = [].concat(
           navs["global"],
-          navs["customize"][this.$store["getters"].groupID] || []
+          navs["customize"][$this.$store["getters"].groupID] || []
         );
       }
       $this.initMenu(JSON.parse(JSON.stringify(nav)));
