@@ -36,4 +36,5 @@ var apis = {
   sysMenuCreate: ['post', '/ZlsManage/MenuApi/Create.go'],
   sysMenuDelete: ['post', '/ZlsManage/MenuApi/Delete.go'],
   sysMenuUpdate: ['post', '/ZlsManage/MenuApi/Update.go'],
+  sysMenuSort: ['post', '/ZlsManage/MenuApi/Sort.go'],
 };

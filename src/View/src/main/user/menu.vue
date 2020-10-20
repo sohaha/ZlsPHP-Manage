@@ -1040,7 +1040,7 @@ Spa.define({
              */
             sortMenu: function (data) {
                 $this
-                    .$api(apis.sort, {
+                    .$api(apis.sysMenuSort, {
                         menu: data
                     })
                     .then(function (data) {
