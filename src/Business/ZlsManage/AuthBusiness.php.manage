@@ -69,27 +69,27 @@ class AuthBusiness extends \Zls_Business
         if ($adopt) {
             if ($permission || $classPermission) {
                 $adopt = false;
-            }
 
-            foreach ($permission as $p) {
-                if (in_array($p, $marks, true)) {
-                    $adopt = true;
-                    if ($singlePermission) {
-                        break;
+                foreach ($permission as $p) {
+                    if (in_array($p, $marks, true)) {
+                        $adopt = true;
+                        if ($singlePermission) {
+                            break;
+                        }
+                    } else {
+                        $adopt = false;
                     }
-                } else {
-                    $adopt = false;
                 }
-            }
-
-            foreach ($classPermission as $p) {
-                if (in_array($p, $marks, true)) {
-                    $adopt = true;
-                    if ($singlePermission) {
-                        break;
+    
+                foreach ($classPermission as $p) {
+                    if (in_array($p, $marks, true)) {
+                        $adopt = true;
+                        if ($singlePermission) {
+                            break;
+                        }
+                    } else {
+                        $adopt = false;
                     }
-                } else {
-                    $adopt = false;
                 }
             }
         }
