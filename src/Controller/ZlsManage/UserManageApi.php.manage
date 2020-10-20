@@ -33,7 +33,7 @@ class UserManageApi extends ZlsManage
             $where['username like'] = "%{$key}%";
         }
         // 没有管理员权限，只能查看自己
-        if ($this->hasPermission("system")) {
+        if (!$this->hasPermission("systems")) {
             $where['id'] = $this->getInfo('id');
         }
 

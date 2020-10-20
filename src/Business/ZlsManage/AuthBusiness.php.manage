@@ -39,30 +39,22 @@ class AuthBusiness extends \Zls_Business
         $ban = ['title' => '没有找到匹配规则', 'router' => $router];
 
         $fullRouter = $this->getFullRequestPath($router);
-        $regexAdopt = $fullAdopt = false;
+
         foreach ($routers as $rules) {
             $rule = explode("\n", $rules['mark']);
             foreach ($rule as $key => $value) {
-                if ($fullRouter == strtolower($value)) {
-                    if ($rules['status'] == RulesRelaDao::STATUS_NORMAL) {
-                        $fullAdopt = true;
-                        // 如果这个全匹配路由规则匹配到，那就没必要在走下面正则之类的路由匹配规则了。
+                // 正则路由
+                if ($this->verify($fullRouter, $value, $rules['condition'], $user)) {
+                    if ($rules['status'] == RulesRelaDao::STATUS_BAN) {
+                        $adopt  = false;
                         break;
                     }
+                    $adopt      = true;
                 }
-    
-                // 正则路由
-                if ($this->verify($router, $value, $rules['condition'], $user)) {
-                    if ($rules['status'] == RulesRelaDao::STATUS_NORMAL) {
-                        $regexAdopt = true;
-                    }
-    
-                    $ban = $rule;
-                }
+
+                $ban['router']  = $value;
             }
         }
-
-        $adopt = $fullAdopt ?: $regexAdopt;
 
         // 不需要条件那么就应该是默认拥有权限了
         // 先标识码方法, 在标识码类
@@ -80,7 +72,7 @@ class AuthBusiness extends \Zls_Business
                         $adopt = false;
                     }
                 }
-    
+
                 foreach ($classPermission as $p) {
                     if (in_array($p, $marks, true)) {
                         $adopt = true;
@@ -141,18 +133,5 @@ class AuthBusiness extends \Zls_Business
         }
 
         return $router;
-    }
-
-    private function completeComparisonVerify($router, $rules, &$tips = '')
-    {
-        $newRouter = $this->getFullRequestPath($router);
-        foreach ($rules as $rule) {
-            if ($newRouter === strtolower($rule['mark'])) {
-                $tips = $rule;
-                return true;
-            }
-        }
-
-        return false;
     }
 }
