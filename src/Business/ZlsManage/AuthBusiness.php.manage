@@ -47,7 +47,7 @@ class AuthBusiness extends \Zls_Business
                 if ($this->verify($fullRouter, $value, $rules['condition'], $user)) {
                     if ($rules['status'] == RulesRelaDao::STATUS_BAN) {
                         $adopt  = false;
-                        break;
+                        break 2;
                     }
                     $adopt      = true;
                 }
