@@ -60,27 +60,26 @@ class AuthBusiness extends \Zls_Business
         // 先标识码方法, 在标识码类
         if ($adopt) {
             if ($permission || $classPermission) {
-                $adopt = false;
 
                 foreach ($permission as $p) {
                     if (in_array($p, $marks, true)) {
-                        $adopt = true;
                         if ($singlePermission) {
                             break;
                         }
                     } else {
                         $adopt = false;
+                        break;
                     }
                 }
 
                 foreach ($classPermission as $p) {
                     if (in_array($p, $marks, true)) {
-                        $adopt = true;
                         if ($singlePermission) {
                             break;
                         }
                     } else {
                         $adopt = false;
+                        break;
                     }
                 }
             }

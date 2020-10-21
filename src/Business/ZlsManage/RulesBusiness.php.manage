@@ -106,10 +106,10 @@ class RulesBusiness extends \Zls_Business
 
             //     $id = $dao->insertBatch($batchData);
             // } else {
-                $id = $dao->insert($retData + [
-                    'create_time' => date('Y-m-d H:i:s'),
-                    'update_time' => date('Y-m-d H:i:s'),
-                ]);
+            $id = $dao->insert($retData + [
+                'create_time' => date('Y-m-d H:i:s'),
+                'update_time' => date('Y-m-d H:i:s'),
+            ]);
             // }
 
             return $id ? ['id' => $id] : '添加失败';
@@ -153,6 +153,9 @@ class RulesBusiness extends \Zls_Business
      */
     public function deteleRules($id)
     {
+        (new RulesRelaDao())->delete([], [
+            'rule_id' => $id
+        ]);
         return (new RulesDao())->delete($id);
     }
 }
