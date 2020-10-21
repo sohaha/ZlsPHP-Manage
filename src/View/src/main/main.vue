@@ -62,7 +62,27 @@
             </li>
 
             <li>
-              <span>可用空间</span> <span>{{system.free_space||' -- '}}</span>
+              <span>总内存</span> <span>{{system.memory.total||' -- '}}</span>
+            </li>
+
+            <li>
+              <span>已用</span> <span>{{system.memory.used||' -- '}}</span>
+            </li>
+
+            <li>
+              <span>空闲</span> <span>{{system.memory.free||' -- '}}</span>
+            </li>
+
+            <li>
+              <span>使用率</span> <span>{{system.memory.usage||' -- '}}</span>
+            </li>
+
+            <li>
+              <span>总空间</span> <span>{{system.disk.total||' -- '}}</span>
+            </li>
+
+            <li>
+              <span>可用空间</span> <span>{{system.disk.free||' -- '}}</span>
             </li>
 
             <li>
