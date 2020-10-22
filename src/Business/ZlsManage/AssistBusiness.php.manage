@@ -227,10 +227,10 @@ class AssistBusiness extends \Zls_Business
             'total_space'       => z::convertRam(disk_total_space(z::realPath('.', true, false))),
             'free_space'        => z::convertRam(disk_free_space(z::realPath('.', true, false))),
             'memory'            => [
-                'total' => $sysInfo['memTotal'],
-                'used'  => $sysInfo['memUsed'],
-                'free'  => $sysInfo['memFree'],
-                'usage' => $sysInfo['memPercent'],
+                'total' => z::convertRam($sysInfo['memTotal']),
+                'used'  => z::convertRam($sysInfo['memUsed']),
+                'free'  => z::convertRam($sysInfo['memFree']),
+                'usage' => $sysInfo['memPercent'] . ' %',
             ],
             'disk'              => [
                 'total' => z::convertRam(disk_total_space(z::realPath('.', true, false))),
@@ -278,5 +278,7 @@ class AssistBusiness extends \Zls_Business
         // $res['swapFree'] = round($buf[5][0] / 1024, 2);
         // $res['swapUsed'] = round($res['swapTotal'] - $res['swapFree'], 2);
         // $res['swapPercent'] = (floatval($res['swapTotal']) != 0) ? round($res['swapUsed'] / $res['swapTotal'] * 100, 2) : 0;
+
+        return $res;
     }
 }
