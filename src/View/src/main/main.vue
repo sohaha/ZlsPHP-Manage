@@ -22,6 +22,10 @@
 .main .el-alert--warning {
   margin-bottom: 10px;
 }
+
+.show-percent {
+  content: " %";
+}
 </style>
 <template>
   <div class="main">
@@ -73,22 +77,22 @@
 
             <li>
               <span style="padding: initial">
-                <span>总内存</span>
-                <span :style="system.memory.total ? 'color: red;' : ''">
+                <span>物理内存</span>
+                <span :style="system.memory.total ? 'color: #3f51b5;' : ''">
                   {{ system.memory.total || " -- " }}
                 </span>
               </span>
               <span style="padding: initial">
                 <span>已用</span>
-                <span :style="system.memory.used ? 'color: red;' : ''">
+                <span :style="system.memory.used ? 'color: #CC0000;' : ''">
                   {{ system.memory.used || " -- " }}
                 </span>
                 <span>空闲</span>
-                <span :style="system.memory.free ? 'color: red;' : ''">
+                <span :style="system.memory.free ? 'color: #CC0000;' : ''">
                   {{ system.memory.free || " -- " }}
                 </span>
                 <span>使用率</span>
-                <span :style="system.memory.usage ? 'color: red;' : ''">
+                <span :style="memoryUsageStyle(system.memory.usage)" :class="{ 'show-percent': system.memory.usage }">
                   {{ system.memory.usage || " -- " }}
                 </span>
               </span>
@@ -96,14 +100,14 @@
 
             <li>
               <span style="padding: initial">
-                <span>总空间</span>
-                <span :style="system.disk.total ? 'color: red;' : ''">
+                <span>磁盘空间</span>
+                <span :style="system.disk.total ? 'color: #3f51b5;' : ''">
                   {{ system.disk.total || " -- " }}
                 </span>
               </span>
               <span style="padding: initial">
-                <span>可用空间</span>
-                <span :style="system.disk.free ? 'color: red;' : ''">
+                <span>剩余</span>
+                <span :style="diskFreeStyle(system.disk.free)">
                   {{ system.disk.free || " -- " }}
                 </span>
               </span>
@@ -214,6 +218,23 @@ Spa.define(
       DetectionSystems: function () {},
       gologs: function () {
         that.$go("user/logs");
+      },
+      memoryUsageStyle: function (val) {
+        if (!val) {
+          return "";
+        }
+        return {
+          color: val >= 70 ? "red" : "green",
+        };
+      },
+      diskFreeStyle: function (val) {
+        var v = parseInt(val, 10);
+        if (!v) {
+          return "";
+        }
+        return {
+          color: v <= 10 ? "red" : "#CC0000",
+        };
       },
     },
   },

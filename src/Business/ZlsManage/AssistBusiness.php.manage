@@ -230,7 +230,7 @@ class AssistBusiness extends \Zls_Business
                 'total' => z::convertRam($sysInfo['memTotal']),
                 'used'  => z::convertRam($sysInfo['memUsed']),
                 'free'  => z::convertRam($sysInfo['memFree']),
-                'usage' => $sysInfo['memPercent'] . ' %',
+                'usage' => $sysInfo['memPercent'],
             ],
             'disk'              => [
                 'total' => z::convertRam(disk_total_space(z::realPath('.', true, false))),
