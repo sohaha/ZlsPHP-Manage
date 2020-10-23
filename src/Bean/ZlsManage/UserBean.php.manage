@@ -27,7 +27,7 @@ class UserBean extends \Zls_Bean
         }
         /** @var UserBusiness $UserBusiness */
         $UserBusiness = Z::business('ZlsManage\UserBusiness');
-        if ($UserBusiness->isSuperAdmin($this->id)) {
+        if ($UserBusiness->isSuperAdminById((int)$this->id)) {
             $names[0] = '超级管理员';
         }
 

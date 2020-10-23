@@ -445,7 +445,7 @@ class UserBusiness extends \Zls_Business
     /**
      * 是否超级管理员
      *
-     * @param int $userid
+     * @param array $user
      *
      * @return boolean
      */
@@ -454,8 +454,25 @@ class UserBusiness extends \Zls_Business
         $userid = (int)$user['id'];
         $superAdminIds = z::config('ini.manage.superAdmin', true, [1]);
 
-        $isSuper = in_array($userid, $superAdminIds, true) || (int)$user['is_super'];
-        unset($user['is_super']);
+        $isSuper = in_array($userid, $superAdminIds, true) || (bool)($user['is_super'] ?? 0);
+        if ($user['is_super'] ?? 0) {
+            unset($user['is_super']);
+        }
+
+        return $isSuper;
+    }
+
+    /**
+     * 是否超级管理员
+     *
+     * @param int $userid
+     *
+     * @return boolean
+     */
+    public function isSuperAdminById(int $userid): bool
+    {
+        $user       = $this->info($userid);
+        $isSuper    = $this->isSuperAdmin($user);
 
         return $isSuper;
     }

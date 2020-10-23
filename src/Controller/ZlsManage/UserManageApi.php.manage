@@ -68,7 +68,7 @@ class UserManageApi extends ZlsManage
             case ($id === z::arrayGet($this->USER, 'id')):
                 $result = '不可以删除自己';
                 break;
-            case ($this->UserBusiness->isSuperAdmin($id)):
+            case ($this->UserBusiness->isSuperAdminById($id)):
                 $result = '请移除该用户的超级管理员身份';
                 break;
             default:

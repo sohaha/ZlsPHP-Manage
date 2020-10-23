@@ -78,7 +78,7 @@ class UserApi extends ZlsManage
         $isSuper = $this->getInfo('isSuper');
         $ok = false;
         // 被修改的用户是否超级管理员
-        $userIsSuper = $this->UserBusiness->isSuperAdmin((int)$userid);
+        $userIsSuper = $this->UserBusiness->isSuperAdminById((int)$userid);
         $status      = (int)z::arrayGet($post, 'status');
         $isMe        = $userid === $uid;
         if ($isMe && 1 !== $status) {
@@ -104,7 +104,7 @@ class UserApi extends ZlsManage
         }
         $data = z::readData($map, $post);
         $rs   = $this->UserBusiness->update($userid, $data, $uid);
-        $ok = !is_string($rs) && !!$rs;
+        $ok   = !is_string($rs) && !!$rs;
         return !$ok ? $rs : [200, '处理成功', ['result' => $rs]];
     }
 
