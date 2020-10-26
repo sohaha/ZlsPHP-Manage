@@ -57,8 +57,8 @@ class ZlsManage extends Zls_Controller
         }
         // 是否只需匹配权限配置内其中一个即可
         $singlePermission = $comment('single-permission');
-        $tokenid          = $this->getTokenId();
-        $this->USER       = $this->UserBusiness->tokenToInfo($tokenid);
+        $this->TOKENID    = $this->getTokenId();
+        $this->USER       = $this->UserBusiness->tokenToInfo($this->TOKENID);
         if (!$this->USER) {
             return [401, '请先登录'];
         }
@@ -103,13 +103,11 @@ class ZlsManage extends Zls_Controller
      */
     final protected function getTokenId(): int
     {
-        if (!$this->TOKENID) {
-            $user   = Z::decrypt($this->getToken());
-            $dsArr  = explode('_', $user);
-            $this->TOKENID = (int)($dsArr[3] ?? 0);
-        }
+        $user   = Z::decrypt($this->getToken());
+        $dsArr  = explode('_', $user);
+        $tokenid= (int)z::arrayGet($dsArr, 3, 0);
 
-        return $this->TOKENID;
+        return $tokenid;
     }
 
     /**

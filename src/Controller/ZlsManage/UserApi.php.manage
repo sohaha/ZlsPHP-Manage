@@ -15,6 +15,55 @@ use Z;
 class UserApi extends ZlsManage
 {
     /**
+     * 查看用户日志
+     * @time       2018-12-13 19:15:42
+     * @api-get    int page 页码  1 n
+     * @api-get    int pagesize 条数  10
+     * @api-get    int unread 是否只查询未读  0 N 1只查询未读
+     * @return array
+     */
+    public function GETzLogs(): array
+    {
+        $assist = new AssistBusiness();
+        $type   = Z::get('type');
+        $unread = z::get('unread', 0);
+        $userid = $this->getInfo('id');
+
+        return [200, '用户日志', $assist->getLogs(Z::get('page', 1), z::get('pagesize', 10), $unread, $type, $userid)];
+    }
+
+    /**
+     * 未读日志总数
+     * @desc        建议轮询获取未读日志
+     * @api-get     int id 上一条消息ID 0 N 只返回上条到最新的消息
+     * @api-return  JSON {"code":200, "msg":"未读日志"}
+     * @api-return  int code 状态码 200：成功
+     * @return array
+     */
+    public function zUnreadMessageCount(): array
+    {
+        $assist = new AssistBusiness();
+        $lastId = z::getPost('id', 0);
+        $userid = $this->getInfo('id');
+
+        // 可以在这里做token时间更新
+        return [200, '未读日志', ['count' => $assist->getUnreadMessageCount($lastId, $userid)]];
+    }
+
+    /**
+     * 更新日志状态
+     * @return array
+     */
+    public function PUTzMessageStatus(): array
+    {
+        $assist = new AssistBusiness();
+        $uid    = $this->getInfo('id');
+        $ids    = z::postText('ids');
+
+        return [200, '日志标记已读', $assist->updateMessageStatus($ids, $uid)];
+    }
+
+    /**
      * 用户详情
      * @time       2018-11-8 17:57:48
      * @api-return array "data.marks" 权限标识列表
@@ -32,7 +81,7 @@ class UserApi extends ZlsManage
             $user['system'] = (new AssistBusiness())->getSystemInfo();
             $user['isSuper'] = $user['is_super'] = $this->getInfo('isSuper');
         }
-        $user['last'] = $this->UserBusiness->getLast($user['id'], $this->getTokenId());
+        $user['last'] = $this->UserBusiness->getLast($user['id'], $this->TOKENID);
 
         return [200, '用户信息', $user];
     }
@@ -95,7 +144,7 @@ class UserApi extends ZlsManage
             Z::defer(function ()use (&$ok, $userid){
                 if($ok){
                     // 注销该用户的 Token
-                    $this->UserBusiness->clearAllToken($userid,[$this->getTokenId()]);
+                    $this->UserBusiness->clearAllToken($userid,[$this->TOKENID]);
                 }
             });
         }
@@ -129,7 +178,7 @@ class UserApi extends ZlsManage
             Z::defer(function () use (&$ok, $upUid) {
                 if ($ok) {
                     // 注销该用户的 Token
-                    $this->UserBusiness->clearAllToken($upUid, [$this->getTokenId()]);
+                    $this->UserBusiness->clearAllToken($upUid, [$this->TOKENID]);
                 }
             });
         } else {
@@ -164,8 +213,7 @@ class UserApi extends ZlsManage
      */
     public function POSTzClearToken(): array
     {
-        $tokenid  = $this->getTokenId();
-        $result = $this->UserBusiness->clearToken($tokenid);
+        $result = $this->UserBusiness->clearToken($this->TOKENID);
 
         return [200, '清除用户Token', $result];
     }
