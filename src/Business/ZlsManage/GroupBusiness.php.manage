@@ -94,23 +94,33 @@ class GroupBusiness extends \Zls_Business
         $gid          = $info['id'];
         $RulesRelaDao = new RulesRelaDao();
         $lists        = $RulesRelaDao->findAll(
-            ['group_id' => $gid], ['id' => 'desc'], null, 'status,rule_id'
+            ['group_id' => $gid],
+            ['id' => 'desc'],
+            null,
+            'status,rule_id'
         );
         $rows         = [];
         foreach ($lists as $row) {
             $rows[$row['status']][] = $row;
         }
         $info['rule_ids']     = z::arrayValues(
-            z::arrayGet($rows, '1', []), 'rule_id'
+            z::arrayGet($rows, '1', []),
+            'rule_id'
         );
         $info['ban_rule_ids'] = z::arrayValues(
-            z::arrayGet($rows, '2', []), 'rule_id'
+            z::arrayGet($rows, '2', []),
+            'rule_id'
         );
         // $info['rules_count'] = count($info['rule_ids'])+count($info['ban_rule_ids']);
         $info['user_count'] = z::arrayGet(
             (new UserDao)->find(
-                ['group_id' => $info['id']], false, [], 'count(*) as count'
-            ), 'count', 0
+                ['group_id' => $info['id']],
+                false,
+                [],
+                'count(*) as count'
+            ),
+            'count',
+            0
         );
 
         return $info;
@@ -123,7 +133,7 @@ class GroupBusiness extends \Zls_Business
      *
      * @return array
      */
-    public function getMenu($groupid = 0,$isSuper = false): array
+    public function getMenu($groupid = 0, $isSuper = false): array
     {
         $dao  = new MenuDao();
         $fields = $dao->getReversalColumns(null, true);
@@ -136,9 +146,9 @@ class GroupBusiness extends \Zls_Business
         $result = $dao->getDb()->execute()->rows();
         $result = array_combine(array_column($result, 'id'), $result);
 
-        if(!$isSuper){
+        if (!$isSuper) {
             $groupMenuDao = new GroupMenuDao();
-            $fields = $groupMenuDao->getReversalColumns(["id","create_time","update_time"], true);
+            $fields = $groupMenuDao->getReversalColumns(["id", "create_time", "update_time"], true);
 
             $where["groupid"] = $groupid;
             $groupMenuDao->getDb()
@@ -149,43 +159,43 @@ class GroupBusiness extends \Zls_Business
         }
 
         $menuArr = [];
-        if($re??0){
-            $menuArr = explode(",",$re["menu"]);
+        if (isset($re)) {
+            $menuArr = explode(",", z::arrayGet($re, "menu", []));
         }
 
         $pMenu = [];
         $data = [];
         //result是排序查询出来的，所以pid=0的必然在前面
-        foreach ($result as $key => $value){
-            if(!$isSuper && !in_array($value["id"],$menuArr)){
+        foreach ($result as $key => $value) {
+            if (!$isSuper && !in_array($value["id"], $menuArr)) {
                 continue;
             }
 
-            if($value['pid'] == 0){
+            if ($value['pid'] == 0) {
                 $pMenu[] = $value["id"];
                 $data[] = $value;
-            }else{
+            } else {
                 //菜单1下有菜单2和菜单3，目前菜单1的主键是可能不保存到数据库的
                 //循环出来的菜单是必然要显示的，所以需要找到他的上级菜单
 
                 //找到上级菜单加入到data中
-                if(!in_array($value["pid"],$pMenu)){
+                if (!in_array($value["pid"], $pMenu)) {
                     $pMenu[] = $value["pid"];
                     $data[] = $result[$value["pid"]];
-                    $data[count($data)-1]['child'][] = $value;
-                }else{
-                    foreach ($data as $k => $v){
-                        if($v['id'] == $value['pid']){
+                    $data[count($data) - 1]['child'][] = $value;
+                } else {
+                    foreach ($data as $k => $v) {
+                        if ($v['id'] == $value['pid']) {
                             $data[$k]['child'][] = $value;
                         }
                     }
                 }
             }
         }
-        foreach ($data as $key => $value){
+        foreach ($data as $key => $value) {
             $sort[$key] = $value["sort"];
         }
-        array_multisort($sort,SORT_ASC,$data);
+        array_multisort($sort, SORT_ASC, $data);
         return $data;
     }
 

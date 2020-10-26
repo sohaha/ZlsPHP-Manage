@@ -139,7 +139,7 @@ class UserBusiness extends \Zls_Business
                 $dao->createOperationLog($id, null, '登录成功，欢迎回来！', $id, $dao::TYPE_NORMAL, $dao::STATUS_READ);
 
                 $config = z::config('ini', true, []);
-                if ($config['base']['loginMode'] ?? false) {
+                if (z::arrayGet($config['base'], 'loginMode', false)) {
                     $that->clearAllToken($id, [$tokenid]);
                 }
                 return $token;
@@ -454,8 +454,8 @@ class UserBusiness extends \Zls_Business
         $userid = (int)$user['id'];
         $superAdminIds = z::config('ini.manage.superAdmin', true, [1]);
 
-        $isSuper = in_array($userid, $superAdminIds, true) || (bool)($user['is_super'] ?? 0);
-        if ($user['is_super'] ?? 0) {
+        $isSuper = in_array($userid, $superAdminIds, true) || (bool)z::arrayGet($user, 'is_super', false);
+        if (z::arrayKeyExists('is_super', $user)) {
             unset($user['is_super']);
         }
 

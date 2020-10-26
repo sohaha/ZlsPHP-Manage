@@ -11,6 +11,7 @@ use Z;
  * 后台-菜单管理
  * @author        zjy
  * @desc          需要传递 header token（GetToken除外）
+ * @api-permissionClass("systems")
  */
 class MenuApi extends ZlsManage
 {

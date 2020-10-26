@@ -180,7 +180,7 @@ class AssistBusiness extends \Zls_Business
      *
      * @return bool
      */
-    public function updateSystemConfig(array $data, $userid, $tokenid): bool
+    public function updateSystemConfig(array $data): bool
     {
         $config = z::config('ini', true, []);
         // 根据实际情况从$data读取需要的数据
@@ -195,7 +195,7 @@ class AssistBusiness extends \Zls_Business
         $Ini  = z::extension('Action\Ini');
         $path = z::realPath('zls.ini', false, false);
 
-        return  (bool)z::tap(!!@file_put_contents($path, $Ini->extended($config)), function ($value) use ($config, $userid, $tokenid) {
+        return  (bool)z::tap(!!@file_put_contents($path, $Ini->extended($config)), function ($value) use ($config) {
             if ($config['base']['loginMode']) {
                 (new UserBusiness)->clearAllTokenSaveLastId();
             }
@@ -208,6 +208,7 @@ class AssistBusiness extends \Zls_Business
      */
     public function getSystemInfo(): array
     {
+        $sysInfo = [];
         switch (PHP_OS) {
             case "Linux":
                 $sysInfo = $this->sysLinux();
@@ -227,10 +228,10 @@ class AssistBusiness extends \Zls_Business
             'total_space'       => z::convertRam(disk_total_space(z::realPath('.', true, false))),
             'free_space'        => z::convertRam(disk_free_space(z::realPath('.', true, false))),
             'memory'            => [
-                'total' => z::convertRam($sysInfo['memTotal']),
-                'used'  => z::convertRam($sysInfo['memUsed']),
-                'free'  => z::convertRam($sysInfo['memFree']),
-                'usage' => $sysInfo['memPercent'],
+                'total' => z::convertRam(z::arrayGet($sysInfo, 'memTotal', 0)),
+                'used'  => z::convertRam(z::arrayGet($sysInfo, 'memUsed', 0)),
+                'free'  => z::convertRam(z::arrayGet($sysInfo, 'memFree', 0)),
+                'usage' => z::arrayGet($sysInfo, 'memPercent', 0),
             ],
             'disk'              => [
                 'total' => z::convertRam(disk_total_space(z::realPath('.', true, false))),

@@ -85,7 +85,7 @@ class RulesBusiness extends \Zls_Business
         $rules   = $dao->verifyRules(array_keys($data));
         $retData = $errorMsg = $errorKey = null;
         if (z::checkData($data, $rules, $retData, $errorMsg, $errorKey)) {
-            // if (strpos($retData['mark'] ?? '', ',') !== false) {
+            // if (strpos(z::arrayGet($retData, 'mark', ''), ',') !== false) {
             //     $markArr = explode(',', $retData['mark']);
             //     $batchData = [];
             //     foreach ($markArr as $key => $value) {
