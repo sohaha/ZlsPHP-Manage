@@ -145,7 +145,7 @@ class AssistBusiness extends \Zls_Business
      *
      * @return bool
      */
-    public function updateMessageStatus($ids, $uid = 0): bool
+    public function updateMessageStatus($ids, $uid = 0)
     {
         $logsDao = new LogsDao();
 
