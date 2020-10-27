@@ -232,7 +232,6 @@
                 @submit.prevent.stop.native
                 inline
                 class="table-header-form"
-                :inline="true"
               >
                 <el-form-item
                   class="form-item-search"
@@ -418,13 +417,13 @@ Spa.define(
       gid: function (v) {
         $this.Menuloading = true;
         if (v) {
-          $this.title = "角色权限";
-          $this.SpaTitle = "角色权限" + " - %s";
+          // $this.title = "角色权限";
+          // $this.SpaTitle = "角色权限" + " - %s";
           $this.$SpaSetTitle();
           $this.getGroup();
         } else {
-          $this.title = viewTitle;
-          $this.SpaTitle = $this.title + " - %s";
+          // $this.title = viewTitle;
+          // $this.SpaTitle = $this.title + " - %s";
           $this.$SpaSetTitle();
         }
         $this.getMenuList(v);
@@ -450,6 +449,7 @@ Spa.define(
     init: function (query, search) {
       $this.gid = search[0];
       if ($this.gid) {
+        $this.gid = $this.gid + "";
       } else {
         $this.getRules();
       }
@@ -670,7 +670,13 @@ Spa.define(
           .$api(apis.sysUserMenu, { groupid: roleId })
           .then(function (data) {
             $this.showKeepMenuArr = [];
-            $this.getShowMenu(data.data);
+            // console.log($this.showKeepMenuArr);
+            var keepArr = $this.getShowMenu(data.data);
+            $this.$nextTick(function () {
+              // $this.showKeepMenuArr.splice(0, 0, keepArr);
+              $this.showKeepMenuArr = keepArr;
+              // console.log($this.showKeepMenuArr);
+            });
             $this.menuData = data.data;
           })
           .catch(function (e) {
@@ -685,14 +691,18 @@ Spa.define(
        * 获取显示的菜单数组
        */
       getShowMenu: function (data) {
+        var keepArr = [];
         for (var i in data) {
           if (data[i].is_show) {
-            $this.showKeepMenuArr.push(data[i].id);
+            // $this.showKeepMenuArr.push(data[i].id);
+            keepArr.push(data[i].id);
           }
           if (data[i].child) {
-            $this.getShowMenu(data[i].child);
+            keepArr = keepArr.concat($this.getShowMenu(data[i].child));
           }
         }
+
+        return keepArr;
       },
 
       /**
