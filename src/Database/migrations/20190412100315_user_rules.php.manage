@@ -27,7 +27,7 @@ class UserRules extends M
                 'update_time' => date('Y-m-d H:i:s'),
                 'remark'      => '',
                 'type'        => 1,
-                'mark'        => 'ZlsManage/UserManageApi*',
+                'mark'        => '/ZlsManage/UserManageApi*',
             ],
             [
                 'title'       => '系统管理权限',

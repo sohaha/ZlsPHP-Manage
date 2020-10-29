@@ -126,6 +126,7 @@ class AuthBusiness extends \Zls_Business
     {
         $methodUriSubfix = (z::config())->getMethodUriSubfix();
 
+        $router = '/' . $router;
         if (substr($router, -3) !== $methodUriSubfix) {
             return $router . $methodUriSubfix;
         }
