@@ -68,6 +68,10 @@
   justify-content: center;
   align-items: center;
 }
+
+.white-space {
+  white-space: pre-line;
+}
 </style>
 <template>
   <div v-loading="ml_listsLoading || loadGroup">
@@ -168,19 +172,35 @@
           </el-table-column>
           <el-table-column label="标识" min-width="160">
             <template slot-scope="scope">
-              <!-- <div v-if="scope.row._isEdit"> -->
-              <el-input
-                @input="handleInput(scope)"
-                type="textarea"
-                autosize
-                v-model="scope.row.mark"
-                placeholder="请填写标识码"
-                size="mini"
-              ></el-input>
-              <!-- </div>
-              <el-link @click="editRow(scope)" :underline="false" :type="scope.row.type===1?'primary':'success'" v-else class='text-nowrap' :title='scope.row.mark'>{{ scope.row.mark || ' - ' }}</el-link>
-             --></template
-            >
+              <div v-if="scope.row._isEdit">
+                <el-input
+                  v-if="scope.row.type === 1"
+                  size="mini"
+                  type="textarea"
+                  autosize
+                  placeholder="请填写路由规则"
+                  v-model="scope.row.mark"
+                >
+                </el-input>
+                <el-input
+                  v-else
+                  v-model="scope.row.mark"
+                  size="mini"
+                  type="textarea"
+                  autosize
+                  placeholder="请填写标识码，唯一"
+                ></el-input>
+              </div>
+              <el-link
+                @click="editRow(scope)"
+                :underline="false"
+                :type="scope.row.type === 1 ? 'primary' : 'success'"
+                v-else
+                class="text-nowrap white-space"
+                :title="scope.row.mark"
+                >{{ scope.row.mark || " - " }}</el-link
+              >
+            </template>
           </el-table-column>
           <el-table-column label="类型" width="130">
             <template slot-scope="scope">
@@ -455,10 +475,6 @@ Spa.define(
       }
     },
     methods: {
-      handleInput: function (scope) {
-        if (scope.row._isEdit) return;
-        this.editRow(scope);
-      },
       ruleType: function (v) {
         return types[v] || "--";
       },
