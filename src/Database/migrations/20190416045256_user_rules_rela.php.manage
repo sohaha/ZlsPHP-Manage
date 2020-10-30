@@ -24,13 +24,6 @@ class UserRulesRela extends M
                 'update_time' => $date,
                 'status'      => 1,
             ],
-            [
-                'rule_id'     => 2,
-                'group_id'    => 1,
-                'create_time' => $date,
-                'update_time' => $date,
-                'status'      => 1,
-            ]
         ];
         $table->insert($rows);
         $table->saveData();
