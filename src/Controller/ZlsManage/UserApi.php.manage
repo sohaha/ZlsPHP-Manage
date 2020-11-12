@@ -72,7 +72,7 @@ class UserApi extends ZlsManage
      */
     public function GETzUseriInfo(): array
     {
-        $show = ['id', 'group_id', 'avatar', 'email', 'nickname', 'username', 'status', 'marks', 'system', 'last', 'groups', 'menus'];
+        $show = ['id', 'group_id', 'avatar', 'email', 'nickname', 'username', 'status', 'marks', 'system', 'last', 'groups', 'menus', 'menu'];
         $user = Z::arrayFilter($this->getInfo(), static function ($v, $k) use ($show) {
             return in_array($k, $show, true);
         });
@@ -107,7 +107,9 @@ class UserApi extends ZlsManage
             return [211, $status];
         }
         $user          = $this->UserBusiness->filterField($user);
-        $user['token'] = $this->UserBusiness->createToken($user['id']);
+        $tokenInfo     = $this->UserBusiness->createToken($user['id']);
+        $user['token'] = z::arrayGet($tokenInfo, 'token', '');
+        $user['tid']   = z::arrayGet($tokenInfo, 'tid', '');
         // 新登录之后是否清除该用户的其他端登录状态？
         return [200, '登录成功', $user];
     }
@@ -208,7 +210,6 @@ class UserApi extends ZlsManage
     /**
      * 清除用户Token
      * @time       2018-11-7 17:57:31
-     * @api-ignore 忽略权限控制
      * @return array
      */
     public function POSTzClearToken(): array

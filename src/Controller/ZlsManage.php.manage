@@ -94,7 +94,15 @@ class ZlsManage extends Zls_Controller
      */
     final protected function getToken(): string
     {
-        return z::server('HTTP_TOKEN') ?: z::getPost('token', '');
+        // return z::server('HTTP_TOKEN') ?: z::getPost('token', '');
+
+        $postToken = z::server('HTTP_TOKEN') ?: z::getPost('token', '');
+        $tokenArr = explode('_', $postToken);
+        if (isset($tokenArr['1']) && is_string($tokenArr['1'])) {
+            $postToken = $tokenArr['1'];
+        }
+
+        return $postToken;
     }
 
     /**

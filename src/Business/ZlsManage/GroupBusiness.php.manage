@@ -245,4 +245,82 @@ class GroupBusiness extends \Zls_Business
 
         return $rules;
     }
+
+    public function getMenus($groupMenus)
+    {
+        $MenuDao = new MenuDao();
+        $menus = $MenuDao->find([], true, ['sort' => 'asc'], 'id, title, index, icon, breadcrumb, real, show, pid, sort');
+
+        $vueUrl = function ($show, $url) {
+            if (!$show) {
+                return '';
+            }
+
+            return 'pages/main/' . $url . '.vue';
+        };
+
+        $vuePath = function ($path) {
+            if ($path[0] === '/') {
+                if (substr($path, 0, strlen('/main')) !== '/main') {
+                    return '/main' . $path;
+                }
+            } else {
+                if ($path === 'main') {
+                    return '/' . $path;
+                } elseif (substr($path, 0, strlen('/main/')) !== '/main/') {
+                    return '/main/' . $path;
+                }
+            }
+
+            return $path;
+        };
+
+        $conv = function ($menu, $groupMenusIds) use ($vuePath, $vueUrl) {
+            return [
+                'name'       => z::arrayGet($menu, 'title', ''),
+                'path'       => $vuePath(z::arrayGet($menu, 'index', '')),
+                'url'        => $vueUrl(in_array($menu['id'], $groupMenusIds), z::arrayGet($menu, 'index', '')),
+                'icon'       => z::arrayGet($menu, 'icon', ''),
+                'breadcrumb' => z::arrayGet($menu, 'breadcrumb', 0) === 1,
+                'real'       => z::arrayGet($menu, 'real', 0) === 1,
+                'show'       => z::arrayGet($menu, 'show', 0) === 1,
+                'has'        => in_array($menu['id'], array_merge([], $groupMenusIds, [1, 2, 3, 4])),
+                'collapse'   => false,
+                'children'   => [],
+            ];
+        };
+
+        $getChild = function ($convFun, $menu, $groupMenusIds) use ($menus) {
+            $re = [];
+            foreach ($menus as $k => $v) {
+                if ($v['pid'] === $menu['id']) {
+                    $re[] = $convFun($v, $groupMenusIds);
+                }
+            }
+
+            return $re;
+        };
+
+
+        $groupMenusIds = [];// 拥有的菜单栏权限
+        foreach ($groupMenus as $k => $v) {
+            $groupMenusIds[] = $v['id'];
+            foreach ($v['child'] as $kk => $vv) {
+                $groupMenusIds[] = $vv['id'];
+            }
+        }
+
+        $f = [];
+        foreach ($menus as $kk => $vv) {
+            if ($vv['pid'] === 0) {
+                $menuConv = $conv($vv, $groupMenusIds);
+                $menuConv['children'] = $getChild($conv, $vv, $groupMenusIds);
+                $menuConv['collapse'] = in_array(true, array_column($menuConv['children'], 'show'));
+                $menuConv['url'] = $menuConv['collapse'] ? '' : $menuConv['url'];
+                $f[] = $menuConv;
+            }
+        }
+
+        return $f;
+    }
 }

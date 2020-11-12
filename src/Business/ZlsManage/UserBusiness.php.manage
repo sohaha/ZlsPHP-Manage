@@ -75,6 +75,8 @@ class UserBusiness extends \Zls_Business
             $user['menus']   = $GroupBusiness->getMenu($groupid, $user['isSuper']);
             $user['marks']   = $GroupBusiness->getMarks($groupid);
             $user['routers'] = $GroupBusiness->getRouter($groupid);
+
+            $user['menu'] = $GroupBusiness->getMenus($user['menus']);
         }
 
         return $user;
@@ -121,7 +123,7 @@ class UserBusiness extends \Zls_Business
      *
      * @return string
      */
-    public function createToken($id): string
+    public function createToken($id): array
     {
         /** @var Id $ActionId */
         $ActionId = z::extension('Action\Id');
@@ -129,8 +131,8 @@ class UserBusiness extends \Zls_Business
         $that = $this;
 
         return z::tap(
-            $tokenDao->saveToken($id, ''),
-            static function ($tokenid) use ($id, $ActionId, $tokenDao, $that) {
+            $tid = $tokenDao->saveToken($id, ''),
+            static function ($tokenid) use ($id, $ActionId, $tokenDao, $that, $tid) {
                 $token = Z::encrypt($id . '_' . date('y-m-d H:i:s') . '_' . $ActionId->uniqueId(4) . '_' . $tokenid);
                 $tokenDao->update([
                     'token' => $token
@@ -142,7 +144,7 @@ class UserBusiness extends \Zls_Business
                 if (z::arrayGet($config['base'], 'loginMode', false)) {
                     $that->clearAllToken($id, [$tokenid]);
                 }
-                return $token;
+                return ['tid' => $tid, 'token' => $token];
             }
         );
     }
