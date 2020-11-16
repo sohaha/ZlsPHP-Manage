@@ -305,7 +305,7 @@ class GroupBusiness extends \Zls_Business
         $groupMenusIds = [];// 拥有的菜单栏权限
         foreach ($groupMenus as $k => $v) {
             $groupMenusIds[] = $v['id'];
-            foreach ($v['child'] as $kk => $vv) {
+            foreach (z::arrayGet($v, 'child', []) as $kk => $vv) {
                 $groupMenusIds[] = $vv['id'];
             }
         }
