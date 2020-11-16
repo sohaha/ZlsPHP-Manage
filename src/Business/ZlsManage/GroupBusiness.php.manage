@@ -266,7 +266,7 @@ class GroupBusiness extends \Zls_Business
                 }
             } else {
                 if ($path === 'main') {
-                    return '/' . $path;
+                    return '/' . $path . '/main';
                 } elseif (substr($path, 0, strlen('/main/')) !== '/main/') {
                     return '/main/' . $path;
                 }
