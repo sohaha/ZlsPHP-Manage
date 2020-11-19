@@ -255,8 +255,11 @@ class GroupBusiness extends \Zls_Business
             if (!$show) {
                 return '';
             }
+            if ($url === 'main') {
+                return 'pages/main/' . $url . '.vue';
+            }
 
-            return 'pages/main/' . $url . '.vue';
+            return 'pages/' . $url . '.vue';
         };
 
         $vuePath = function ($path) {
