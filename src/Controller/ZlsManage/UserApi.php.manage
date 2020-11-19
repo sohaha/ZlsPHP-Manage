@@ -77,7 +77,7 @@ class UserApi extends ZlsManage
             return in_array($k, $show, true);
         });
         // todo 注意控制某些用户不显示系统信息
-        if ($this->getInfo('isSuper') || $this->hasPermission('systems')) {
+        if ($this->hasPermission('systems')) {
             $user['system'] = (new AssistBusiness())->getSystemInfo();
             $user['isSuper'] = $user['is_super'] = $this->getInfo('isSuper');
         }

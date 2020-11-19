@@ -163,6 +163,10 @@ class ZlsManage extends Zls_Controller
      */
     final public function hasPermission(string $permissions, $userid = null): bool
     {
+        if ($isSuper = $this->getInfo('isSuper')) {
+            return true;
+        }
+        
         if ($userid === null) {
             $groupid = $this->getInfo('group_id');
         } else {
