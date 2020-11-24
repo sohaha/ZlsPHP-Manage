@@ -686,6 +686,7 @@ Spa.define({
                     })
                     .then(function (data) {
                         $this.$sucMsg("更新完成");
+                        $this.addMenu();
                     })
                     .catch(function (e) {
                         $this.$warMsg(e);
@@ -874,12 +875,7 @@ Spa.define({
             remove: function (node, data) {
                 console.log(node, data);
                 var str = '是否删除 "' + data.title + '" 菜单';
-                this.$confirm(str, "提示", {
-                        confirmButtonText: "确定",
-                        cancelButtonText: "取消",
-                        type: "warning"
-                    })
-                    .then(function () {
+                this.$confirm(str, "提示", function () {
                         // var parent = node.parent;
                         // var children = parent.data.child || parent.data;
                         // var curIndex;
@@ -890,8 +886,11 @@ Spa.define({
                         // }
                         // children.splice(curIndex, 1);
                         $this.rundeleteMenu(data.id);
-                    })
-                    .catch(function () {});
+                    }, {
+                        confirmButtonText: "确定",
+                        cancelButtonText: "取消",
+                        type: "warning"
+                    });
             },
 
             /**
