@@ -76,7 +76,7 @@ class UserBusiness extends \Zls_Business
             $user['marks']   = $GroupBusiness->getMarks($groupid);
             $user['routers'] = $GroupBusiness->getRouter($groupid);
 
-            $user['menu'] = $GroupBusiness->getMenus($user['menus']);
+            $user['menu'] = $GroupBusiness->getMenus($user['menus'], $user);
         }
 
         return $user;
@@ -454,7 +454,8 @@ class UserBusiness extends \Zls_Business
     public function isSuperAdmin(&$user): bool
     {
         $userid = (int)$user['id'];
-        $superAdminIds = z::config('ini.manage.superAdmin', true, [1]);
+        // $superAdminIds = z::config('ini.manage.superAdmin', true, [1]);
+        $superAdminIds = [];
 
         $isSuper = in_array($userid, $superAdminIds, true) || (bool)z::arrayGet($user, 'is_super', false);
         if (z::arrayKeyExists('is_super', $user)) {

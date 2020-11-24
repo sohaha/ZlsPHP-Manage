@@ -55,6 +55,44 @@ class AuthBusiness extends \Zls_Business
             }
         }
 
+        $adoptRoute = [
+            "PUT" => [
+                "/ZlsManage/UserApi/EditPassword.go"
+            ],
+            "POST" => [
+                "/ZlsManage/UserApi/GetToken.go",
+                "/ZlsManage/UserApi/ClearToken.go"
+            ],
+            "GET" => [
+                "/ZlsManage/UserApi/UnreadMessageCount.go",
+                "/ZlsManage/UserApi/UseriInfo.go",
+                "/ZlsManage/UserManageApi/UserLists.go",
+                "/ZlsManage/UserApi/Logs.go"
+            ]
+        ];
+        if ($user['group_id'] == 1) {
+            $adoptRoute['GET'] = array_merge([], $adoptRoute['GET'], [
+                "/ZlsManage/SystemApi/SystemConfig.go",
+                "/ZlsManage/SystemApi/SystemLogs.go"
+            ]);
+            $adoptRoute['POST'] = array_merge([], $adoptRoute['POST'], [
+                "/ZlsManage/MenuApi/UserMenu.go"
+            ]);
+        }
+
+        $req = strtolower(z::arrayGet($_SERVER, 'REQUEST_METHOD', ''));
+        foreach ($adoptRoute as $aReq => $aRoute) {
+            if (strtolower($aReq) !== $req) {
+                continue;
+            }
+
+            foreach ($aRoute as $r) {
+                if ($this->verify($fullRouter, $r, '', $user)) {
+                    $adopt  = true;
+                }
+            }
+        }
+
         // 不需要条件那么就应该是默认拥有权限了
         // 先标识码方法, 在标识码类
         if ($adopt) {

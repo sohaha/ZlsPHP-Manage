@@ -12,6 +12,7 @@ use Z;
 
 /**
  * 角色业务
+ *
  * @author seekwe <seekwe@gmail.com>
  */
 class GroupBusiness extends \Zls_Business
@@ -19,7 +20,7 @@ class GroupBusiness extends \Zls_Business
     /**
      * 角色列表
      *
-     * @param array $where 查询条件
+     * @param array  $where  查询条件
      *
      * @return array
      */
@@ -35,7 +36,7 @@ class GroupBusiness extends \Zls_Business
     /**
      * 查找角色
      *
-     * @param int $id
+     * @param int  $id
      *
      * @return array
      */
@@ -47,9 +48,9 @@ class GroupBusiness extends \Zls_Business
     /**
      * 创建/更新角色
      *
-     * @param int    $id     角色ID
-     * @param string $name   角色名称
-     * @param string $remark 角色备注
+     * @param int     $id      角色ID
+     * @param string  $name    角色名称
+     * @param string  $remark  角色备注
      *
      * @return array|string
      */
@@ -81,7 +82,7 @@ class GroupBusiness extends \Zls_Business
     /**
      * 整合角色相关数据
      *
-     * @param array $info
+     * @param array  $info
      *
      * @return array
      */
@@ -129,13 +130,13 @@ class GroupBusiness extends \Zls_Business
     /**
      * 获取菜单
      *
-     * @param int $userid
+     * @param int  $userid
      *
      * @return array
      */
     public function getMenu($groupid = 0, $isSuper = false): array
     {
-        $dao  = new MenuDao();
+        $dao    = new MenuDao();
         $fields = $dao->getReversalColumns(null, true);
 
         $dao->getDb()
@@ -148,7 +149,7 @@ class GroupBusiness extends \Zls_Business
 
         if (!$isSuper) {
             $groupMenuDao = new GroupMenuDao();
-            $fields = $groupMenuDao->getReversalColumns(["id", "create_time", "update_time"], true);
+            $fields       = $groupMenuDao->getReversalColumns(["id", "create_time", "update_time"], true);
 
             $where["groupid"] = $groupid;
             $groupMenuDao->getDb()
@@ -164,7 +165,7 @@ class GroupBusiness extends \Zls_Business
         }
 
         $pMenu = [];
-        $data = [];
+        $data  = [];
         //result是排序查询出来的，所以pid=0的必然在前面
         foreach ($result as $key => $value) {
             if (!$isSuper && !in_array($value["id"], $menuArr)) {
@@ -173,15 +174,15 @@ class GroupBusiness extends \Zls_Business
 
             if ($value['pid'] == 0) {
                 $pMenu[] = $value["id"];
-                $data[] = $value;
+                $data[]  = $value;
             } else {
                 //菜单1下有菜单2和菜单3，目前菜单1的主键是可能不保存到数据库的
                 //循环出来的菜单是必然要显示的，所以需要找到他的上级菜单
 
                 //找到上级菜单加入到data中
                 if (!in_array($value["pid"], $pMenu)) {
-                    $pMenu[] = $value["pid"];
-                    $data[] = $result[$value["pid"]];
+                    $pMenu[]                           = $value["pid"];
+                    $data[]                            = $result[$value["pid"]];
                     $data[count($data) - 1]['child'][] = $value;
                 } else {
                     foreach ($data as $k => $v) {
@@ -223,8 +224,8 @@ class GroupBusiness extends \Zls_Business
     /**
      * 获取角色权限信息
      *
-     * @param      $groupid
-     * @param null $type
+     * @param       $groupid
+     * @param null  $type
      *
      * @return array
      */
@@ -246,10 +247,10 @@ class GroupBusiness extends \Zls_Business
         return $rules;
     }
 
-    public function getMenus($groupMenus)
+    public function getMenus($groupMenus, $user)
     {
         $MenuDao = new MenuDao();
-        $menus = $MenuDao->find([], true, ['sort' => 'asc'], 'id, title, index, icon, breadcrumb, real, show, pid, sort');
+        $menus   = $MenuDao->find([], true, ['sort' => 'asc'], 'id, title, index, icon, breadcrumb, real, show, pid, sort');
 
         $vueUrl = function ($show, $url) {
             if (!$show) {
@@ -278,16 +279,17 @@ class GroupBusiness extends \Zls_Business
             return $path;
         };
 
-        $conv = function ($menu, $groupMenusIds) use ($vuePath, $vueUrl) {
+        $conv = function ($menu, $groupMenusIds) use ($vuePath, $vueUrl, $user) {
+            $has = $user['isSuper'] === 1 ? true : in_array($menu['id'], array_merge([], $groupMenusIds, [1, 2, 3, 7]));
             return [
                 'name'       => z::arrayGet($menu, 'title', ''),
                 'path'       => $vuePath(z::arrayGet($menu, 'index', '')),
-                'url'        => $vueUrl(in_array($menu['id'], $groupMenusIds), z::arrayGet($menu, 'index', '')),
+                'url'        => $vueUrl(true, z::arrayGet($menu, 'index', '')),
                 'icon'       => z::arrayGet($menu, 'icon', ''),
                 'breadcrumb' => z::arrayGet($menu, 'breadcrumb', 0) === 1,
                 'real'       => z::arrayGet($menu, 'real', 0) === 1,
-                'show'       => z::arrayGet($menu, 'show', 0) === 1,
-                'has'        => in_array($menu['id'], array_merge([], $groupMenusIds, [1, 2, 3, 4, 7])),
+                'show'       => z::arrayGet($menu, 'show', 0) === 1 && $has,
+                'has'        => $has,
                 'collapse'   => false,
                 'children'   => [],
             ];
@@ -316,11 +318,11 @@ class GroupBusiness extends \Zls_Business
         $f = [];
         foreach ($menus as $kk => $vv) {
             if ($vv['pid'] === 0) {
-                $menuConv = $conv($vv, $groupMenusIds);
+                $menuConv             = $conv($vv, $groupMenusIds);
                 $menuConv['children'] = $getChild($conv, $vv, $groupMenusIds);
                 $menuConv['collapse'] = in_array(true, array_column($menuConv['children'], 'show'));
-                $menuConv['url'] = $menuConv['collapse'] ? '' : $menuConv['url'];
-                $f[] = $menuConv;
+                $menuConv['url']      = $menuConv['collapse'] ? '' : $menuConv['url'];
+                $f[]                  = $menuConv;
             }
         }
 
