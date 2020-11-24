@@ -21,8 +21,8 @@
                         <el-switch @change='changeMaintainMode' v-model="form.maintainMode" active-text="维护模式" />
                     </el-tooltip>
                 </el-form-item>
-                <el-form-item label="登陆模式">
-                    <el-tooltip content="多点登陆改为单点登陆时其他登陆地点将会下线" transition="el-zoom-in-bottom" placement="top-start">
+                <el-form-item label="登录模式">
+                    <el-tooltip content="多点登录改为单点登录时其他登录地点将会下线" transition="el-zoom-in-bottom" placement="top-start">
                         <el-switch v-model="form.loginMode" inactive-text="多点" active-text="单点" />
                     </el-tooltip>
                 </el-form-item>

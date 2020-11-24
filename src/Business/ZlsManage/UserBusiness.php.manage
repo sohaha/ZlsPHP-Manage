@@ -178,7 +178,7 @@ class UserBusiness extends \Zls_Business
     }
 
     /**
-     * 单点登陆
+     * 单点登录
      *
      *
      * @return bool|int
