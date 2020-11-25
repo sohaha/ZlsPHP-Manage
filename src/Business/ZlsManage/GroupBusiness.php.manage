@@ -280,18 +280,21 @@ class GroupBusiness extends \Zls_Business
         };
 
         $conv = function ($menu, $groupMenusIds) use ($vuePath, $vueUrl, $user) {
-            $has = $user['isSuper'] === 1 ? true : in_array($menu['id'], array_merge([], $groupMenusIds, [1, 2, 3, 7]));
+            $show = $user['isSuper'] === 1 ? true : in_array($menu['id'], array_merge([1], $groupMenusIds));
+            $has  = $user['isSuper'] === 1 ? true : in_array($menu['id'], array_merge([1, 2, 7], $groupMenusIds));
             return [
-                'name'       => z::arrayGet($menu, 'title', ''),
-                'path'       => $vuePath(z::arrayGet($menu, 'index', '')),
-                'url'        => $vueUrl(true, z::arrayGet($menu, 'index', '')),
-                'icon'       => z::arrayGet($menu, 'icon', ''),
-                'breadcrumb' => z::arrayGet($menu, 'breadcrumb', 0) === 1,
-                'real'       => z::arrayGet($menu, 'real', 0) === 1,
-                'show'       => z::arrayGet($menu, 'show', 0) === 1 && $has,
-                'has'        => $has,
-                'collapse'   => false,
-                'children'   => [],
+                'name'     => z::arrayGet($menu, 'title', ''),
+                'path'     => $vuePath(z::arrayGet($menu, 'index', '')),
+                'url'      => $vueUrl(true, z::arrayGet($menu, 'index', '')),
+                'icon'     => z::arrayGet($menu, 'icon', ''),
+                'meta'     => [
+                    'breadcrumb' => z::arrayGet($menu, 'breadcrumb', 0) === 1,
+                    'real'       => z::arrayGet($menu, 'real', 0) === 1,
+                    'show'       => z::arrayGet($menu, 'show', 0) === 1 && $show,
+                    'has'        => $has,
+                    'collapse'   => false,
+                ],
+                'children' => [],
             ];
         };
 
@@ -318,11 +321,15 @@ class GroupBusiness extends \Zls_Business
         $f = [];
         foreach ($menus as $kk => $vv) {
             if ($vv['pid'] === 0) {
-                $menuConv             = $conv($vv, $groupMenusIds);
-                $menuConv['children'] = $getChild($conv, $vv, $groupMenusIds);
-                $menuConv['collapse'] = in_array(true, array_column($menuConv['children'], 'show'));
-                $menuConv['url']      = $menuConv['collapse'] ? '' : $menuConv['url'];
-                $f[]                  = $menuConv;
+                $menuConv                     = $conv($vv, $groupMenusIds);
+                $menuConv['children']         = $getChild($conv, $vv, $groupMenusIds);
+                $menuConv['meta']['collapse'] = in_array(true, array_column(array_column($menuConv['children'], 'meta'), 'show'));
+                $menuConv['url']              =
+                    in_array(true, array_column(array_column($menuConv['children'], 'meta'), 'has'))
+                    && $menuConv['name'] !== '后台中心'
+                        ? ''
+                        : $menuConv['url'];
+                $f[]                          = $menuConv;
             }
         }
 
