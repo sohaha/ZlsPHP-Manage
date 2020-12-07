@@ -38,4 +38,20 @@ class UserBean extends \Zls_Bean
     {
         return (int)$this->status;
     }
+
+    public function getGroupId(): array
+    {
+        $group2Arr = function ($groupID) {
+            $temp = explode(',', $groupID);
+            $re   = [];
+
+            foreach ($temp as $v) {
+                $re[] = (int)$v;
+            }
+
+            return $re;
+        };
+
+        return $group2Arr($this->group_id);
+    }
 }

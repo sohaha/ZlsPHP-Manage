@@ -83,6 +83,19 @@ class UserApi extends ZlsManage
         }
         $user['last'] = $this->UserBusiness->getLast($user['id'], $this->TOKENID);
 
+        $group2Arr        = function ($groupID) {
+            $temp = explode(',', $groupID);
+            $re   = [];
+
+            foreach ($temp as $v) {
+                $re[] = (int)$v;
+            }
+
+            return $re;
+        };
+        $user['group_id'] = $group2Arr($user['group_id']);
+
+
         return [200, '用户信息', $user];
     }
 

@@ -241,6 +241,11 @@ class UserBusiness extends \Zls_Business
         if (!$user = $dao->find($id, false, [], 'key,id,email')) {
             return '用户不存在';
         }
+
+        if (is_array($data['group_id'])) {
+            $data['group_id'] = implode(',', $data['group_id']);
+        }
+
         $userid    = $user['id'];
         $veriField = ['status', 'remark', 'avatar', 'nickname'];
         $email     = z::arrayGet($data, 'email');
@@ -291,6 +296,9 @@ class UserBusiness extends \Zls_Business
     {
         $dao     = new UserDao();
         $map     = $dao->getReversalColumns(['id']);
+        if (is_array($data['group_id'])) {
+            $data['group_id'] = implode(',', $data['group_id']);
+        }
         $rule    = $dao->verifyRules(array_keys($data));
         $retData = $errorMsg = $errorKey = null;
         if (z::checkData($data, $rule, $retData, $errorMsg, $errorKey, $dao->getDb())) {
