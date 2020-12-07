@@ -76,7 +76,7 @@ class UserBusiness extends \Zls_Business
             $user['marks']   = $GroupBusiness->getMarks($groupid);
             $user['routers'] = $GroupBusiness->getRouter($groupid);
 
-            $user['menu'] = $GroupBusiness->getMenus($user['menus'], $user);
+            $user['menu'] = $GroupBusiness->getMenus($user);
         }
 
         return $user;

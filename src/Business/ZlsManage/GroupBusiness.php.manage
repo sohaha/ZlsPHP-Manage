@@ -247,7 +247,7 @@ class GroupBusiness extends \Zls_Business
         return $rules;
     }
 
-    public function getMenus($groupMenus, $user)
+    public function getMenus($user)
     {
         $MenuDao = new MenuDao();
         $menus   = $MenuDao->find([], true, ['sort' => 'asc'], 'id, title, index, icon, breadcrumb, real, show, pid, sort');
@@ -258,6 +258,10 @@ class GroupBusiness extends \Zls_Business
             }
             if ($url === 'main') {
                 return 'pages/main/' . $url . '.vue';
+            }
+
+            if ($url[0] === '/') {
+                return 'pages' . $url . '.vue';
             }
 
             return 'pages/' . $url . '.vue';
@@ -311,12 +315,13 @@ class GroupBusiness extends \Zls_Business
 
 
         $groupMenusIds = [];// 拥有的菜单栏权限
-        foreach ($groupMenus as $k => $v) {
-            $groupMenusIds[] = $v['id'];
-            foreach (z::arrayGet($v, 'child', []) as $kk => $vv) {
-                $groupMenusIds[] = $vv['id'];
-            }
+        $Dao = new GroupMenuDao();
+        $res = $Dao->find(['groupid' => explode(',', $user['group_id'])], true, [], 'groupid, menu');
+        foreach ($res as $v) {
+            $groupMenusIds = array_merge($groupMenusIds, explode(',', $v['menu']));
         }
+        $groupMenusIds = array_unique($groupMenusIds);
+        asort($groupMenusIds);
 
         $f = [];
         foreach ($menus as $kk => $vv) {
