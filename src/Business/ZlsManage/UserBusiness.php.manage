@@ -500,4 +500,19 @@ class UserBusiness extends \Zls_Business
             return null;
         }) ?: [];
     }
+
+    /**
+     * 是否频繁请求登录
+     * @param int $total 限制次数
+     * @return bool
+     */
+    public function isBusyLogin($total = 10): bool
+    {
+        $ip = Z::clientIp();
+        $key = 'sys::recordBusyLogin_' . $ip;
+        $cache = Z::cache();
+        $t = (int)$cache->get($key);
+        $cache->set($key, $t + 1, 20);
+        return $t >= $total;
+    }
 }
