@@ -5,10 +5,12 @@ namespace Zls\Manage\Command;
 use Dao\ZlsManage\UserDao;
 use Z;
 use Zls\Action\StrUtils;
+use Zls\Install\Install as In;
 
 class Manage extends \Zls\Command\Command
 {
     use Replace;
+
     private $force;
 
     /**
@@ -17,7 +19,7 @@ class Manage extends \Zls\Command\Command
      */
     public function options()
     {
-        // TODO: Implement options() method.
+        return [];
     }
 
     /**
@@ -36,7 +38,7 @@ class Manage extends \Zls\Command\Command
     public function commands()
     {
         return [
-            ' init'     => [
+            ' init' => [
                 'Initialize resources',
                 [
                     '--force, -F' => ' Overwrite old file',
@@ -48,7 +50,7 @@ class Manage extends \Zls\Command\Command
                     '--force, -F' => ' Overwrite old file',
                 ],
             ],
-            ' passwd'   => [
+            ' passwd' => [
                 '更新指定账户密码',
                 [
                     '-u' => ' username',
@@ -75,17 +77,34 @@ class Manage extends \Zls\Command\Command
 
     private function initView()
     {
-        $dest   = Z::realPathMkdir('./zls-manage', true, false, true);
-        $source = Z::realPath(__DIR__ . '/../View', true, false);
-        $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
-            return $this->destPathProcess($dest, $file);
+        $data = [
+            'url' => 'https://resources.73zls.com/vue-admin-template.tar.gz',
+            'md5' => '',
+            'path' => Z::realPathMkdir('./manage', true, false, true),
+            'ignore' => [],
+            'moveRule' => [],
+            'KeepOldFile' => true,
+        ];
+        $d = new In(Z::arrayGet($data, 'url'));
+        $d->silentRun($data);
+        $d->setProcessTip(function ($v) {
+            $this->printStrN('[ Process ]: ' . $v);
         });
+        $res = $d->run();
+        if (is_string($res)) {
+            $this->error($res);
+            return;
+        }
+        $old = count($res['oldfile']);
+        if ($old) {
+            $this->warning("{$old} old file is overwritten");
+        }
         $this->success('View success');
     }
 
     private function initBusiness()
     {
-        $dest   = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBusinessDirName(), true);
+        $dest = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBusinessDirName(), true);
         $source = Z::realPath(__DIR__ . '/../Business', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
@@ -95,7 +114,7 @@ class Manage extends \Zls\Command\Command
 
     private function initController()
     {
-        $dest   = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getControllerDirName(), true);
+        $dest = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getControllerDirName(), true);
         $source = Z::realPath(__DIR__ . '/../Controller', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
@@ -105,7 +124,7 @@ class Manage extends \Zls\Command\Command
 
     private function initDao()
     {
-        $dest   = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getDaoDirName(), true);
+        $dest = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getDaoDirName(), true);
         $source = Z::realPath(__DIR__ . '/../Dao', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
@@ -115,7 +134,7 @@ class Manage extends \Zls\Command\Command
 
     private function initBean()
     {
-        $dest   = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBeanDirName(), true);
+        $dest = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBeanDirName(), true);
         $source = Z::realPath(__DIR__ . '/../Bean', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
@@ -125,7 +144,7 @@ class Manage extends \Zls\Command\Command
 
     private function initTest()
     {
-        $dest   = Z::realPath('./tests', true, false);
+        $dest = Z::realPath('./tests', true, false);
         $source = Z::realPath(__DIR__ . '/../Tests', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
@@ -135,7 +154,7 @@ class Manage extends \Zls\Command\Command
 
     private function initDatabase()
     {
-        $dest   = Z::realPathMkdir('./database', true, false, false);
+        $dest = Z::realPathMkdir('./database', true, false, false);
         $source = Z::realPath(__DIR__ . '/../Database', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->destPathProcess($dest, $file);
@@ -168,19 +187,19 @@ class Manage extends \Zls\Command\Command
             $this->error("Username cannot be empty, please use -u {username}", "", true);
         }
         if (!$newPassword = Z::arrayGet($args, ["-p", "p"])) {
-            $this->error("Password cannot be empty, please use -u {password}", "", true);
+            $this->error("Password cannot be empty, please use -p {password}", "", true);
         }
         $UserDao = new UserDao();
-        $where   = ['username' => $username];
-        $id      = $UserDao->findCol('id', $where);
+        $where = ['username' => $username];
+        $id = $UserDao->findCol('id', $where);
         if (!$id) {
             return '用户不存在';
         }
         $data = [];
         /** @var StrUtils $StrUtils */
-        $StrUtils            = z::extension('Action\StrUtils');
-        $data['key']         = $StrUtils->randString(4, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
-        $data['password']    = $UserDao->encryptPassword($newPassword, $data['key']);
+        $StrUtils = z::extension('Action\StrUtils');
+        $data['key'] = $StrUtils->randString(4, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789');
+        $data['password'] = $UserDao->encryptPassword($newPassword, $data['key']);
         $data['update_time'] = date('Y-m-d H:i:s');
         if ($UserDao->update($data, $id)) {
             $this->success("Password update succeeded");
