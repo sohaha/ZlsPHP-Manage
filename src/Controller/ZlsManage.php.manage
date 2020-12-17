@@ -94,15 +94,7 @@ class ZlsManage extends Zls_Controller
      */
     final protected function getToken(): string
     {
-        // return z::server('HTTP_TOKEN') ?: z::getPost('token', '');
-
-        $postToken = z::server('HTTP_TOKEN') ?: z::getPost('token', '');
-        $tokenArr = explode('_', $postToken);
-        if (isset($tokenArr['1']) && is_string($tokenArr['1'])) {
-            $postToken = $tokenArr['1'];
-        }
-
-        return $postToken;
+        return z::server('HTTP_TOKEN') ?: z::getPost('token', '');
     }
 
     /**
@@ -166,7 +158,7 @@ class ZlsManage extends Zls_Controller
         if ($isSuper = $this->getInfo('isSuper')) {
             return true;
         }
-        
+
         if ($userid === null) {
             $groupid = $this->getInfo('group_id');
         } else {

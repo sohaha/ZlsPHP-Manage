@@ -123,7 +123,7 @@ class UserBusiness extends \Zls_Business
      *
      * @return string
      */
-    public function createToken($id): array
+    public function createToken($id): string
     {
         /** @var Id $ActionId */
         $ActionId = z::extension('Action\Id');
@@ -131,8 +131,8 @@ class UserBusiness extends \Zls_Business
         $that = $this;
 
         return z::tap(
-            $tid = $tokenDao->saveToken($id, ''),
-            static function ($tokenid) use ($id, $ActionId, $tokenDao, $that, $tid) {
+            $tokenDao->saveToken($id, ''),
+            static function ($tokenid) use ($id, $ActionId, $tokenDao, $that) {
                 $token = Z::encrypt($id . '_' . date('y-m-d H:i:s') . '_' . $ActionId->uniqueId(4) . '_' . $tokenid);
                 $tokenDao->update([
                     'token' => $token
@@ -144,7 +144,7 @@ class UserBusiness extends \Zls_Business
                 if (z::arrayGet($config['base'], 'loginMode', false)) {
                     $that->clearAllToken($id, [$tokenid]);
                 }
-                return ['tid' => $tid, 'token' => $token];
+                return $token;
             }
         );
     }
@@ -180,23 +180,23 @@ class UserBusiness extends \Zls_Business
     /**
      * 单点登录
      *
-     *
      * @return bool|int
      */
-    public function clearAllTokenSaveLastId()
+    public function clearAllTokenSaveLastId($userID, $tokenID)
     {
         $db = self::$TokenDao->getDb();
 
         $db->select('MAX(id) as id')
             ->from(self::$TokenDao->getTable())
             ->where([
+                'userid !=' => $userID,
                 'status' => 1
             ])
             ->groupBy('userid');
 
         $rs = $db->execute()->rows();
 
-        $ids = [];
+        $ids = [$tokenID];
         foreach ($rs as $key => $value) {
             $ids[] = $value['id'];
         }

@@ -123,9 +123,7 @@ class UserApi extends ZlsManage
             return [211, $status];
         }
         $user          = $this->UserBusiness->filterField($user);
-        $tokenInfo     = $this->UserBusiness->createToken($user['id']);
-        $user['token'] = z::arrayGet($tokenInfo, 'token', '');
-        $user['tid']   = z::arrayGet($tokenInfo, 'tid', '');
+        $user['token'] = $this->UserBusiness->createToken($user['id']);
         // 新登录之后是否清除该用户的其他端登录状态？
         return [200, '登录成功', $user];
     }

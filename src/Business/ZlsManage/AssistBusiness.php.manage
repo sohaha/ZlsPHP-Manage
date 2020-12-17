@@ -177,10 +177,12 @@ class AssistBusiness extends \Zls_Business
      * 更新系统配置
      *
      * @param array $data
+     * @param int   $userID
+     * @param int   $tokenID
      *
      * @return bool
      */
-    public function updateSystemConfig(array $data): bool
+    public function updateSystemConfig(array $data, int $userID, int $tokenID): bool
     {
         $config = z::config('ini', true, []);
         // 根据实际情况从$data读取需要的数据
@@ -195,9 +197,9 @@ class AssistBusiness extends \Zls_Business
         $Ini  = z::extension('Action\Ini');
         $path = z::realPath('zls.ini', false, false);
 
-        return  (bool)z::tap(!!@file_put_contents($path, $Ini->extended($config)), function ($value) use ($config) {
+        return  (bool)z::tap(!!@file_put_contents($path, $Ini->extended($config)), function ($value) use ($config, $userID, $tokenID) {
             if ($config['base']['loginMode']) {
-                (new UserBusiness)->clearAllTokenSaveLastId();
+                (new UserBusiness)->clearAllTokenSaveLastId($userID, $tokenID);
             }
         });
     }
