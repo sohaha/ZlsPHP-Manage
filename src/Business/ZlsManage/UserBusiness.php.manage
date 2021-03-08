@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace Business\ZlsManage;
 
@@ -17,16 +17,9 @@ use Zls\Action\StrUtils;
  */
 class UserBusiness extends \Zls_Business
 {
-    public const EXPIRE_TIME = 60 * 60 * 1;
-    public const USER_CACHE_KEY = 'USER_CACHE_KEY_';
+    const USER_CACHE_KEY = 'UserCache_';
 
-    private $TOKEN_INFO;
-    private static $TokenDao = null;
-
-    public function __construct()
-    {
-        self::$TokenDao = self::$TokenDao ?: (new TokenDao);
-    }
+    private $tokenInfo;
 
     /**
      * token 是否过期
@@ -37,16 +30,17 @@ class UserBusiness extends \Zls_Business
      */
     public function isExpire(): bool
     {
-        $tokenid = $this->TOKEN_INFO['id'];
-        $start  = time();
-        $end    = strtotime($this->TOKEN_INFO['update_time']);
-        $diff   = $start - $end;
-        if ($diff > self::EXPIRE_TIME) {
+        $tokenid = $this->tokenInfo['id'];
+        $start = time();
+        $end = strtotime($this->tokenInfo['update_time']);
+        $diff = $start - $end;
+        $expireTime = (new SettingBusiness())->loginExpireTime();
+        if ((bool) $expireTime && $diff > $expireTime) {
             $this->clearToken($tokenid);
             return false;
         }
 
-        self::$TokenDao->update([
+        TokenDao::dao()->update([
             'update_time' => date('Y-m-d H:i:s'),
         ], $tokenid);
 
@@ -56,26 +50,24 @@ class UserBusiness extends \Zls_Business
     /**
      * 根据token获取用户信息
      *
-     * @param $token
-     *
+     * @param $tokenid
      * @return array
      */
     public function tokenToInfo($tokenid): array
     {
         /** @var TokenDao $tokenDao */
-        $tokenDao = self::$TokenDao;
-        $user     = [];
+        $tokenDao = TokenDao::dao();
+        $user = [];
         if ($tokenInfo = $tokenDao->find(['id' => $tokenid, 'status' => 1], false, [])) {
-            $this->TOKEN_INFO = $tokenInfo;
-            $user            = $this->info((int)$tokenInfo['userid']);
+            $this->tokenInfo = $tokenInfo;
+            $user = $this->info((int) $tokenInfo['userid']);
             $user['isSuper'] = $this->isSuperAdmin($user);
-            $GroupBusiness   = new GroupBusiness();
-            $groupid         = explode(',', (string)$user['group_id']);
-            $user['groups']  = $GroupBusiness->all();
-            $user['menus']   = $GroupBusiness->getMenu($groupid, $user['isSuper']);
-            $user['marks']   = $GroupBusiness->getMarks($groupid);
+            $GroupBusiness = new GroupBusiness();
+            $groupid = explode(',', (string) $user['group_id']);
+            $user['groups'] = $GroupBusiness->all();
+            $user['menus'] = $GroupBusiness->getMenu($groupid, $user['isSuper']);
+            $user['marks'] = $GroupBusiness->getMarks($groupid);
             $user['routers'] = $GroupBusiness->getRouter($groupid);
-
             $user['menu'] = $GroupBusiness->getMenus($user);
         }
 
@@ -107,7 +99,7 @@ class UserBusiness extends \Zls_Business
     public function nameToInfo($username): array
     {
         /** @var UserDao $dao */
-        $dao  = new UserDao();
+        $dao = new UserDao();
         $user = $dao->find(['username' => $username], false, [], ['*']);
         if ($user) {
             $user = $dao->bean($user);
@@ -127,7 +119,7 @@ class UserBusiness extends \Zls_Business
     {
         /** @var Id $ActionId */
         $ActionId = z::extension('Action\Id');
-        $tokenDao = self::$TokenDao;
+        $tokenDao = TokenDao::dao();
         $that = $this;
 
         return z::tap(
@@ -135,13 +127,11 @@ class UserBusiness extends \Zls_Business
             static function ($tokenid) use ($id, $ActionId, $tokenDao, $that) {
                 $token = Z::encrypt($id . '_' . date('y-m-d H:i:s') . '_' . $ActionId->uniqueId(4) . '_' . $tokenid);
                 $tokenDao->update([
-                    'token' => $token
+                    'token' => $token,
                 ], $tokenid);
                 $dao = new LogsDao();
                 $dao->createOperationLog($id, null, '登录成功，欢迎回来！', $id, $dao::TYPE_NORMAL, $dao::STATUS_READ);
-
-                $config = z::config('ini', true, []);
-                if (z::arrayGet($config['base'], 'loginMode', false)) {
+                if (!(new SettingBusiness())->isMultipleLogins()) {
                     $that->clearAllToken($id, [$tokenid]);
                 }
                 return $token;
@@ -158,7 +148,7 @@ class UserBusiness extends \Zls_Business
      */
     public function clearToken($tokenid)
     {
-        return self::$TokenDao->update(['status' => 2], ['status' => 1, 'id' => $tokenid]);
+        return TokenDao::dao()->update(['status' => 2], ['status' => 1, 'id' => $tokenid]);
     }
 
     /**
@@ -174,7 +164,7 @@ class UserBusiness extends \Zls_Business
         if ($exclude) {
             $where['id not'] = $exclude;
         }
-        return self::$TokenDao->update(['status' => 2], $where);
+        return TokenDao::dao()->update(['status' => 2], $where);
     }
 
     /**
@@ -184,13 +174,13 @@ class UserBusiness extends \Zls_Business
      */
     public function clearAllTokenSaveLastId($userID, $tokenID)
     {
-        $db = self::$TokenDao->getDb();
+        $db = TokenDao::dao()->getDb();
 
         $db->select('MAX(id) as id')
-            ->from(self::$TokenDao->getTable())
+            ->from(TokenDao::dao()->getTable())
             ->where([
                 'userid !=' => $userID,
-                'status' => 1
+                'status' => 1,
             ])
             ->groupBy('userid');
 
@@ -201,7 +191,7 @@ class UserBusiness extends \Zls_Business
             $ids[] = $value['id'];
         }
 
-        return self::$TokenDao->update(['status' => 2], [
+        return TokenDao::dao()->update(['status' => 2], [
             'id not' => $ids,
             'status' => 1,
         ]);
@@ -218,9 +208,9 @@ class UserBusiness extends \Zls_Business
      */
     public function lists($page, $pagesize = 10, $where = []): array
     {
-        $dao           = new UserDao();
-        $fields        = $dao->getReversalColumns(null, true);
-        $data          = $dao->getPage($page, $pagesize, '{page}', $fields, $where, ['id' => 'desc']);
+        $dao = new UserDao();
+        $fields = $dao->getReversalColumns(null, true);
+        $data = $dao->getPage($page, $pagesize, '{page}', $fields, $where, ['id' => 'desc']);
         $data['items'] = $dao->beans($data['items']);
 
         return $data;
@@ -246,28 +236,28 @@ class UserBusiness extends \Zls_Business
             $data['group_id'] = implode(',', $data['group_id']);
         }
 
-        $userid    = $user['id'];
+        $userid = $user['id'];
         $veriField = ['status', 'remark', 'avatar', 'nickname'];
-        $email     = z::arrayGet($data, 'email');
+        $email = z::arrayGet($data, 'email');
         if ($email && $user['email'] !== $email) {
             $veriField[] = 'email';
         }
         if (z::arrayKeyExists('password', $data)) {
             $veriField[] = 'password';
         }
-        $rule    = $dao->verifyRules($veriField);
+        $rule = $dao->verifyRules($veriField);
         $retData = $errorMsg = $errorKey = null;
         if (z::checkData($data, $rule, $retData, $errorMsg, $errorKey, $dao->getDb())) {
-            $map                    = $dao->getColumns();
-            $retData                = z::readData($map, $retData, false);
+            $map = $dao->getColumns();
+            $retData = z::readData($map, $retData, false);
             $retData['update_time'] = date('Y-m-d H:i:s');
             if ($retData['avatar']) {
                 /**
                  * @var AssistBusiness $AssistBusiness
                  */
-                $AssistBusiness    = z::business('ZlsManage\AssistBusiness');
-                $avatarFilename    = 'user_' . md5((string)$id) . '.png';
-                $retData['avatar'] = $AssistBusiness->mvAvatar((string)$retData['avatar'], $avatarFilename);
+                $AssistBusiness = z::business('ZlsManage\AssistBusiness');
+                $avatarFilename = 'user_' . md5((string) $id) . '.png';
+                $retData['avatar'] = $AssistBusiness->mvAvatar((string) $retData['avatar'], $avatarFilename);
             }
             $updatePassState = in_array('password', $veriField, true);
             if ($updatePassState) {
@@ -294,25 +284,25 @@ class UserBusiness extends \Zls_Business
      */
     public function create($data)
     {
-        $dao     = new UserDao();
-        $map     = $dao->getReversalColumns(['id']);
+        $dao = new UserDao();
+        $map = $dao->getReversalColumns(['id']);
         if (is_array($data['group_id'])) {
             $data['group_id'] = implode(',', $data['group_id']);
         }
-        $rule    = $dao->verifyRules(array_keys($data));
+        $rule = $dao->verifyRules(array_keys($data));
         $retData = $errorMsg = $errorKey = null;
         if (z::checkData($data, $rule, $retData, $errorMsg, $errorKey, $dao->getDb())) {
-            $retData                = z::readData($map, $retData, false);
-            $date                   = date('Y-m-d H:i:s');
+            $retData = z::readData($map, $retData, false);
+            $date = date('Y-m-d H:i:s');
             $retData['create_time'] = $retData['update_time'] = $date;
             /** @var StrUtils $StrUtils */
-            $StrUtils            = z::extension('Action\StrUtils');
-            $key                 = $StrUtils->randString();
-            $retData['key']      = $key;
+            $StrUtils = z::extension('Action\StrUtils');
+            $key = $StrUtils->randString();
+            $retData['key'] = $key;
             $retData['password'] = $dao->encryptPassword($retData['password'], $key);
             $retData['group_id'] = Z::arrayGet($retData, 'group_id') ?: 0;
 
-            return (int)$dao->insert($retData);
+            return (int) $dao->insert($retData);
         }
 
         return $errorMsg;
@@ -328,7 +318,7 @@ class UserBusiness extends \Zls_Business
     public function delete($userid)
     {
         $UserDao = new UserDao();
-        $count   = $UserDao->find(null, false, [], 'count(*) as count');
+        $count = $UserDao->find(null, false, [], 'count(*) as count');
         if (z::arrayGet($count, 'count') <= 1) {
             return '不予许删除唯一用户';
         }
@@ -351,7 +341,7 @@ class UserBusiness extends \Zls_Business
     public function checkPass(array $user, $pass)
     {
         $UserDao = new UserDao();
-        $res     = true;
+        $res = true;
         switch (true) {
             case !$user:
                 $res = '用户不存在';
@@ -386,8 +376,8 @@ class UserBusiness extends \Zls_Business
     public function editPassword($userid, $oldPassword, $newPassword, $operationUser)
     {
         $UserDao = new UserDao();
-        $where   = ['id' => $userid];
-        $user    = $UserDao->find($where, false, [], '*');
+        $where = ['id' => $userid];
+        $user = $UserDao->find($where, false, [], '*');
         if (!$user) {
             return '用户不存在';
         }
@@ -395,8 +385,8 @@ class UserBusiness extends \Zls_Business
             return '原密码错误';
         }
         /** @var StrUtils $StrUtils */
-        $StrUtils         = z::extension('Action\StrUtils');
-        $data['key']      = $StrUtils->randString();
+        $StrUtils = z::extension('Action\StrUtils');
+        $data['key'] = $StrUtils->randString();
         $data['password'] = $UserDao->encryptPassword($newPassword, $data['key']);
 
         return z::tap($UserDao->update($data, $where), function ($res) use ($userid, $operationUser) {
@@ -409,15 +399,15 @@ class UserBusiness extends \Zls_Business
     public function updatePasswordTip($userid, $operationId): void
     {
         // 非自己修改了用户密码之后需要记录日志 修改密码之后要重置用户token
-        if ((int)$userid === (int)$operationId) {
-            $tip    = '修改密码成功';
-            $level  = LogsDao::TYPE_NORMAL;
+        if ((int) $userid === (int) $operationId) {
+            $tip = '修改密码成功';
+            $level = LogsDao::TYPE_NORMAL;
             $status = LogsDao::STATUS_READ;
         } else {
             $username = (new UserDao)->findCol('username', $operationId) ?: '未知用户';
-            $tip      = "您的密码被【{$username}】修改！";
-            $level    = LogsDao::TYPE_WARN;
-            $status   = LogsDao::TYPE_NORMAL;
+            $tip = "您的密码被【{$username}】修改！";
+            $level = LogsDao::TYPE_WARN;
+            $status = LogsDao::TYPE_NORMAL;
         }
         (new LogsDao())->createOperationLog($userid, null, $tip, $operationId, $level, $status);
         $this->clearAllToken($userid);
@@ -427,23 +417,22 @@ class UserBusiness extends \Zls_Business
      * 获取用户上次登录信息
      *
      * @param $userid
-     * @param $token
-     *
+     * @param $tokenid
      * @return array
      */
     public function getLast($userid, $tokenid): array
     {
-        $tokenDao = self::$TokenDao;
-        $field    = ['ip', 'ua', 'create_time'];
-        $last     = $tokenDao->find(['userid' => $userid, 'id !=' => $tokenid], false, ['id' => 'desc'], $field);
+        $tokenDao = TokenDao::dao();
+        $field = ['ip', 'ua', 'create_time'];
+        $last = $tokenDao->find(['userid' => $userid, 'id !=' => $tokenid], false, ['id' => 'desc'], $field);
 
         return z::readData($field, $last);
     }
 
     public function getTokenLists($userid, $showToken = false): array
     {
-        $tokenDao = self::$TokenDao;
-        $field    = ['ip', 'ua', 'create_time'];
+        $tokenDao = TokenDao::dao();
+        $field = ['ip', 'ua', 'create_time'];
         if ($showToken) {
             $field[] = 'token';
         }
@@ -459,13 +448,13 @@ class UserBusiness extends \Zls_Business
      *
      * @return boolean
      */
-    public function isSuperAdmin(&$user): bool
+    public function isSuperAdmin(array &$user): bool
     {
-        $userid = (int)$user['id'];
+        $userid = (int) $user['id'];
         // $superAdminIds = z::config('ini.manage.superAdmin', true, [1]);
         $superAdminIds = [];
 
-        $isSuper = in_array($userid, $superAdminIds, true) || (bool)z::arrayGet($user, 'is_super', false);
+        $isSuper = in_array($userid, $superAdminIds, true) || (bool) z::arrayGet($user, 'is_super', false);
         if (z::arrayKeyExists('is_super', $user)) {
             unset($user['is_super']);
         }
@@ -482,17 +471,15 @@ class UserBusiness extends \Zls_Business
      */
     public function isSuperAdminById(int $userid): bool
     {
-        $user       = $this->info($userid);
-        $isSuper    = $this->isSuperAdmin($user);
-
-        return $isSuper;
+        $user = $this->info($userid);
+        return $this->isSuperAdmin($user);
     }
 
     public function info($userid): array
     {
         return Z::cacheDate(self::USER_CACHE_KEY . $userid, static function () use ($userid) {
             $UserDao = new UserDao();
-            $where   = ['id' => $userid];
+            $where = ['id' => $userid];
             if ($user = $UserDao->find($where, false, [], '*')) {
                 return $user;
             }
@@ -509,9 +496,9 @@ class UserBusiness extends \Zls_Business
     public function isBusyLogin($total = 10): bool
     {
         $ip = Z::clientIp();
-        $key = 'sys::recordBusyLogin_' . $ip;
+        $key = self::USER_CACHE_KEY . '_recordBusyLogin_' . $ip;
         $cache = Z::cache();
-        $t = (int)$cache->get($key);
+        $t = (int) $cache->get($key);
         $cache->set($key, $t + 1, 20);
         return $t >= $total;
     }

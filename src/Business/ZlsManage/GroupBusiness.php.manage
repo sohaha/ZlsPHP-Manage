@@ -36,11 +36,11 @@ class GroupBusiness extends \Zls_Business
     /**
      * 查找角色
      *
-     * @param int  $id
+     * @param int $id
      *
      * @return array
      */
-    public function find($id): array
+    public function find($id = 0): array
     {
         return (new GroupDao())->find((int)$id);
     }

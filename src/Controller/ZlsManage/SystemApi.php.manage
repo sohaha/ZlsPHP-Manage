@@ -1,11 +1,13 @@
 <?php
-declare(strict_types=1);
+declare (strict_types = 1);
 
 namespace Controller\ZlsManage;
 
 use Business\ZlsManage\AssistBusiness;
 use Business\ZlsManage\GroupBusiness;
+use Business\ZlsManage\SettingBusiness;
 use Business\ZlsManage\SysLogBusiness;
+use Business\ZlsManage\UserBusiness;
 use Z;
 
 /**
@@ -22,10 +24,10 @@ class SystemApi extends UserApi
      */
     public function GETzSystemLogs(): array
     {
-        $name        = z::getPost('name');
-        $type        = z::getPost('type');
+        $name = z::getPost('name');
+        $type = z::getPost('type');
         $currentLine = z::getPost('currentLine', 0);
-        $data        = (new SysLogBusiness)->exportData($type, $name, $currentLine);
+        $data = (new SysLogBusiness)->exportData($type, $name, $currentLine);
 
         return [200, '系统日志', $data];
     }
@@ -46,38 +48,67 @@ class SystemApi extends UserApi
     }
 
     /**
-     * 读取系统配置
+     * 读取程序配置
      * @time 2019-08-06 15:58:21
      * @api-permission("systems")
      */
     public function GETzSystemConfig(): array
     {
-        return [200, '读取系统配置', (new AssistBusiness)->getSystemConfig()];
+        return [200, '读取程序配置', (new AssistBusiness)->getSystemConfig()];
     }
 
     /**
-     * 更新系统配置
+     * 更新程序配置
      * @time 2019-08-06 15:58:21
      * @api-permission("systems")
      */
     public function PUTzSystemConfig(): array
     {
-        $userID  = (int)z::arrayGet($this->USER, 'id', 0);
+        $userID = (int) z::arrayGet($this->USER, 'id', 0);
         $tokenID = $this->getTokenId();
-        return [200, '更新系统配置', (new AssistBusiness)->updateSystemConfig(z::postJson(), $userID, $tokenID)];
+        return [200, '更新程序配置', (new AssistBusiness)->updateSystemConfig(z::postJson(), $userID, $tokenID)];
     }
 
     /**
      * 获取系统菜单列表
+     * @return array
      * @todo 未完成
      * @time 2019-08-06 15:58:21
      * @api-permission("systems")
-     * @return array
      */
     public function zMenu(): array
     {
         $userid = $this->getInfo('id');
 
         return [200, '获取系统菜单列表', (new GroupBusiness())->getMenu()];
+    }
+
+    /**
+     * 读取系统配置
+     * @time 2021-03-05 18:41:29
+     * @api-permission("systems")
+     */
+    public function GETzSetting(): array
+    {
+        return [200, '读取系统配置', (new SettingBusiness())->read()];
+    }
+
+    /**
+     * 更新系统配置
+     * @time 2021-03-05 18:41:25
+     * @api-permission("systems")
+     */
+    public function PUTzSetting(): array
+    {
+        $SettingBusiness = new SettingBusiness();
+        if (!($SettingBusiness)->write(Z::postJson())) {
+            return [211, $SettingBusiness->getError()];
+        }
+        if (!$SettingBusiness->isMultipleLogins()) {
+            $userID = (int) z::arrayGet($this->USER, 'id', 0);
+            $tokenID = $this->getTokenId();
+            (new UserBusiness)->clearAllTokenSaveLastId($userID, $tokenID);
+        }
+        return [200, "更新系统配置"];
     }
 }

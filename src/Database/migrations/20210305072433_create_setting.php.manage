@@ -1,0 +1,31 @@
+<?php
+
+use Zls\Migration\AbstractMigration as M;
+
+class CreateSetting extends M
+{
+    public function change()
+    {
+        $table = $this->table('setting');
+        $table->comment('系统设置表');
+        $table->addColumn('varname', self::TYPE_STRING, [self::OPTIONS_DEFAULT => '', self::OPTIONS_COMMENT => '配置名称']);
+        $table->addColumn('value', self::TYPE_STRING, [self::OPTIONS_DEFAULT => '', self::OPTIONS_COMMENT => '配置值']);
+        $table->addColumn('info', self::TYPE_STRING, [self::OPTIONS_DEFAULT => '', self::OPTIONS_COMMENT => '配置说明']);
+        $table->addColumn('update_time', self::TYPE_DATETIME, [self::OPTIONS_DEFAULT => null, self::OPTIONS_NULL => true, self::OPTIONS_COMMENT => '更新时间']);
+        $table->addIndex(['varname'], ['unique' => true]);
+        $table->create();
+
+        $table->insert($this->defSetting());
+        $table->saveData();
+    }
+
+    private function defSetting()
+    {
+        $rows = [];
+        $rows[] = ['varname' => 'sitename', 'value' => '内容管理系统', 'info' => '网站标题'];
+        $rows[] = ['varname' => 'domain', 'value' => '', 'info' => '网站域名'];
+        $rows[] = ['varname' => 'login_expire_time', 'value' => '3600', 'info' => '登录超时时间'];
+        $rows[] = ['varname' => 'login_mode', 'value' => '0', 'info' => '登录模式'];
+        return $rows;
+    }
+}

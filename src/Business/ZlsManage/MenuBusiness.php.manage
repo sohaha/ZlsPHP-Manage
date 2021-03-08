@@ -15,6 +15,7 @@ class MenuBusiness extends \Zls_Business
 {
     /**
      * 菜单列表
+     * @param int $groupid
      * @return array
      */
     public function lists($groupid = 0): array

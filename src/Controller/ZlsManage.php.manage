@@ -99,7 +99,7 @@ class ZlsManage extends Zls_Controller
 
     /**
      * 获取token
-     * @return string
+     * @return int
      */
     final protected function getTokenId(): int
     {
@@ -108,9 +108,7 @@ class ZlsManage extends Zls_Controller
             return 0;
         }
         $dsArr  = explode('_', $user);
-        $tokenid= (int)z::arrayGet($dsArr, 3, 0);
-
-        return $tokenid;
+        return (int)z::arrayGet($dsArr, 3, 0);
     }
 
     /**

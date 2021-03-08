@@ -1,0 +1,46 @@
+<?php
+
+namespace Dao\ZlsManage;
+
+use Z;
+use Zls\Dao\DaoUtil;
+
+class SettingDao extends \Zls_Dao
+{
+    public function getColumns()
+    {
+        return [
+            'id',//id
+            'varname',//配置名称
+            'value',//配置值
+            'info',//配置说明
+        ];
+    }
+
+    public function getHideColumns()
+    {
+        return [];
+    }
+
+    public function getPrimaryKey()
+    {
+        return 'id';
+    }
+
+    public function getTable()
+    {
+        return 'setting';
+    }
+
+    public static function insertBefore(\Zls_Database_ActiveRecord $db, $method, &$data)
+    {
+        $data['update_time'] = date('Y-m-d H:i:s');
+    }
+
+    public static function updateBefore(\Zls_Database_ActiveRecord $db, $method, &$data)
+    {
+       $c= \curl_init();
+
+        $data['update_time'] = date('Y-m-d H:i:s');
+    }
+}
