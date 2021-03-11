@@ -77,6 +77,6 @@ class SettingBusiness extends \Zls_Business
 
     public function loginExpireTime(): int
     {
-        return (int)Z::arrayGet($this->read(), 'login_timeout');
+        return (int)Z::arrayGet($this->read(), 'login_expire_time');
     }
 }
