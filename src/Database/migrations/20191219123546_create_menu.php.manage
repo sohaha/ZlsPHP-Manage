@@ -53,7 +53,8 @@ class CreateMenu extends M
                 'real'       => 0,
                 'show'       => 1,
                 'child'      => [
-                    ['pid' => 5,'title' => '程序设置', 'index' => 'system/config', 'icon' => 'icon-settings','breadcrumb' => 1,'real' => 0,'show' => 1],
+                    ['pid' => 5,'title' => '系统设置', 'index' => 'system/setting', 'icon' => 'icon-settings-','breadcrumb' => 1,'real' => 0,'show' => 1],
+                    ['pid' => 5,'title' => '程序设置', 'index' => 'system/config', 'icon' => 'icon-shield-off','breadcrumb' => 1,'real' => 0,'show' => 1],
                     ['pid' => 5,'title' => '用户设置', 'index' => 'user/lists', 'icon' => 'icon-person','breadcrumb' => 1,'real' => 0,'show' => 1],
                     ['pid' => 5,'title' => '角色设置', 'index' => 'user/group', 'icon' => 'icon-people','breadcrumb' => 1,'real' => 0,'show' => 1],
                     ['pid' => 5,'title' => '菜单设置', 'index' => 'user/menu', 'icon' => 'icon-pricetags','breadcrumb' => 1,'real' => 0,'show' => 1],

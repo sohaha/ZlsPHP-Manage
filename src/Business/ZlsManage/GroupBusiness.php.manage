@@ -285,7 +285,7 @@ class GroupBusiness extends \Zls_Business
 
         $conv = function ($menu, $groupMenusIds) use ($vuePath, $vueUrl, $user) {
             $show = $user['isSuper'] === 1 ? true : in_array($menu['id'], array_merge([1], $groupMenusIds));
-            $has  = $user['isSuper'] === 1 ? true : in_array($menu['id'], array_merge([1, 2, 7], $groupMenusIds));
+            $has  = $user['isSuper'] === 1 ? true : in_array($menu['id'], array_merge([1, 2, 8], $groupMenusIds));
             return [
                 'name'     => z::arrayGet($menu, 'title', ''),
                 'path'     => $vuePath(z::arrayGet($menu, 'index', '')),
