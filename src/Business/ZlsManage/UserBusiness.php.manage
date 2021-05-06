@@ -1,6 +1,6 @@
 <?php
 
-declare (strict_types = 1);
+declare(strict_types=1);
 
 namespace Business\ZlsManage;
 
@@ -35,7 +35,7 @@ class UserBusiness extends \Zls_Business
         $end = strtotime($this->tokenInfo['update_time']);
         $diff = $start - $end;
         $expireTime = (new SettingBusiness())->loginExpireTime();
-        if ((bool) $expireTime && $diff > $expireTime) {
+        if ((bool)$expireTime && $diff > $expireTime) {
             $this->clearToken($tokenid);
             return false;
         }
@@ -60,12 +60,12 @@ class UserBusiness extends \Zls_Business
         $user = [];
         if ($tokenInfo = $tokenDao->find(['id' => $tokenid, 'status' => 1], false, [])) {
             $this->tokenInfo = $tokenInfo;
-            $user = $this->info((int) $tokenInfo['userid']);
+            $user = $this->info((int)$tokenInfo['userid']);
             $user['isSuper'] = $this->isSuperAdmin($user);
             $GroupBusiness = new GroupBusiness();
-            $groupid = explode(',', (string) $user['group_id']);
+            $groupid = explode(',', (string)$user['group_id']);
             $user['groups'] = $GroupBusiness->all();
-            $user['menus'] = $GroupBusiness->getMenu($groupid, $user['isSuper']);
+            // $user['menus'] = $GroupBusiness->getMenu($groupid, $user['isSuper']);
             $user['marks'] = $GroupBusiness->getMarks($groupid);
             $user['routers'] = $GroupBusiness->getRouter($groupid);
             $user['menu'] = $GroupBusiness->getMenus($user);
@@ -127,7 +127,7 @@ class UserBusiness extends \Zls_Business
             static function ($tokenid) use ($id, $ActionId, $tokenDao, $that) {
                 $token = Z::encrypt($id . '_' . date('y-m-d H:i:s') . '_' . $ActionId->uniqueId(4) . '_' . $tokenid);
                 $tokenDao->update([
-                    'token' => $token,
+                    'token' => $token
                 ], $tokenid);
                 $dao = new LogsDao();
                 $dao->createOperationLog($id, null, '登录成功，欢迎回来！', $id, $dao::TYPE_NORMAL, $dao::STATUS_READ);
@@ -180,7 +180,7 @@ class UserBusiness extends \Zls_Business
             ->from(TokenDao::dao()->getTable())
             ->where([
                 'userid !=' => $userID,
-                'status' => 1,
+                'status' => 1
             ])
             ->groupBy('userid');
 
@@ -256,8 +256,8 @@ class UserBusiness extends \Zls_Business
                  * @var AssistBusiness $AssistBusiness
                  */
                 $AssistBusiness = z::business('ZlsManage\AssistBusiness');
-                $avatarFilename = 'user_' . md5((string) $id) . '.png';
-                $retData['avatar'] = $AssistBusiness->mvAvatar((string) $retData['avatar'], $avatarFilename);
+                $avatarFilename = 'user_' . md5((string)$id) . '.png';
+                $retData['avatar'] = $AssistBusiness->mvAvatar((string)$retData['avatar'], $avatarFilename);
             }
             $updatePassState = in_array('password', $veriField, true);
             if ($updatePassState) {
@@ -302,7 +302,7 @@ class UserBusiness extends \Zls_Business
             $retData['password'] = $dao->encryptPassword($retData['password'], $key);
             $retData['group_id'] = Z::arrayGet($retData, 'group_id') ?: 0;
 
-            return (int) $dao->insert($retData);
+            return (int)$dao->insert($retData);
         }
 
         return $errorMsg;
@@ -399,7 +399,7 @@ class UserBusiness extends \Zls_Business
     public function updatePasswordTip($userid, $operationId): void
     {
         // 非自己修改了用户密码之后需要记录日志 修改密码之后要重置用户token
-        if ((int) $userid === (int) $operationId) {
+        if ((int)$userid === (int)$operationId) {
             $tip = '修改密码成功';
             $level = LogsDao::TYPE_NORMAL;
             $status = LogsDao::STATUS_READ;
@@ -450,11 +450,11 @@ class UserBusiness extends \Zls_Business
      */
     public function isSuperAdmin(array &$user): bool
     {
-        $userid = (int) $user['id'];
+        $userid = (int)$user['id'];
         // $superAdminIds = z::config('ini.manage.superAdmin', true, [1]);
         $superAdminIds = [];
 
-        $isSuper = in_array($userid, $superAdminIds, true) || (bool) z::arrayGet($user, 'is_super', false);
+        $isSuper = in_array($userid, $superAdminIds, true) || (bool)z::arrayGet($user, 'is_super', false);
         if (z::arrayKeyExists('is_super', $user)) {
             unset($user['is_super']);
         }
@@ -498,7 +498,7 @@ class UserBusiness extends \Zls_Business
         $ip = Z::clientIp();
         $key = self::USER_CACHE_KEY . '_recordBusyLogin_' . $ip;
         $cache = Z::cache();
-        $t = (int) $cache->get($key);
+        $t = (int)$cache->get($key);
         $cache->set($key, $t + 1, 20);
         return $t >= $total;
     }

@@ -28,7 +28,8 @@ class MenuBusiness extends \Zls_Business
             ->select($fields)
             ->from($dao->getTable())
             ->orderBy('pid', 'asc')
-            ->orderBy('sort', 'asc');
+            ->orderBy('sort', 'asc')
+            ->orderBy('id', 'asc');
         $result = $dao->getDb()->execute()->rows();
 
         $menuArr = [];
@@ -103,6 +104,7 @@ class MenuBusiness extends \Zls_Business
             $retData['breadcrumb'] = Z::arrayGet($retData, 'breadcrumb')?:0;
             $retData['real'] = Z::arrayGet($retData, 'real')?:0;
             $retData['show'] = Z::arrayGet($retData, 'show')?:0;
+            $retData['sort'] = Z::arrayGet($retData, 'sort')?:255;
 
             return (int)$dao->insert($retData);
         }
@@ -148,7 +150,7 @@ class MenuBusiness extends \Zls_Business
         if(!$id){
             return "id不能为空";
         }
-//        z::dump($rule);
+        //        z::dump($rule);
         $retData = $errorMsg = $errorKey = null;
 
         if (z::checkData($data, $rule, $retData, $errorMsg, $errorKey, $dao->getDb())) {
@@ -178,7 +180,7 @@ class MenuBusiness extends \Zls_Business
         //保存需要更新的数据
         $newData = [];
         //把id作为数组的主键
-//        $arr = array_combine(array_column($result, 'id'), $result);
+        //        $arr = array_combine(array_column($result, 'id'), $result);
         $count = 0;
         foreach ($data as $key => $value){
             $count++;

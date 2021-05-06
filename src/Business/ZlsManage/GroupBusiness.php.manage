@@ -36,7 +36,7 @@ class GroupBusiness extends \Zls_Business
     /**
      * 查找角色
      *
-     * @param int $id
+     * @param int  $id
      *
      * @return array
      */
@@ -250,7 +250,7 @@ class GroupBusiness extends \Zls_Business
     public function getMenus($user)
     {
         $MenuDao = new MenuDao();
-        $menus   = $MenuDao->find([], true, ['sort' => 'asc'], 'id, title, index, icon, breadcrumb, real, show, pid, sort');
+        $menus   = $MenuDao->find([], true, ['sort' => 'asc', 'id' => 'asc'], 'id, title, index, icon, breadcrumb, real, show, pid, sort');
 
         $vueUrl = function ($show, $url) {
             if (!$show) {
@@ -284,8 +284,8 @@ class GroupBusiness extends \Zls_Business
         };
 
         $conv = function ($menu, $groupMenusIds) use ($vuePath, $vueUrl, $user) {
-            $show = $user['isSuper'] === 1 ? true : in_array($menu['id'], array_merge([1], $groupMenusIds));
-            $has  = $user['isSuper'] === 1 ? true : in_array($menu['id'], array_merge([1, 2, 8], $groupMenusIds));
+            $show = $user['isSuper'] ? true : in_array($menu['id'], array_merge([1], $groupMenusIds));
+            $has  = $user['isSuper'] ? true : in_array($menu['id'], array_merge([1, 2, 8], $groupMenusIds));
             return [
                 'name'     => z::arrayGet($menu, 'title', ''),
                 'path'     => $vuePath(z::arrayGet($menu, 'index', '')),
@@ -315,8 +315,8 @@ class GroupBusiness extends \Zls_Business
 
 
         $groupMenusIds = [];// 拥有的菜单栏权限
-        $Dao = new GroupMenuDao();
-        $res = $Dao->find(['groupid' => explode(',', $user['group_id'])], true, [], 'groupid, menu');
+        $Dao           = new GroupMenuDao();
+        $res           = $Dao->find(['groupid' => explode(',', $user['group_id'])], true, [], 'groupid, menu');
         foreach ($res as $v) {
             $groupMenusIds = array_merge($groupMenusIds, explode(',', $v['menu']));
         }
@@ -328,13 +328,16 @@ class GroupBusiness extends \Zls_Business
             if ($vv['pid'] === 0) {
                 $menuConv                     = $conv($vv, $groupMenusIds);
                 $menuConv['children']         = $getChild($conv, $vv, $groupMenusIds);
-                $menuConv['meta']['collapse'] = in_array(true, array_column(array_column($menuConv['children'], 'meta'), 'show'));
-                $menuConv['url']              =
-                    in_array(true, array_column(array_column($menuConv['children'], 'meta'), 'has'))
-                    && $menuConv['name'] !== '后台中心'
-                        ? ''
-                        : $menuConv['url'];
-                $f[]                          = $menuConv;
+                $menuConv['meta']['collapse'] = false;
+                foreach ($menuConv['children'] as $child) {
+                    $isHas  = (bool)Z::arrayGet($child, 'meta.has', false);
+                    $isShow = (bool)Z::arrayGet($child, 'meta.show', false);
+                    if ($isHas && $isShow) {
+                        $menuConv['meta']['collapse'] = true;
+                        $menuConv['url']              = '';
+                    }
+                }
+                $f[] = $menuConv;
             }
         }
 
