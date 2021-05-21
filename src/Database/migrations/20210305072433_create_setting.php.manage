@@ -4,7 +4,13 @@ use Zls\Migration\AbstractMigration as M;
 
 class CreateSetting extends M
 {
-    public function change()
+    public function down()
+    {
+        $table = $this->table('setting');
+        $table->drop();
+    }
+
+    public function up()
     {
         $table = $this->table('setting');
         $table->comment('系统设置表');
