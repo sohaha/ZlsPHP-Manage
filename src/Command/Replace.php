@@ -2,7 +2,7 @@
 
 namespace Zls\Manage\Command;
 
-use Dao\ZlsManage\UserDao;
+use Dao\Manage\UserDao;
 use Z;
 use Zls\Action\StrUtils;
 
@@ -22,8 +22,8 @@ trait Replace
 
     private function backToSourceTest()
     {
-        $source = Z::realPath('./tests' . '/ZlsManage', true, false);
-        $dest   = Z::realPath(__DIR__ . '/../Tests' . '/ZlsManage', true, false);
+        $source = Z::realPath('./tests' . '/Manage', true, false);
+        $dest   = Z::realPath(__DIR__ . '/../Tests' . '/Manage', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->backToSourceDestPathProcess($dest, $file);
         });
@@ -32,8 +32,8 @@ trait Replace
 
     private function backToSourceBean()
     {
-        $source = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBeanDirName() . '/ZlsManage', true);
-        $dest   = Z::realPath(__DIR__ . '/../Bean' . '/ZlsManage', true, false);
+        $source = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBeanDirName() . '/Manage', true);
+        $dest   = Z::realPath(__DIR__ . '/../Bean' . '/Manage', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->backToSourceDestPathProcess($dest, $file);
         });
@@ -42,8 +42,8 @@ trait Replace
 
     private function backToSourceDao()
     {
-        $source = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getDaoDirName() . '/ZlsManage', true);
-        $dest   = Z::realPath(__DIR__ . '/../Dao' . '/ZlsManage', true, false);
+        $source = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getDaoDirName() . '/Manage', true);
+        $dest   = Z::realPath(__DIR__ . '/../Dao' . '/Manage', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->backToSourceDestPathProcess($dest, $file);
         });
@@ -52,8 +52,8 @@ trait Replace
 
     private function backToSourceController()
     {
-        $source = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getControllerDirName() . '/ZlsManage', true);
-        $dest   = Z::realPath(__DIR__ . '/../Controller' . '/ZlsManage', true, false);
+        $source = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getControllerDirName() . '/Manage', true);
+        $dest   = Z::realPath(__DIR__ . '/../Controller' . '/Manage', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->backToSourceDestPathProcess($dest, $file);
         });
@@ -62,8 +62,8 @@ trait Replace
 
     private function backToSourceBusiness()
     {
-        $source = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBusinessDirName() . '/ZlsManage', true);
-        $dest   = Z::realPath(__DIR__ . '/../Business/ZlsManage', true, false);
+        $source = Z::realPath(ZLS_APP_PATH . 'classes/' . Z::config()->getBusinessDirName() . '/Manage', true);
+        $dest   = Z::realPath(__DIR__ . '/../Business/Manage', true, false);
         $this->batchCopy($source, $dest, $this->force, function ($dest, $file) {
             return $this->backToSourceDestPathProcess($dest, $file);
         });

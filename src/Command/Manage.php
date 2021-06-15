@@ -2,7 +2,7 @@
 
 namespace Zls\Manage\Command;
 
-use Dao\ZlsManage\UserDao;
+use Dao\Manage\UserDao;
 use Z;
 use Zls\Action\StrUtils;
 use Zls\Install\Install as In;

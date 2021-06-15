@@ -27,7 +27,7 @@ class UserRules extends M
                 'update_time' => date('Y-m-d H:i:s'),
                 'remark'      => '',
                 'type'        => 1,
-                'mark'        => '/ZlsManage/UserManageApi*',
+                'mark'        => '/Manage/UserManageApi*',
             ],
             [
                 'title'       => '系统管理权限',
@@ -43,7 +43,7 @@ class UserRules extends M
                 'update_time' => date('Y-m-d H:i:s'),
                 'type'        => 1,
                 'remark'      => '用户基础权限',
-                'mark'        => '/ZlsManage/UserApi*',
+                'mark'        => '/Manage/UserApi*',
             ],
         ];
         $table->insert($rows);

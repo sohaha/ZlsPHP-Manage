@@ -1,0 +1,82 @@
+<?php
+
+namespace Business\Manage;
+
+use Dao\Manage\SettingDao;
+use Z;
+
+class SettingBusiness extends \Zls_Business
+{
+    // 可写入的配置字段，防止意外写入
+    const SETTING_FIELDS = [
+        'sitename', 'domain', 'login_expire_time', 'login_mode'
+    ];
+    // 缓存 key
+    const CACHE_KEY = 'SettingCache';
+
+    /**
+     * 读取配置
+     * @return array
+     */
+    public function read(): array
+    {
+        if (!$data = Z::cache()->get(self::CACHE_KEY)) {
+            $dao = SettingDao::dao();
+            $data = Z::tap($dao->findAll([], [], null), function (&$v) {
+                if ($v) {
+                    $settings = [];
+                    foreach ($v as $key => $value) {
+                        $settings[$value['varname']] = $value['value'];
+                    }
+                    $v = $settings;
+                    Z::cache()->set(self::CACHE_KEY, $settings, 3600);
+                }
+            });
+
+        }
+        return $data;
+    }
+
+    /**
+     * 写入配置
+     * @param array $post
+     * @return bool
+     */
+    public function write(array $post): bool
+    {
+        $dao = SettingDao::dao();
+        foreach ($post as $key => $v) {
+            if (!in_array($key, self::SETTING_FIELDS, true)) {
+                continue;
+            }
+            $where = ['varname' => $key];
+            $data = ['value' => $v];
+            $row = $dao->find($where);
+            if (!$row) {
+                $dao->insert($where + $data + ['info' => $key]);
+                continue;
+            }
+            $name = $row['info'];
+            if (!is_string($v) && !is_numeric($v)) {
+                $this->error = "{$name} 的值只能是字符串或整数";
+                return false;
+            }
+            if (!$dao->update($data, ['id' => $row['id']])) {
+                $this->error = "更新 {$name} 失败";
+                return false;
+            }
+        }
+        Z::cache()->delete(self::CACHE_KEY);
+        return true;
+    }
+
+    public function isMultipleLogins(): bool
+    {
+        return (bool)Z::arrayGet($this->read(), 'login_mode');
+    }
+
+    public function loginExpireTime(): int
+    {
+        return (int)Z::arrayGet($this->read(), 'login_expire_time');
+    }
+}
