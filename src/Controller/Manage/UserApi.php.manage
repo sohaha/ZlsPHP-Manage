@@ -67,7 +67,7 @@ class UserApi extends Manage
      * 用户详情
      * @time       2018-11-8 17:57:48
      * @api-return array "data.marks" 权限标识列表
-     * @api-return array "data.menus" 用户菜单
+     * @api-return array "data.menu" 用户菜单
      * @api-return array "data.system" 系统信息 没有'systems'权限不可见
      */
     public function GETzUseriInfo(): array
@@ -141,6 +141,7 @@ class UserApi extends Manage
         $userid  = (int)(z::postJson('id') ?: $uid);
         $post    = z::postJson();
         $isSuper = $this->getInfo('isSuper');
+        $hasSystems = in_array('systems', Z::arrayGet($this->getInfo(), 'marks', []));
         $ok = false;
         // 被修改的用户是否超级管理员
         $userIsSuper = $this->UserBusiness->isSuperAdminById((int)$userid);
@@ -152,9 +153,9 @@ class UserApi extends Manage
         if (($userid !== $uid) && $userIsSuper && $status !== null) {
             return '不能更新该账户状态';
         }
-        // 如果是超级管理员有权限更新用户密码
+        // 如果是有标识码systems有权限更新用户密码
         $map = ['status', 'avatar', 'remark', 'email', 'nickname'];
-        if ($isSuper && Z::arrayGet($post, 'password')) {
+        if ($hasSystems && Z::arrayGet($post, 'password')) {
             $map[] = 'password';
             $map[] = 'password2';
             Z::defer(function ()use (&$ok, $userid){
@@ -164,7 +165,7 @@ class UserApi extends Manage
                 }
             });
         }
-        if ($isSuper && !$isMe) {
+        if ($hasSystems && !$isMe) {
             $map[] = 'group_id';
         }
         $data = z::readData($map, $post);
