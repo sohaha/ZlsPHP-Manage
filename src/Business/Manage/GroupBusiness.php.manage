@@ -318,6 +318,9 @@ class GroupBusiness extends \Zls_Business
             $groupMenusIds = array_merge($groupMenusIds, explode(',', $v['menu']));
         }
         $groupMenusIds = array_unique($groupMenusIds);
+        if (in_array('systems', Z::arrayGet($user, 'marks', []))) {
+            $groupMenusIds = array_column($menus, 'id');
+        }
         asort($groupMenusIds);
 
         $f = [];
