@@ -63,7 +63,7 @@ class Users extends M
         ];
         $key          = $StrUtils->randString();
         $rows[]       = [
-            'username'    => 'seekwe',
+            'username'    => 'editor',
             'key'         => $key,
             'status'      => 1,
             'group_id'    => 2,
