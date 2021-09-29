@@ -11,13 +11,7 @@ use Zls\Action\FileUp;
 use Zls\Action\Ini;
 
 /**
- * Zls
- * @author        影浅
- * @email         seekwe@gmail.com
- * @copyright     Copyright (c) 2015 - 2017, 影浅, Inc.
- * @link          ---
- * @since         v0.0.1
- * @updatetime    2018-11-08 17:55
+ * AssistBusiness
  */
 class AssistBusiness extends \Zls_Business
 
@@ -234,7 +228,7 @@ class AssistBusiness extends \Zls_Business
                 'total' => z::convertRam(disk_total_space(z::realPath('.', true, false))),
                 'free' => z::convertRam(disk_free_space(z::realPath('.', true, false))),
             ],
-            'composer' => z::tap(json_decode(@file_get_contents(z::realPath('composer.lock', false, false)), true), function (&$composer) {
+            'composer' => z::tap(@json_decode(@file_get_contents(z::realPath('composer.lock', false, false))?:"{}", true), function (&$composer) {
                 $composer = z::arrayGet($composer, 'packages', []);
                 $composer = z::arrayFilter(z::arrayValues($composer, ['name', 'version']), function ($v) {
                     return $v['name'] !== 'zls/framework';
